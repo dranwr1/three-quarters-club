@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>3/4 | ثلاثة أرباع مثقف</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -26,103 +27,103 @@ form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1
 input,select,textarea{font:inherit;color:var(--cream);background:#17120f;border:1px solid var(--line);border-radius:10px;padding:11px;width:100%}
 textarea{grid-column:1/-1;min-height:75px}
 button{font:600 15px Cairo;cursor:pointer;border:1px solid var(--gold);background:var(--gold);color:#21170f;border-radius:10px;padding:10px 16px}
-button:disabled{opacity:.55;cursor:not-allowed}.secondary{background:transparent;color:var(--gold)}
+button:disabled{opacity:.55;cursor:not--allowed}.secondary{background:transparent;color:var(--gold)}
 .actions{display:flex;gap:9px;grid-column:1/-1;flex-wrap:wrap}
 .status{font-size:14px;color:var(--muted);margin:12px 0;overflow-wrap:anywhere}.ok{color:#9bd6a2}.err{color:#ff9c8a}
 .member{display:flex;align-items:center;gap:12px}.avatar{width:45px;height:45px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-weight:bold;flex-shrink:0}
-.footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid var(--line)}
-.hidden{display:none!important}
+.footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid var(--line)}.hidden{display:none!important}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 @media(max-width:650px){.hero{grid-template-columns:1fr}.quote{padding:12px}.design-preview{max-height:280px}}
 </style>
 </head>
 <body>
 <header><div class="logo">3/4</div><h1>ثلاثة أرباع مثقف</h1><p class="tagline">كل واحد فينا ربع مثقف… والباقي نقاشات!</p></header>
-
 <nav id="mainNav" class="hidden">
 <a href="#about">عن النادي</a><a href="#books">المكتبة</a><a href="#add">أضف كتاب</a><a href="#members">الأعضاء</a><a href="#rules">النظام</a>
 </nav>
-
 <main>
-<!-- LOGIN -->
 <section id="loginSection">
-  <div class="panel" style="max-width:520px;margin:25px auto">
-    <div class="head"><h2>🔐 دخول أعضاء النادي</h2></div>
-    <p class="meta">الموقع خاص بالأعضاء المؤسسين فقط. استخدم الإيميل وكلمة المرور التي أنشأتها الإدارة لك.</p>
-    <form id="loginForm">
-      <input id="loginEmail" type="email" placeholder="الإيميل" autocomplete="username" required>
-      <input id="loginPassword" type="password" placeholder="كلمة المرور" autocomplete="current-password" required>
-      <div class="actions"><button id="loginBtn" type="submit">تسجيل الدخول</button><button id="resetBtn" class="secondary" type="button">نسيت كلمة المرور؟</button></div>
-    </form>
-    <div id="loginStatus" class="status" role="status"></div>
-  </div>
+<div class="panel" style="max-width:520px;margin:25px auto">
+<div class="head"><h2>🔐 دخول أعضاء النادي</h2></div>
+<p class="meta">سجل دخولك لمتابعة مكتبة النادي والمشاركة في أنشطته.</p>
+<form id="loginForm">
+<input id="loginEmail" type="email" placeholder="الإيميل" autocomplete="username" required>
+<input id="loginPassword" type="password" placeholder="كلمة المرور" autocomplete="current-password" required>
+<div class="actions"><button id="loginBtn" type="submit">تسجيل الدخول</button><button id="resetBtn" class="secondary" type="button">نسيت كلمة المرور؟</button></div>
+</form>
+<div id="loginStatus" class="status" role="status"></div>
+<hr>
+<div class="head"><h2>✨ انضم إلى النادي</h2></div>
+<p class="meta">أنشئ حسابك الجديد وابدأ رحلتك الثقافية معنا.</p>
+<form id="signupForm">
+<input id="signupName" placeholder="الاسم بالكامل" autocomplete="name" required>
+<input id="signupUsername" placeholder="اسم المستخدم (بالإنجليزية)" minlength="3" maxlength="20" required>
+<input id="signupEmail" type="email" placeholder="البريد الإلكتروني" autocomplete="email" required>
+<input id="signupPassword" type="password" placeholder="كلمة المرور (8 أحرف على الأقل)" minlength="8" autocomplete="new-password" required>
+<div class="actions"><button id="signupBtn" type="submit">إنشاء حساب جديد</button></div>
+</form>
+<div id="signupStatus" class="status" role="status"></div>
+</div>
 </section>
-
-<!-- APP (only authenticated users) -->
 <div id="app" class="hidden">
-  <div class="panel topbar">
-    <span id="welcome" class="meta">أهلًا بك في النادي</span>
-    <button id="logoutBtn" class="secondary" type="button">تسجيل الخروج</button>
-  </div>
-
-  <section id="about" class="hero">
-    <div class="panel">
-      <div class="head"><h2>أهلًا بيكم في 3/4</h2></div>
-      <p>نادي قراءة صغير بثلاثة عقول ورفوف كبيرة من الأسئلة. بنقرأ عشان نفهم، ونناقش عشان نختلف بأدب، ونضحك عشان الثقافة ما تتحولش لمحاضرة.</p>
-      <p>هدفنا قراءة منتظمة، نقاش محترم، وتراكم معرفة حقيقية—حتى لو كل واحد فينا ربع مثقف بس.</p>
-      <img class="design-preview" src="club-design.png" alt="التصميم التصوري لموقع ثلاثة أرباع مثقف">
-    </div>
-    <div class="panel quote">«الكتاب باب…<br>والنقاش هو الرحلة»<br><span class="meta">فلسفة الأرباع الثلاثة</span></div>
-  </section>
-
-  <section id="books">
-    <div class="head"><h2>📚 مكتبة النادي</h2></div>
-    <div class="panel"><input id="search" placeholder="ابحث عن كتاب أو مؤلف…" oninput="filterBooks()"><div id="booksStatus" class="status">بنحمّل الكتب…</div></div>
-    <div id="booksGrid" class="grid" style="margin-top:14px"></div>
-  </section>
-
-  <section id="add">
-    <div class="head"><h2>➕ إضافة كتاب</h2></div>
-    <div class="panel">
-      <form id="bookForm">
-        <input id="title" placeholder="اسم الكتاب *" required>
-        <input id="author" placeholder="اسم المؤلف">
-        <select id="category"><option>رواية</option><option>طب</option><option>هندسة</option><option>فلسفة</option><option>تاريخ</option><option>علم نفس</option><option>علوم</option><option>أخرى</option></select>
-        <input id="pages" type="number" min="1" placeholder="عدد الصفحات">
-        <select id="bookStatus"><option>على قائمة القراءة</option><option>قيد القراءة</option><option>تمت قراءته</option></select>
-        <textarea id="notes" placeholder="ملاحظات (اختياري)"></textarea>
-        <div class="actions"><button id="saveBtn" type="submit">حفظ الكتاب</button><button class="secondary" type="button" onclick="loadBooks()">تحديث المكتبة</button></div>
-      </form>
-      <div id="addStatus" class="status">جاهز لإضافة كتاب.</div>
-    </div>
-  </section>
-
-  <section id="members">
-    <div class="head"><h2>👥 المؤسسون</h2></div>
-    <div class="grid">
-      <div class="card member"><div class="avatar">م</div><div><h3>محمد أنور</h3><div class="meta">عضو مؤسس</div></div></div>
-      <div class="card member"><div class="avatar">ع</div><div><h3>عبدو معتصم</h3><div class="meta">عضو مؤسس</div></div></div>
-      <div class="card member"><div class="avatar">ن</div><div><h3>نور الدين الخطيري</h3><div class="meta">عضو مؤسس</div></div></div>
-    </div>
-  </section>
-
-  <section id="rules">
-    <div class="head"><h2>📜 نظام النادي</h2></div>
-    <div class="panel rules"><ol>
-      <li><b>القراءة أساس النادي:</b> كل عضو يلتزم بالقدر المتفق عليه قبل الجلسة.</li>
-      <li><b>النقاش باحترام:</b> نناقش الأفكار لا الأشخاص، والاختلاف مرحّب به.</li>
-      <li><b>الحضور والمشاركة:</b> نحاول حضور الجلسات والمشاركة بفاعلية.</li>
-      <li><b>لا حرق للأحداث:</b> ممنوع كشف النهايات دون تنبيه.</li>
-      <li><b>التقييم بصدق:</b> رأي كل عضو مستقل، مش مسابقة لإرضاء الآخرين.</li>
-      <li><b>التنوع:</b> نقرأ روايات وطب وهندسة وفلسفة وتاريخ وعلوم.</li>
-      <li><b>الجدول والنقاط:</b> نتفق على المواعيد والإنجازات والنقاط بشكل واضح وعادل.</li>
-      <li><b>روح النادي:</b> الهدف المعرفة والمتعة، مش التظاهر بالثقافة—إحنا أصلًا ثلاثة أرباع!</li>
-    </ol></div>
-  </section>
+<div class="panel topbar">
+<div class="member"><div class="avatar" id="userAvatar">3/4</div><span id="welcome" class="meta">أهلًا بك في النادي</span></div>
+<button id="logoutBtn" class="secondary" type="button">تسجيل الخروج</button>
+</div>
+<section id="about" class="hero">
+<div class="panel">
+<div class="head"><h2>أهلًا بيكم في 3/4</h2></div>
+<p>نادي قراءة صغير بثلاثة عقول ورفوف كبيرة من الأسئلة. بنقرأ عشان نفهم، ونناقش عشان نختلف بأدب، ونضحك عشان الثقافة ما تتحولش لمحاضرة.</p>
+<p>هدفنا قراءة منتظمة، نقاش محترم، وتراكم معرفة حقيقية—حتى لو كل واحد فينا ربع مثقف بس.</p>
+<img class="design-preview" src="club-design.png" alt="التصميم التصوري لموقع ثلاثة أرباع مثقف">
+</div>
+<div class="panel quote">«الكتاب باب…<br>والنقاش هو الرحلة»<br><span class="meta">فلسفة الأرباع الثلاثة</span></div>
+</section>
+<section id="books">
+<div class="head"><h2>📚 مكتبة النادي</h2></div>
+<div class="panel"><input id="search" placeholder="ابحث عن كتاب أو مؤلف…"><div id="booksStatus" class="status">بنحمّل الكتب…</div></div>
+<div id="booksGrid" class="grid" style="margin-top:14px"></div>
+</section>
+<section id="add">
+<div class="head"><h2>➕ إضافة كتاب</h2></div>
+<div class="panel">
+<form id="bookForm">
+<input id="title" placeholder="اسم الكتاب *" required>
+<input id="author" placeholder="اسم المؤلف">
+<select id="category"><option>رواية</option><option>طب</option><option>هندسة</option><option>فلسفة</option><option>تاريخ</option><option>علم نفس</option><option>علوم</option><option>أخرى</option></select>
+<input id="pages" type="number" min="1" placeholder="عدد الصفحات">
+<select id="bookStatus"><option>على قائمة القراءة</option><option>قيد القراءة</option><option>تمت قراءته</option></select>
+<textarea id="notes" placeholder="ملاحظات (اختياري)"></textarea>
+<div class="actions"><button id="saveBtn" type="submit">حفظ الكتاب</button><button class="secondary" type="button" id="refreshBooksBtn">تحديث المكتبة</button></div>
+</form>
+<div id="addStatus" class="status">جاهز لإضافة كتاب.</div>
+</div>
+</section>
+<section id="members">
+<div class="head"><h2>👥 المؤسسون</h2></div>
+<div class="grid">
+<div class="card member"><div class="avatar">م</div><div><h3>محمد أنور</h3><div class="meta">عضو مؤسس</div></div></div>
+<div class="card member"><div class="avatar">ع</div><div><h3>عبدو معتصم</h3><div class="meta">عضو مؤسس</div></div></div>
+<div class="card member"><div class="avatar">ن</div><div><h3>نور الدين الخطيري</h3><div class="meta">عضو مؤسس</div></div></div>
+</div>
+</section>
+<section id="rules">
+<div class="head"><h2>📜 نظام النادي</h2></div>
+<div class="panel rules"><ol>
+<li><b>القراءة أساس النادي:</b> كل عضو يلتزم بالقدر المتفق عليه قبل الجلسة.</li>
+<li><b>النقاش باحترام:</b> نناقش الأفكار لا الأشخاص، والاختلاف مرحّب به.</li>
+<li><b>الحضور والمشاركة:</b> نحاول حضور الجلسات والمشاركة بفاعلية.</li>
+<li><b>لا حرق للأحداث:</b> ممنوع كشف النهايات دون تنبيه.</li>
+<li><b>التقييم بصدق:</b> رأي كل عضو مستقل، مش مسابقة لإرضاء الآخرين.</li>
+<li><b>التنوع:</b> نقرأ روايات وطب وهندسة وفلسفة وتاريخ وعلوم.</li>
+<li><b>الجدول والنقاط:</b> نتفق على المواعيد والإنجازات والنقاط بشكل واضح وعادل.</li>
+<li><b>روح النادي:</b> الهدف المعرفة والمتعة، مش التظاهر بالثقافة—إحنا أصلًا ثلاثة أرباع!</li>
+</ol></div>
+</section>
 </div>
 </main>
 <footer class="footer">3/4 — كل واحد فينا ربع مثقف © 2026</footer>
-
 <script>
 "use strict";
 const SUPABASE_URL = "https://pwnslupnutrtdotiilic.supabase.co";
@@ -133,29 +134,35 @@ const $ = id => document.getElementById(id);
 function status(el,msg,type=""){el.textContent=msg;el.className="status "+type;}
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 
-function showApp(session){
+async function showApp(session){
   $("loginSection").classList.toggle("hidden",!!session);
   $("app").classList.toggle("hidden",!session);
   $("mainNav").classList.toggle("hidden",!session);
-  if(session){
-    const email=session.user.email||"عضو النادي";
-    $("welcome").textContent="أهلًا بك يا "+email;
-    loadBooks();
-  } else {
-    allBooks=[];$("booksGrid").innerHTML="";
-  }
+  if(!session){allBooks=[];$("booksGrid").innerHTML="";return;}
+  const user=session.user;
+  const email=user.email||"عضو النادي";
+  $("welcome").textContent="أهلًا بك يا "+email;
+  $("userAvatar").textContent="3/4";
+  try{
+    const {data,error}=await db.from("profiles").select("full_name,username").eq("id",user.id).maybeSingle();
+    if(!error&&data){
+      const name=data.full_name||data.username||email;
+      $("welcome").textContent="أهلًا بك يا "+name;
+      $("userAvatar").textContent=(data.full_name||data.username||"3/4").charAt(0);
+    }
+  }catch(err){console.error("Profile error:",err);}
+  await loadBooks();
 }
 
 async function loadBooks(){
-  if(!$("app").classList.contains("hidden")) {
-    status($("booksStatus"),"بنحمّل الكتب…");
-    try{
-      const {data,error}=await db.from("books").select("*").order("created_at",{ascending:false});
-      if(error)throw error;
-      allBooks=data||[];renderBooks(allBooks);
-      status($("booksStatus"),allBooks.length?`عدد الكتب في المكتبة: ${allBooks.length}`:"المكتبة لسه فاضية—أضيفوا أول كتاب!","ok");
-    }catch(e){status($("booksStatus"),"تعذر تحميل الكتب: "+e.message,"err");console.error(e);}
-  }
+  if($("app").classList.contains("hidden"))return;
+  status($("booksStatus"),"بنحمّل الكتب…");
+  try{
+    const {data,error}=await db.from("books").select("*").order("created_at",{ascending:false});
+    if(error)throw error;
+    allBooks=data||[];renderBooks(allBooks);
+    status($("booksStatus"),allBooks.length?`عدد الكتب في المكتبة: ${allBooks.length}`:"المكتبة لسه فاضية—أضيفوا أول كتاب!","ok");
+  }catch(e){status($("booksStatus"),"تعذر تحميل الكتب: "+e.message,"err");console.error(e);}
 }
 function renderBooks(books){
   const grid=$("booksGrid");
@@ -166,14 +173,47 @@ function filterBooks(){
   const q=$("search").value.toLowerCase().trim();
   renderBooks(allBooks.filter(b=>`${b.title||""} ${b.author||""} ${b.category||""}`.toLowerCase().includes(q)));
 }
+$("search").addEventListener("input",filterBooks);
+$("refreshBooksBtn").addEventListener("click",loadBooks);
+
+// Registration: username must be unique in profiles.
+$("signupForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const btn=$("signupBtn");btn.disabled=true;
+  status($("signupStatus"),"جارٍ إنشاء الحساب…");
+  try{
+    const fullName=$("signupName").value.trim();
+    const username=$("signupUsername").value.trim().toLowerCase();
+    const email=$("signupEmail").value.trim();
+    const password=$("signupPassword").value;
+    if(!/^[a-z0-9_]{3,20}$/.test(username))throw new Error("اسم المستخدم يجب أن يكون 3-20 حرفًا إنجليزيًا أو رقمًا أو _");
+    const {data,error}=await db.auth.signUp({
+      email,password,
+      options:{data:{full_name:fullName,username}}
+    });
+    if(error)throw error;
+    e.target.reset();
+    if(data.session){
+      status($("signupStatus"),"تم إنشاء الحساب بنجاح ✓","ok");
+      await showApp(data.session);
+    }else{
+      status($("signupStatus"),"تم إنشاء الحساب! راجع بريدك الإلكتروني لتأكيد التسجيل قبل الدخول.","ok");
+    }
+  }catch(err){
+    status($("signupStatus"),"تعذر إنشاء الحساب: "+err.message,"err");
+    console.error(err);
+  }finally{btn.disabled=false;}
+});
 
 // Login
 $("loginForm").addEventListener("submit",async e=>{
-  e.preventDefault();const btn=$("loginBtn");btn.disabled=true;status($("loginStatus"),"جارٍ تسجيل الدخول…");
+  e.preventDefault();const btn=$("loginBtn");btn.disabled=true;
+  status($("loginStatus"),"جارٍ تسجيل الدخول…");
   try{
     const {data,error}=await db.auth.signInWithPassword({email:$("loginEmail").value.trim(),password:$("loginPassword").value});
     if(error)throw error;
-    status($("loginStatus"),"تم تسجيل الدخول ✓","ok");showApp(data.session);
+    status($("loginStatus"),"تم تسجيل الدخول بنجاح ✓","ok");
+    await showApp(data.session);
   }catch(err){status($("loginStatus"),"تعذر الدخول: "+err.message,"err");}
   finally{btn.disabled=false;}
 });
@@ -195,9 +235,10 @@ $("logoutBtn").addEventListener("click",async()=>{
   if(error)status($("loginStatus"),error.message,"err");
 });
 
-// Add book (authenticated user only)
+// Add book
 $("bookForm").addEventListener("submit",async e=>{
-  e.preventDefault();const btn=$("saveBtn");btn.disabled=true;status($("addStatus"),"جارٍ الحفظ…");
+  e.preventDefault();const btn=$("saveBtn");btn.disabled=true;
+  status($("addStatus"),"جارٍ الحفظ…");
   try{
     const {data:{session}}=await db.auth.getSession();
     if(!session)throw new Error("سجّل الدخول الأول.");
@@ -205,14 +246,26 @@ $("bookForm").addEventListener("submit",async e=>{
     if(!book.title)throw new Error("اكتب اسم الكتاب.");
     const {error}=await db.from("books").insert(book);
     if(error)throw error;
-    status($("addStatus"),"تم حفظ الكتاب بنجاح ✓","ok");e.target.reset();await loadBooks();
+    status($("addStatus"),"تم حفظ الكتاب بنجاح ✓","ok");
+    e.target.reset();await loadBooks();
   }catch(err){status($("addStatus"),"فشل الحفظ: "+err.message,"err");console.error(err);}
   finally{btn.disabled=false;}
 });
 
-// Restore session on any device/browser, and react to auth changes
-db.auth.onAuthStateChange((_event,session)=>{showApp(session);});
-(async()=>{const {data:{session}}=await db.auth.getSession();showApp(session);})();
+// Auth state changes
+db.auth.onAuthStateChange((event,session)=>{
+  if(event==="SIGNED_IN"||event==="SIGNED_OUT"||event==="INITIAL_SESSION"){
+    // Defer async profile/database work outside the auth callback.
+    setTimeout(()=>showApp(session),0);
+  }
+});
+
+// Restore saved session
+(async()=>{
+  const {data,error}=await db.auth.getSession();
+  if(error){console.error(error);return;}
+  await showApp(data.session);
+})();
 </script>
 </body>
 </html>

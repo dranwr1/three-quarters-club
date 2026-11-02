@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -8,69 +9,126 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--bg:#17120f;--panel:#241b16;--gold:#d6ad70;--cream:#f4e6ca;--muted:#b9a58b;--line:#514033}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;background:radial-gradient(circle at top,#39271b,#17120f 48%);color:var(--cream);font-family:Cairo,sans-serif}
 header{text-align:center;padding:30px 16px;border-bottom:1px solid var(--line)}
 .logo{width:76px;height:76px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;margin:auto auto 12px;color:var(--gold);font-size:27px;font-weight:800}
-h1{font:700 clamp(34px,7vw,55px) Amiri,serif;color:var(--gold);margin:0}.tagline{color:var(--muted);margin:8px}
+h1{font:700 clamp(34px,7vw,55px) Amiri,serif;color:var(--gold);margin:0}
+.tagline{color:var(--muted);margin:8px}
 nav{position:sticky;top:0;background:#17120fee;backdrop-filter:blur(10px);z-index:5;border-bottom:1px solid var(--line);display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px}
-nav a{color:var(--cream);text-decoration:none;padding:7px 13px;border-radius:20px}nav a:hover{color:var(--gold);background:#30231b}
-main{max-width:1050px;margin:auto;padding:20px 16px 50px}section{margin:25px 0;scroll-margin-top:85px}
-.head{display:flex;align-items:center;gap:10px;margin-bottom:14px}.head h2{color:var(--gold);margin:0}.head:after{content:"";height:1px;background:var(--line);flex:1}
+nav a{color:var(--cream);text-decoration:none;padding:7px 13px;border-radius:20px}
+nav a:hover{color:var(--gold);background:#30231b}
+main{max-width:1050px;margin:auto;padding:20px 16px 50px}
+section{margin:25px 0;scroll-margin-top:85px}
+.head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.head h2{color:var(--gold);margin:0}
+.head:after{content:"";height:1px;background:var(--line);flex:1}
 .panel,.card{background:linear-gradient(145deg,#241b16,#1e1712);border:1px solid var(--line);border-radius:17px;padding:17px}
-.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.hero p,.rules li{color:var(--muted);line-height:1.9}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.hero p,.rules li{color:var(--muted);line-height:1.9}
 .quote{text-align:center;align-self:center;font:700 24px Amiri;color:var(--gold)}
 .design-preview{width:100%;max-height:350px;object-fit:cover;object-position:top;border-radius:13px;border:1px solid var(--line);display:block;margin-top:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}.card h3{margin:0 0 8px;font-size:19px}.meta{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
+.card h3{margin:0 0 8px;font-size:19px}
+.meta{color:var(--muted);font-size:13px}
 .pill{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:3px 10px;color:var(--gold);font-size:12px;margin-top:10px}
 form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
 input,select,textarea{font:inherit;color:var(--cream);background:#17120f;border:1px solid var(--line);border-radius:10px;padding:11px;width:100%}
 textarea{grid-column:1/-1;min-height:75px}
 button{font:600 15px Cairo;cursor:pointer;border:1px solid var(--gold);background:var(--gold);color:#21170f;border-radius:10px;padding:10px 16px}
-button:disabled{opacity:.55;cursor:not--allowed}.secondary{background:transparent;color:var(--gold)}
+button:disabled{opacity:.55;cursor:not-allowed}
+.secondary{background:transparent;color:var(--gold)}
 .actions{display:flex;gap:9px;grid-column:1/-1;flex-wrap:wrap}
-.status{font-size:14px;color:var(--muted);margin:12px 0;overflow-wrap:anywhere}.ok{color:#9bd6a2}.err{color:#ff9c8a}
-.member{display:flex;align-items:center;gap:12px}.avatar{width:45px;height:45px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-weight:bold;flex-shrink:0}
-.footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid var(--line)}.hidden{display:none!important}
+.status{font-size:14px;color:var(--muted);margin:12px 0;overflow-wrap:anywhere}
+.ok{color:#9bd6a2}
+.err{color:#ff9c8a}
+.member{display:flex;align-items:center;gap:12px}
+.avatar{width:45px;height:45px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-weight:bold;flex-shrink:0}
+.footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid var(--line)}
+.hidden{display:none!important}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px}
+.stat-card{background:#1b1511;border:1px solid var(--line);border-radius:13px;padding:14px}
+.stat-number{font-size:27px;font-weight:800;color:var(--gold)}
+.rank-row,.history-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.rank-row:last-child,.history-row:last-child{border-bottom:0}
+.rank-name{display:flex;align-items:center;gap:9px}
+.rank-number{color:var(--gold);font-weight:800;min-width:25px}
+.points-value{color:var(--gold);font-weight:800;white-space:nowrap}
+.admin-box{border:1px dashed var(--gold);border-radius:14px;padding:15px;margin-top:15px}
+.admin-box h3{color:var(--gold);margin-top:0}
+.small-note{font-size:12px;color:var(--muted);line-height:1.8}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 hr{border:0;border-top:1px solid var(--line);margin:22px 0}
-@media(max-width:650px){.hero{grid-template-columns:1fr}.quote{padding:12px}.design-preview{max-height:280px}}
+@media(max-width:650px){
+ .hero{grid-template-columns:1fr}
+ .quote{padding:12px}
+ .design-preview{max-height:280px}
+}
 </style>
 </head>
 <body>
-<header><div class="logo">3/4</div><h1>ثلاثة أرباع مثقف</h1><p class="tagline">كل واحد فينا ربع مثقف… والباقي نقاشات!</p></header>
+
+<header>
+<div class="logo">3/4</div>
+<h1>ثلاثة أرباع مثقف</h1>
+<p class="tagline">كل واحد فينا ربع مثقف… والباقي نقاشات!</p>
+</header>
+
 <nav id="mainNav" class="hidden">
-<a href="#about">عن النادي</a><a href="#books">المكتبة</a><a href="#add">أضف كتاب</a><a href="#members">الأعضاء</a><a href="#rules">النظام</a>
+<a href="#about">عن النادي</a>
+<a href="#books">المكتبة</a>
+<a href="#add">أضف كتاب</a>
+<a href="#points">النقاط</a>
+<a href="#members">الأعضاء</a>
+<a href="#rules">النظام</a>
 </nav>
+
 <main>
+
 <section id="loginSection">
 <div class="panel" style="max-width:520px;margin:25px auto">
 <div class="head"><h2>🔐 دخول أعضاء النادي</h2></div>
 <p class="meta">سجل دخولك لمتابعة مكتبة النادي والمشاركة في أنشطته.</p>
+
 <form id="loginForm">
 <input id="loginEmail" type="email" placeholder="الإيميل" autocomplete="username" required>
 <input id="loginPassword" type="password" placeholder="كلمة المرور" autocomplete="current-password" required>
-<div class="actions"><button id="loginBtn" type="submit">تسجيل الدخول</button><button id="resetBtn" class="secondary" type="button">نسيت كلمة المرور؟</button></div>
+<div class="actions">
+<button id="loginBtn" type="submit">تسجيل الدخول</button>
+<button id="resetBtn" class="secondary" type="button">نسيت كلمة المرور؟</button>
+</div>
 </form>
 <div id="loginStatus" class="status" role="status"></div>
+
 <hr>
+
 <div class="head"><h2>✨ انضم إلى النادي</h2></div>
 <p class="meta">أنشئ حسابك الجديد وابدأ رحلتك الثقافية معنا.</p>
+
 <form id="signupForm">
 <input id="signupName" placeholder="الاسم بالكامل" autocomplete="name" required>
 <input id="signupUsername" placeholder="اسم المستخدم (بالإنجليزية)" minlength="3" maxlength="20" required>
 <input id="signupEmail" type="email" placeholder="البريد الإلكتروني" autocomplete="email" required>
 <input id="signupPassword" type="password" placeholder="كلمة المرور (8 أحرف على الأقل)" minlength="8" autocomplete="new-password" required>
-<div class="actions"><button id="signupBtn" type="submit">إنشاء حساب جديد</button></div>
+<div class="actions">
+<button id="signupBtn" type="submit">إنشاء حساب جديد</button>
+</div>
 </form>
 <div id="signupStatus" class="status" role="status"></div>
 </div>
 </section>
+
 <div id="app" class="hidden">
+
 <div class="panel topbar">
-<div class="member"><div class="avatar" id="userAvatar">3/4</div><span id="welcome" class="meta">أهلًا بك في النادي</span></div>
+<div class="member">
+<div class="avatar" id="userAvatar">3/4</div>
+<span id="welcome" class="meta">أهلًا بك في النادي</span>
+</div>
 <button id="logoutBtn" class="secondary" type="button">تسجيل الخروج</button>
 </div>
+
 <section id="about" class="hero">
 <div class="panel">
 <div class="head"><h2>أهلًا بيكم في 3/4</h2></div>
@@ -80,37 +138,107 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 </div>
 <div class="panel quote">«الكتاب باب…<br>والنقاش هو الرحلة»<br><span class="meta">فلسفة الأرباع الثلاثة</span></div>
 </section>
+
 <section id="books">
 <div class="head"><h2>📚 مكتبة النادي</h2></div>
-<div class="panel"><input id="search" placeholder="ابحث عن كتاب أو مؤلف…"><div id="booksStatus" class="status">بنحمّل الكتب…</div></div>
+<div class="panel">
+<input id="search" placeholder="ابحث عن كتاب أو مؤلف…">
+<div id="booksStatus" class="status">بنحمّل الكتب…</div>
+</div>
 <div id="booksGrid" class="grid" style="margin-top:14px"></div>
 </section>
+
 <section id="add">
 <div class="head"><h2>➕ إضافة كتاب</h2></div>
 <div class="panel">
 <form id="bookForm">
 <input id="title" placeholder="اسم الكتاب *" required>
 <input id="author" placeholder="اسم المؤلف">
-<select id="category"><option>رواية</option><option>طب</option><option>هندسة</option><option>فلسفة</option><option>تاريخ</option><option>علم نفس</option><option>علوم</option><option>أخرى</option></select>
+<select id="category">
+<option>رواية</option><option>طب</option><option>هندسة</option><option>فلسفة</option><option>تاريخ</option><option>علم نفس</option><option>علوم</option><option>أخرى</option>
+</select>
 <input id="pages" type="number" min="1" placeholder="عدد الصفحات">
-<select id="bookStatus"><option>على قائمة القراءة</option><option>قيد القراءة</option><option>تمت قراءته</option></select>
+<select id="bookStatus">
+<option>على قائمة القراءة</option><option>قيد القراءة</option><option>تمت قراءته</option>
+</select>
 <textarea id="notes" placeholder="ملاحظات (اختياري)"></textarea>
-<div class="actions"><button id="saveBtn" type="submit">حفظ الكتاب</button><button class="secondary" type="button" id="refreshBooksBtn">تحديث المكتبة</button></div>
+<div class="actions">
+<button id="saveBtn" type="submit">حفظ الكتاب</button>
+<button class="secondary" type="button" id="refreshBooksBtn">تحديث المكتبة</button>
+</div>
 </form>
 <div id="addStatus" class="status">جاهز لإضافة كتاب.</div>
 </div>
 </section>
-<section id="members">
-<div class="head"><h2>👥 المؤسسون</h2></div>
+
+<section id="points">
+<div class="head"><h2>🏆 نقاط وإنجازات النادي</h2></div>
+
+<div class="stat-grid">
+<div class="stat-card">
+<div class="meta">إجمالي النقاط المسجلة</div>
+<div class="stat-number" id="totalPoints">0</div>
+</div>
+<div class="stat-card">
+<div class="meta">عدد الأعضاء</div>
+<div class="stat-number" id="membersCount">0</div>
+</div>
+<div class="stat-card">
+<div class="meta">الإنجازات المسجلة</div>
+<div class="stat-number" id="achievementsCount">0</div>
+</div>
+</div>
+
 <div class="grid">
-<div class="card member"><div class="avatar">م</div><div><h3>محمد أنور</h3><div class="meta">عضو مؤسس</div></div></div>
-<div class="card member"><div class="avatar">ع</div><div><h3>عبدو معتصم</h3><div class="meta">عضو مؤسس</div></div></div>
-<div class="card member"><div class="avatar">ن</div><div><h3>نور الدين الخطيري</h3><div class="meta">عضو مؤسس</div></div></div>
+<div class="panel">
+<div class="head"><h2>🥇 ترتيب الأعضاء</h2></div>
+<div id="leaderboard" class="meta">جارٍ تحميل الترتيب…</div>
+</div>
+<div class="panel">
+<div class="head"><h2>🧾 آخر الإنجازات</h2></div>
+<div id="pointsHistory" class="meta">جارٍ تحميل السجل…</div>
+</div>
+</div>
+
+<div id="adminPointsBox" class="admin-box hidden">
+<h3>⚙️ لوحة المدير — إضافة نقاط</h3>
+<p class="small-note">النقاط تُحسب من قاعدة البيانات، ولا يمكن للعضو منح نقاط لنفسه. كل إنجاز مرجعي يُسجّل مرة واحدة فقط.</p>
+
+<form id="awardForm">
+<select id="awardMember" required>
+<option value="">اختر العضو</option>
+</select>
+
+<select id="awardType" required>
+<option value="book_read">قراءة كتاب كامل — 10 نقاط</option>
+<option value="book_recommendation">ترشيح كتاب — 2 نقطة</option>
+</select>
+
+<select id="awardReference" required>
+<option value="">اختر الكتاب</option>
+</select>
+
+<div class="actions">
+<button id="awardBtn" type="submit">اعتماد الإنجاز ومنح النقاط</button>
+</div>
+</form>
+
+<div id="awardStatus" class="status">اختر العضو والإنجاز والكتاب.</div>
+<p class="small-note">الحضور والمناقشات والمراجعات محتاجين واجهات الجلسات والمراجعات للموقع؛ لذلك مش ظاهرين هنا لحد ما يتجهزوا بشكل صحيح.</p>
 </div>
 </section>
+
+<section id="members">
+<div class="head"><h2>👥 أعضاء النادي</h2></div>
+<div id="membersGrid" class="grid">
+<div class="card meta">جارٍ تحميل الأعضاء…</div>
+</div>
+</section>
+
 <section id="rules">
 <div class="head"><h2>📜 نظام النادي</h2></div>
-<div class="panel rules"><ol>
+<div class="panel rules">
+<ol>
 <li><b>القراءة أساس النادي:</b> كل عضو يلتزم بالقدر المتفق عليه قبل الجلسة.</li>
 <li><b>النقاش باحترام:</b> نناقش الأفكار لا الأشخاص، والاختلاف مرحّب به.</li>
 <li><b>الحضور والمشاركة:</b> نحاول حضور الجلسات والمشاركة بفاعلية.</li>
@@ -119,151 +247,537 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <li><b>التنوع:</b> نقرأ روايات وطب وهندسة وفلسفة وتاريخ وعلوم.</li>
 <li><b>الجدول والنقاط:</b> نتفق على المواعيد والإنجازات والنقاط بشكل واضح وعادل.</li>
 <li><b>روح النادي:</b> الهدف المعرفة والمتعة، مش التظاهر بالثقافة—إحنا أصلًا ثلاثة أرباع!</li>
-</ol></div>
+</ol>
+</div>
 </section>
+
 </div>
 </main>
+
 <footer class="footer">3/4 — كل واحد فينا ربع مثقف © 2026</footer>
+
 <script>
 "use strict";
+
 const SUPABASE_URL = "https://pwnslupnutrtdotiilic.supabase.co";
 const SUPABASE_KEY = "sb_publishable_kcluJqcu5I-5vnVrpoFqGg_2xWokB1O";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 let allBooks = [];
+let allMembers = [];
+let allPoints = [];
+
+const CLUB_ADMIN_ID = "6d11154d-af6b-4872-9252-df019a0226f8";
 const $ = id => document.getElementById(id);
-function status(el,msg,type=""){el.textContent=msg;el.className="status "+type;}
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function status(el,msg,type=""){
+  el.textContent=msg;
+  el.className="status "+type;
+}
+
+function esc(v){
+  return String(v??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
 
 async function showApp(session){
   $("loginSection").classList.toggle("hidden",!!session);
   $("app").classList.toggle("hidden",!session);
   $("mainNav").classList.toggle("hidden",!session);
-  if(!session){allBooks=[];$("booksGrid").innerHTML="";return;}
+
+  if(!session){
+    allBooks=[];
+    $("booksGrid").innerHTML="";
+    return;
+  }
+
   const user=session.user;
   const email=user.email||"عضو النادي";
+
   $("welcome").textContent="أهلًا بك يا "+email;
   $("userAvatar").textContent="3/4";
+
   try{
-    const {data,error}=await db.from("profiles").select("full_name,username").eq("id",user.id).maybeSingle();
+    const {data,error}=await db.from("profiles")
+      .select("full_name,username")
+      .eq("id",user.id)
+      .maybeSingle();
+
     if(!error&&data){
       const name=data.full_name||data.username||email;
       $("welcome").textContent="أهلًا بك يا "+name;
       $("userAvatar").textContent=(data.full_name||data.username||"3/4").charAt(0);
     }
-  }catch(err){console.error("Profile error:",err);}
+  }catch(err){
+    console.error("Profile error:",err);
+  }
+
+  $("adminPointsBox").classList.toggle("hidden",user.id!==CLUB_ADMIN_ID);
+
   await loadBooks();
+  await loadClubData();
 }
 
 async function loadBooks(){
   if($("app").classList.contains("hidden"))return;
+
   status($("booksStatus"),"بنحمّل الكتب…");
+
   try{
-    const {data,error}=await db.from("books").select("*").order("created_at",{ascending:false});
+    const {data,error}=await db.from("books")
+      .select("*")
+      .order("created_at",{ascending:false});
+
     if(error)throw error;
-    allBooks=data||[];renderBooks(allBooks);
-    status($("booksStatus"),allBooks.length?`عدد الكتب في المكتبة: ${allBooks.length}`:"المكتبة لسه فاضية—أضيفوا أول كتاب!","ok");
-  }catch(e){status($("booksStatus"),"تعذر تحميل الكتب: "+e.message,"err");console.error(e);}
+
+    allBooks=data||[];
+    renderBooks(allBooks);
+
+    status(
+      $("booksStatus"),
+      allBooks.length
+        ?`عدد الكتب في المكتبة: ${allBooks.length}`
+        :"المكتبة لسه فاضية—أضيفوا أول كتاب!",
+      "ok"
+    );
+
+  }catch(e){
+    status($("booksStatus"),"تعذر تحميل الكتب: "+e.message,"err");
+    console.error(e);
+  }
 }
+
 function renderBooks(books){
   const grid=$("booksGrid");
-  if(!books.length){grid.innerHTML='<div class="card meta">لا توجد كتب مطابقة.</div>';return;}
-  grid.innerHTML=books.map(b=>`<article class="card"><h3>${esc(b.title)}</h3><div class="meta">${esc(b.author||"مؤلف غير محدد")} · ${esc(b.category||"أخرى")}${b.pages?" · "+esc(b.pages)+" صفحة":""}</div><span class="pill">${esc(b.status||"على قائمة القراءة")}</span>${b.notes?`<p class="meta">${esc(b.notes)}</p>`:""}</article>`).join("");
+
+  if(!books.length){
+    grid.innerHTML='<div class="card meta">لا توجد كتب مطابقة.</div>';
+    return;
+  }
+
+  grid.innerHTML=books.map(b=>`
+    <article class="card">
+      <h3>${esc(b.title)}</h3>
+      <div class="meta">
+        ${esc(b.author||"مؤلف غير محدد")} · ${esc(b.category||"أخرى")}
+        ${b.pages?" · "+esc(b.pages)+" صفحة":""}
+      </div>
+      <span class="pill">${esc(b.status||"على قائمة القراءة")}</span>
+      ${b.notes?`<p class="meta">${esc(b.notes)}</p>`:""}
+    </article>
+  `).join("");
 }
+
 function filterBooks(){
   const q=$("search").value.toLowerCase().trim();
-  renderBooks(allBooks.filter(b=>`${b.title||""} ${b.author||""} ${b.category||""}`.toLowerCase().includes(q)));
+
+  renderBooks(allBooks.filter(b=>
+    `${b.title||""} ${b.author||""} ${b.category||""}`
+      .toLowerCase().includes(q)
+  ));
 }
+
 $("search").addEventListener("input",filterBooks);
 $("refreshBooksBtn").addEventListener("click",loadBooks);
 
-// Registration: username must be unique in profiles.
+// =========================
+// MEMBERS + POINTS
+// =========================
+
+async function loadClubData(){
+  try{
+    const results=await Promise.all([
+      db.from("members")
+        .select("id,name,role,user_id")
+        .order("created_at",{ascending:true}),
+
+      db.from("points")
+        .select("id,member_id,achievement,points,created_at,achievement_key,reference_id")
+        .order("created_at",{ascending:false})
+    ]);
+
+    if(results[0].error)throw results[0].error;
+    if(results[1].error)throw results[1].error;
+
+    allMembers=results[0].data||[];
+    allPoints=results[1].data||[];
+
+    renderClubData();
+    fillAwardMembers();
+
+  }catch(e){
+    $("leaderboard").textContent="تعذر تحميل النقاط: "+e.message;
+    $("pointsHistory").textContent="تعذر تحميل السجل.";
+    console.error(e);
+  }
+}
+
+function renderClubData(){
+
+  const balances=allMembers.map(m=>({
+    id:m.id,
+    name:m.name,
+    role:m.role,
+    total:allPoints
+      .filter(p=>p.member_id===m.id)
+      .reduce((s,p)=>s+(Number(p.points)||0),0)
+  })).sort((a,b)=>b.total-a.total);
+
+  $("totalPoints").textContent=
+    allPoints.reduce((s,p)=>s+(Number(p.points)||0),0);
+
+  $("membersCount").textContent=allMembers.length;
+  $("achievementsCount").textContent=allPoints.length;
+
+  $("leaderboard").innerHTML=balances.length
+    ?balances.map((m,i)=>`
+      <div class="rank-row">
+        <div class="rank-name">
+          <span class="rank-number">${i+1}.</span>
+          <span>${esc(m.name)}</span>
+        </div>
+        <span class="points-value">${m.total} نقطة</span>
+      </div>
+    `).join("")
+    :'<p class="meta">لا يوجد أعضاء مسجلون.</p>';
+
+  $("membersGrid").innerHTML=allMembers.length
+    ?allMembers.map(m=>`
+      <div class="card member">
+        <div class="avatar">${esc((m.name||"؟").charAt(0))}</div>
+        <div>
+          <h3>${esc(m.name||"عضو")}</h3>
+          <div class="meta">${esc(m.role||"عضو")}</div>
+          <div class="meta">
+            ${balances.find(x=>x.id===m.id)?.total||0} نقطة
+          </div>
+        </div>
+      </div>
+    `).join("")
+    :'<div class="card meta">لا يوجد أعضاء.</div>';
+
+  $("pointsHistory").innerHTML=allPoints.length
+    ?allPoints.slice(0,20).map(p=>{
+      const m=allMembers.find(x=>x.id===p.member_id);
+      const d=p.created_at
+        ?new Date(p.created_at).toLocaleDateString("ar-EG")
+        :"";
+
+      return `
+        <div class="history-row">
+          <div>
+            <b>${esc(m?.name||"عضو")}</b>
+            <div class="meta">${esc(p.achievement||"إنجاز")} · ${d}</div>
+          </div>
+          <span class="points-value">+${Number(p.points)||0}</span>
+        </div>
+      `;
+    }).join("")
+    :'<p class="meta">لسه مفيش إنجازات مسجلة.</p>';
+}
+
+function fillAwardMembers(){
+  const s=$("awardMember");
+  if(!s)return;
+
+  const old=s.value;
+
+  s.innerHTML='<option value="">اختر العضو</option>'+
+    allMembers.map(m=>
+      `<option value="${esc(m.id)}">${esc(m.name)}</option>`
+    ).join("");
+
+  if(allMembers.some(m=>m.id===old))s.value=old;
+
+  refreshAwardReferences();
+}
+
+function refreshAwardReferences(){
+  const memberId=$("awardMember").value;
+  const type=$("awardType").value;
+
+  let books=allBooks;
+
+  if(type==="book_recommendation"){
+    books=allBooks.filter(b=>b.added_by===memberId);
+  }
+
+  $("awardReference").innerHTML=books.length
+    ?'<option value="">اختر الكتاب</option>'+
+      books.map(b=>
+        `<option value="${esc(b.id)}">${esc(b.title)}</option>`
+      ).join("")
+    :'<option value="">لا توجد كتب مناسبة لهذا الإنجاز</option>';
+}
+
+$("awardMember").addEventListener("change",refreshAwardReferences);
+$("awardType").addEventListener("change",refreshAwardReferences);
+
+$("awardForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+
+  const btn=$("awardBtn");
+  btn.disabled=true;
+
+  status($("awardStatus"),"جارٍ تسجيل الإنجاز…");
+
+  try{
+    const memberId=$("awardMember").value;
+    const key=$("awardType").value;
+    const ref=$("awardReference").value;
+
+    if(!memberId||!ref){
+      throw new Error("اختار العضو والكتاب.");
+    }
+
+    const result=await db.rpc("award_club_points",{
+      p_member_id:memberId,
+      p_achievement_key:key,
+      p_reference_id:ref
+    });
+
+    if(result.error)throw result.error;
+
+    if(result.data&&result.data.success===false){
+      throw new Error(result.data.message||"تعذر تسجيل الإنجاز.");
+    }
+
+    status(
+      $("awardStatus"),
+      result.data?.message||"تم تسجيل الإنجاز بنجاح ✓",
+      "ok"
+    );
+
+    await loadClubData();
+
+  }catch(err){
+    status(
+      $("awardStatus"),
+      "لم تتم إضافة النقاط: "+err.message,
+      "err"
+    );
+    console.error(err);
+  }finally{
+    btn.disabled=false;
+  }
+});
+
+// =========================
+// REGISTRATION
+// =========================
+
 $("signupForm").addEventListener("submit",async e=>{
   e.preventDefault();
-  const btn=$("signupBtn");btn.disabled=true;
+
+  const btn=$("signupBtn");
+  btn.disabled=true;
+
   status($("signupStatus"),"جارٍ إنشاء الحساب…");
+
   try{
     const fullName=$("signupName").value.trim();
     const username=$("signupUsername").value.trim().toLowerCase();
     const email=$("signupEmail").value.trim();
     const password=$("signupPassword").value;
-    if(!/^[a-z0-9_]{3,20}$/.test(username))throw new Error("اسم المستخدم يجب أن يكون 3-20 حرفًا إنجليزيًا أو رقمًا أو _");
+
+    if(!/^[a-z0-9_]{3,20}$/.test(username)){
+      throw new Error("اسم المستخدم يجب أن يكون 3-20 حرفًا إنجليزيًا أو رقمًا أو _");
+    }
+
     const {data,error}=await db.auth.signUp({
-      email,password,
+      email,
+      password,
       options:{data:{full_name:fullName,username}}
     });
+
     if(error)throw error;
+
     e.target.reset();
+
     if(data.session){
       status($("signupStatus"),"تم إنشاء الحساب بنجاح ✓","ok");
       await showApp(data.session);
     }else{
-      status($("signupStatus"),"تم إنشاء الحساب! راجع بريدك الإلكتروني لتأكيد التسجيل قبل الدخول.","ok");
+      status(
+        $("signupStatus"),
+        "تم إنشاء الحساب! راجع بريدك الإلكتروني لتأكيد التسجيل قبل الدخول.",
+        "ok"
+      );
     }
+
   }catch(err){
     status($("signupStatus"),"تعذر إنشاء الحساب: "+err.message,"err");
     console.error(err);
-  }finally{btn.disabled=false;}
+  }finally{
+    btn.disabled=false;
+  }
 });
 
-// Login
+// =========================
+// LOGIN
+// =========================
+
 $("loginForm").addEventListener("submit",async e=>{
-  e.preventDefault();const btn=$("loginBtn");btn.disabled=true;
+  e.preventDefault();
+
+  const btn=$("loginBtn");
+  btn.disabled=true;
+
   status($("loginStatus"),"جارٍ تسجيل الدخول…");
+
   try{
-    const {data,error}=await db.auth.signInWithPassword({email:$("loginEmail").value.trim(),password:$("loginPassword").value});
+    const {data,error}=await db.auth.signInWithPassword({
+      email:$("loginEmail").value.trim(),
+      password:$("loginPassword").value
+    });
+
     if(error)throw error;
+
     status($("loginStatus"),"تم تسجيل الدخول بنجاح ✓","ok");
     await showApp(data.session);
-  }catch(err){status($("loginStatus"),"تعذر الدخول: "+err.message,"err");}
-  finally{btn.disabled=false;}
+
+  }catch(err){
+    status($("loginStatus"),"تعذر الدخول: "+err.message,"err");
+  }finally{
+    btn.disabled=false;
+  }
 });
 
-// Password reset
+// =========================
+// PASSWORD RESET
+// =========================
+
 $("resetBtn").addEventListener("click",async()=>{
   const email=$("loginEmail").value.trim();
-  if(!email){status($("loginStatus"),"اكتب الإيميل في خانة الإيميل الأول.");return;}
+
+  if(!email){
+    status($("loginStatus"),"اكتب الإيميل في خانة الإيميل الأول.");
+    return;
+  }
+
   try{
-    const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+    const {error}=await db.auth.resetPasswordForEmail(email,{
+      redirectTo:location.origin+location.pathname
+    });
+
     if(error)throw error;
-    status($("loginStatus"),"لو الإيميل مسجل، هيوصلك رابط استعادة كلمة المرور.","ok");
-  }catch(err){status($("loginStatus"),"تعذر إرسال الرابط: "+err.message,"err");}
+
+    status(
+      $("loginStatus"),
+      "لو الإيميل مسجل، هيوصلك رابط استعادة كلمة المرور.",
+      "ok"
+    );
+
+  }catch(err){
+    status($("loginStatus"),"تعذر إرسال الرابط: "+err.message,"err");
+  }
 });
 
-// Logout
+// =========================
+// LOGOUT
+// =========================
+
 $("logoutBtn").addEventListener("click",async()=>{
   const {error}=await db.auth.signOut();
-  if(error)status($("loginStatus"),error.message,"err");
+
+  if(error){
+    status($("loginStatus"),error.message,"err");
+  }
 });
 
-// Add book
+// =========================
+// ADD BOOK
+// =========================
+
 $("bookForm").addEventListener("submit",async e=>{
-  e.preventDefault();const btn=$("saveBtn");btn.disabled=true;
+  e.preventDefault();
+
+  const btn=$("saveBtn");
+  btn.disabled=true;
+
   status($("addStatus"),"جارٍ الحفظ…");
+
   try{
     const {data:{session}}=await db.auth.getSession();
-    if(!session)throw new Error("سجّل الدخول الأول.");
-    const book={title:$("title").value.trim(),author:$("author").value.trim()||null,category:$("category").value,pages:Number($("pages").value)||null,status:$("bookStatus").value,notes:$("notes").value.trim()||null};
-    if(!book.title)throw new Error("اكتب اسم الكتاب.");
+
+    if(!session){
+      throw new Error("سجّل الدخول الأول.");
+    }
+
+    // تحديد العضو المرتبط بالحساب الحالي
+    const {data:member,error:memberError}=await db.from("members")
+      .select("id")
+      .eq("user_id",session.user.id)
+      .maybeSingle();
+
+    if(memberError)throw memberError;
+
+    if(!member){
+      throw new Error(
+        "حسابك مش مربوط بعضوية في النادي. تواصل مع المدير لربط الحساب بعضويتك."
+      );
+    }
+
+    const book={
+      title:$("title").value.trim(),
+      author:$("author").value.trim()||null,
+      category:$("category").value,
+      pages:Number($("pages").value)||null,
+      status:$("bookStatus").value,
+      notes:$("notes").value.trim()||null,
+      added_by:member.id
+    };
+
+    if(!book.title){
+      throw new Error("اكتب اسم الكتاب.");
+    }
+
     const {error}=await db.from("books").insert(book);
+
     if(error)throw error;
+
     status($("addStatus"),"تم حفظ الكتاب بنجاح ✓","ok");
-    e.target.reset();await loadBooks();
-  }catch(err){status($("addStatus"),"فشل الحفظ: "+err.message,"err");console.error(err);}
-  finally{btn.disabled=false;}
+
+    e.target.reset();
+
+    await loadBooks();
+    refreshAwardReferences();
+
+  }catch(err){
+    status($("addStatus"),"فشل الحفظ: "+err.message,"err");
+    console.error(err);
+  }finally{
+    btn.disabled=false;
+  }
 });
 
-// Auth state changes
+// =========================
+// AUTH STATE
+// =========================
+
 db.auth.onAuthStateChange((event,session)=>{
-  if(event==="SIGNED_IN"||event==="SIGNED_OUT"||event==="INITIAL_SESSION"){
-    // Defer async profile/database work outside the auth callback.
+  if(
+    event==="SIGNED_IN"||
+    event==="SIGNED_OUT"||
+    event==="INITIAL_SESSION"
+  ){
     setTimeout(()=>showApp(session),0);
   }
 });
 
-// Restore saved session
+// =========================
+// RESTORE SESSION
+// =========================
+
 (async()=>{
   const {data,error}=await db.auth.getSession();
-  if(error){console.error(error);return;}
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
   await showApp(data.session);
 })();
 </script>

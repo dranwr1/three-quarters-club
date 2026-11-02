@@ -1,711 +1,259 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>3/4 | ثلاثة أرباع مثقف</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-:root{
---bg:#17120f;
---panel:#241b16;
---gold:#d6ad70;
---cream:#f4e6ca;
---muted:#b9a58b;
---line:#514033;
-}
-
+:root{--bg:#17120f;--panel:#241b16;--gold:#d6ad70;--cream:#f4e6ca;--muted:#b9a58b;--line:#514033}
 *{box-sizing:border-box}
-
 html{scroll-behavior:smooth}
-
-body{
-margin:0;
-background:radial-gradient(circle at top,#39271b,#17120f 48%);
-color:var(--cream);
-font-family:Cairo,sans-serif;
-}
-
-header{
-text-align:center;
-padding:34px 16px;
-border-bottom:1px solid var(--line)
-}
-
-.logo{
-width:80px;
-height:80px;
-border:2px solid var(--gold);
-border-radius:50%;
-display:grid;
-place-items:center;
-margin:auto auto 14px;
-color:var(--gold);
-font-size:28px;
-font-weight:800
-}
-
-h1{
-font:700 clamp(36px,7vw,58px) Amiri,serif;
-color:var(--gold);
-margin:0
-}
-
+body{margin:0;background:radial-gradient(circle at top,#39271b,#17120f 48%);color:var(--cream);font-family:Cairo,sans-serif}
+header{text-align:center;padding:34px 16px;border-bottom:1px solid var(--line)}
+.logo{width:80px;height:80px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;margin:auto auto 14px;color:var(--gold);font-size:28px;font-weight:800}
+h1{font:700 clamp(36px,7vw,58px) Amiri,serif;color:var(--gold);margin:0}
 .tagline{color:var(--muted);margin:8px}
-
-nav{
-position:sticky;
-top:0;
-background:#17120fee;
-backdrop-filter:blur(10px);
-z-index:5;
-border-bottom:1px solid var(--line);
-display:flex;
-justify-content:center;
-gap:8px;
-flex-wrap:wrap;
-padding:10px
-}
-
-nav a{
-color:var(--cream);
-text-decoration:none;
-padding:7px 13px;
-border-radius:20px
-}
-
-nav a:hover{
-color:var(--gold);
-background:#30231b
-}
-
-main{
-max-width:1050px;
-margin:auto;
-padding:22px 16px 55px
-}
-
-section{
-margin:28px 0;
-scroll-margin-top:85px
-}
-
-.head{
-display:flex;
-align-items:center;
-gap:10px;
-margin-bottom:14px
-}
-
+nav{position:sticky;top:0;background:#17120fee;backdrop-filter:blur(10px);z-index:5;border-bottom:1px solid var(--line);display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px}
+nav a{color:var(--cream);text-decoration:none;padding:7px 13px;border-radius:20px}
+nav a:hover{color:var(--gold);background:#30231b}
+main{max-width:1100px;margin:auto;padding:22px 16px 55px}
+section{margin:28px 0;scroll-margin-top:85px}
+.head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .head h2{color:var(--gold);margin:0}
-
-.head:after{
-content:"";
-height:1px;
-background:var(--line);
-flex:1
-}
-
-.panel,.card{
-background:linear-gradient(145deg,#241b16,#1e1712);
-border:1px solid var(--line);
-border-radius:17px;
-padding:17px
-}
-
-.hero{
-display:grid;
-grid-template-columns:1.2fr .8fr;
-gap:14px
-}
-
-.hero p,.rules li{
-color:var(--muted);
-line-height:1.9
-}
-
-.quote{
-text-align:center;
-align-self:center;
-font:700 24px Amiri;
-color:var(--gold)
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:13px
-}
-
-.card h3{
-margin:0 0 8px;
-font-size:19px
-}
-
-.meta{
-color:var(--muted);
-font-size:13px
-}
-
-.pill{
-display:inline-block;
-border:1px solid var(--line);
-border-radius:20px;
-padding:3px 10px;
-color:var(--gold);
-font-size:12px;
-margin-top:10px
-}
-
-form{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-gap:10px
-}
-
-input,select,textarea{
-font:inherit;
-color:var(--cream);
-background:#17120f;
-border:1px solid var(--line);
-border-radius:10px;
-padding:11px;
-width:100%
-}
-
-textarea{
-grid-column:1/-1;
-min-height:75px
-}
-
-button{
-font:600 15px Cairo;
-cursor:pointer;
-border:1px solid var(--gold);
-background:var(--gold);
-color:#21170f;
-border-radius:10px;
-padding:10px 16px
-}
-
-button:disabled{
-opacity:.6;
-cursor:not-allowed
-}
-
-.actions{
-display:flex;
-gap:9px;
-grid-column:1/-1;
-flex-wrap:wrap
-}
-
-.status{
-font-size:14px;
-color:var(--muted);
-margin:12px 0
-}
-
-.ok{color:#9bd6a2}
-.err{color:#ff9c8a}
-
-.member{
-display:flex;
-align-items:center;
-gap:12px
-}
-
-.avatar{
-width:45px;
-height:45px;
-border:1px solid var(--gold);
-border-radius:50%;
-display:grid;
-place-items:center;
-color:var(--gold);
-font-weight:bold
-}
-
-.footer{
-text-align:center;
-color:var(--muted);
-padding:24px;
-border-top:1px solid var(--line)
-}
-
-@media(max-width:650px){
-.hero{grid-template-columns:1fr}
-.quote{padding:12px}
-}
+.head:after{content:"";height:1px;background:var(--line);flex:1}
+.panel,.card{background:linear-gradient(145deg,#241b16,#1e1712);border:1px solid var(--line);border-radius:17px;padding:17px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.hero p,.rules li{color:var(--muted);line-height:1.9}
+.quote{text-align:center;align-self:center;font:700 24px Amiri;color:var(--gold)}
+.design-preview{width:100%;max-height:420px;object-fit:cover;object-position:top;border-radius:13px;border:1px solid var(--line);display:block;margin-top:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
+.card h3{margin:0 0 8px;font-size:19px}
+.meta{color:var(--muted);font-size:13px}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:3px 10px;color:var(--gold);font-size:12px;margin-top:10px}
+form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+input,select,textarea{font:inherit;color:var(--cream);background:#17120f;border:1px solid var(--line);border-radius:10px;padding:11px;width:100%}
+textarea{grid-column:1/-1;min-height:75px}
+button{font:600 15px Cairo;cursor:pointer;border:1px solid var(--gold);background:var(--gold);color:#21170f;border-radius:10px;padding:10px 16px}
+button:disabled{opacity:.6;cursor:not-allowed}
+.actions{display:flex;gap:9px;grid-column:1/-1;flex-wrap:wrap}
+.status{font-size:14px;color:var(--muted);margin:12px 0;overflow-wrap:anywhere}
+.ok{color:#9bd6a2}.err{color:#ff9c8a}
+.member{display:flex;align-items:center;gap:12px}
+.avatar{width:45px;height:45px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-weight:bold;flex-shrink:0}
+.footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid var(--line)}
+@media(max-width:650px){.hero{grid-template-columns:1fr}.quote{padding:12px}.design-preview{max-height:300px}}
 </style>
 </head>
-
 <body>
-
 <header>
-<div class="logo">3/4</div>
-<h1>ثلاثة أرباع مثقف</h1>
-<p class="tagline">كل واحد فينا ربع مثقف… والباقي نقاشات!</p>
+  <div class="logo">3/4</div>
+  <h1>ثلاثة أرباع مثقف</h1>
+  <p class="tagline">كل واحد فينا ربع مثقف… والباقي نقاشات!</p>
 </header>
 
 <nav>
-<a href="#about">عن النادي</a>
-<a href="#books">المكتبة</a>
-<a href="#add">أضف كتاب</a>
-<a href="#members">الأعضاء</a>
-<a href="#rules">النظام</a>
+  <a href="#about">عن النادي</a><a href="#books">المكتبة</a><a href="#add">أضف كتاب</a><a href="#members">الأعضاء</a><a href="#rules">النظام</a>
 </nav>
 
 <main>
-
 <section id="about" class="hero">
-
-<div class="panel">
-<div class="head"><h2>أهلًا بيكم في 3/4</h2></div>
-
-<p>
-نادي قراءة صغير بثلاثة عقول ورفوف كبيرة من الأسئلة.
-بنقرأ عشان نفهم، ونناقش عشان نختلف بأدب،
-ونضحك عشان الثقافة ما تتحولش لمحاضرة.
-</p>
-
-<p>
-هدفنا قراءة منتظمة، نقاش محترم، وتراكم معرفة حقيقية—
-حتى لو كل واحد فينا ربع مثقف بس.
-</p>
-</div>
-
-<div class="panel quote">
-«الكتاب باب…<br>
-والنقاش هو الرحلة»
-<br>
-<span class="meta">فلسفة الأرباع الثلاثة</span>
-</div>
-
+  <div class="panel">
+    <div class="head"><h2>أهلًا بيكم في 3/4</h2></div>
+    <p>نادي قراءة صغير بثلاثة عقول ورفوف كبيرة من الأسئلة. بنقرأ عشان نفهم، ونناقش عشان نختلف بأدب، ونضحك عشان الثقافة ما تتحولش لمحاضرة.</p>
+    <p>هدفنا قراءة منتظمة، نقاش محترم، وتراكم معرفة حقيقية—حتى لو كل واحد فينا ربع مثقف بس.</p>
+    <img class="design-preview" src="club-design.png" alt="التصميم التصوري لموقع ثلاثة أرباع مثقف">
+  </div>
+  <div class="panel quote">«الكتاب باب…<br>والنقاش هو الرحلة»<br><span class="meta">فلسفة الأرباع الثلاثة</span></div>
 </section>
 
 <section id="books">
-
-<div class="head"><h2>📚 مكتبة النادي</h2></div>
-
-<div class="panel">
-
-<input id="search" placeholder="ابحث عن كتاب أو مؤلف…" oninput="filterBooks()">
-
-<div id="booksStatus" class="status">بنحمّل الكتب…</div>
-
-</div>
-
-<div id="booksGrid" class="grid" style="margin-top:14px"></div>
-
+  <div class="head"><h2>📚 مكتبة النادي</h2></div>
+  <div class="panel"><input id="search" placeholder="ابحث عن كتاب أو مؤلف…" oninput="filterBooks()"><div id="booksStatus" class="status">بنحمّل الكتب…</div></div>
+  <div id="booksGrid" class="grid" style="margin-top:14px"></div>
 </section>
 
 <section id="add">
-
-<div class="head"><h2>➕ إضافة كتاب</h2></div>
-
-<div class="panel">
-
-<form id="bookForm">
-
-<input id="title" placeholder="اسم الكتاب *" required>
-
-<input id="author" placeholder="اسم المؤلف">
-
-<select id="category">
-<option>رواية</option>
-<option>طب</option>
-<option>هندسة</option>
-<option>فلسفة</option>
-<option>تاريخ</option>
-<option>علم نفس</option>
-<option>علوم</option>
-<option>أخرى</option>
-</select>
-
-<input id="pages" type="number" min="1" placeholder="عدد الصفحات">
-
-<select id="bookStatus">
-<option>على قائمة القراءة</option>
-<option>قيد القراءة</option>
-<option>تمت قراءته</option>
-</select>
-
-<textarea id="notes" placeholder="ملاحظات (اختياري)"></textarea>
-
-<div class="actions">
-
-<button id="saveBtn" type="submit">حفظ الكتاب</button>
-
-<button type="button" onclick="loadBooks()">تحديث المكتبة</button>
-
-</div>
-
-</form>
-
-<div id="addStatus" class="status">
-جاهز لإضافة كتاب.
-</div>
-
-</div>
+  <div class="head"><h2>➕ إضافة كتاب</h2></div>
+  <div class="panel">
+    <form id="bookForm">
+      <input id="title" placeholder="اسم الكتاب *" required>
+      <input id="author" placeholder="اسم المؤلف">
+      <select id="category"><option>رواية</option><option>طب</option><option>هندسة</option><option>فلسفة</option><option>تاريخ</option><option>علم نفس</option><option>علوم</option><option>أخرى</option></select>
+      <input id="pages" type="number" min="1" placeholder="عدد الصفحات">
+      <select id="bookStatus"><option>على قائمة القراءة</option><option>قيد القراءة</option><option>تمت قراءته</option></select>
+      <textarea id="notes" placeholder="ملاحظات (اختياري)"></textarea>
+      <div class="actions"><button id="saveBtn" type="submit">حفظ الكتاب</button><button type="button" onclick="loadBooks()">تحديث المكتبة</button></div>
+    </form>
+    <div id="addStatus" class="status">جاهز لإضافة كتاب.</div>
+  </div>
 </section>
 
 <section id="members">
-
-<div class="head"><h2>👥 المؤسسون</h2></div>
-
-<div class="grid">
-
-<div class="card member">
-<div class="avatar">م</div>
-<div>
-<h3>محمد أنور</h3>
-<div class="meta">عضو مؤسس</div>
-</div>
-</div>
-
-<div class="card member">
-<div class="avatar">ع</div>
-<div>
-<h3>عبدو معتصم</h3>
-<div class="meta">عضو مؤسس</div>
-</div>
-</div>
-
-<div class="card member">
-<div class="avatar">ن</div>
-<div>
-<h3>نور الدين الخطيري</h3>
-<div class="meta">عضو مؤسس</div>
-</div>
-</div>
-
-</div>
+  <div class="head"><h2>👥 المؤسسون</h2></div>
+  <div class="grid">
+    <div class="card member"><div class="avatar">م</div><div><h3>محمد أنور</h3><div class="meta">عضو مؤسس</div></div></div>
+    <div class="card member"><div class="avatar">ع</div><div><h3>عبدو معتصم</h3><div class="meta">عضو مؤسس</div></div></div>
+    <div class="card member"><div class="avatar">ن</div><div><h3>نور الدين الخطيري</h3><div class="meta">عضو مؤسس</div></div></div>
+  </div>
 </section>
 
 <section id="rules">
-
-<div class="head"><h2>📜 نظام النادي</h2></div>
-
-<div class="panel rules">
-
-<ol>
-
-<li><b>القراءة أساس النادي:</b> كل عضو يلتزم بالقدر المتفق عليه قبل الجلسة.</li>
-
-<li><b>النقاش باحترام:</b> نناقش الأفكار لا الأشخاص، والاختلاف مرحّب به.</li>
-
-<li><b>الحضور والمشاركة:</b> نحاول حضور الجلسات والمشاركة بفاعلية.</li>
-
-<li><b>لا حرق للأحداث:</b> ممنوع كشف النهايات دون تنبيه.</li>
-
-<li><b>التقييم بصدق:</b> رأي كل عضو مستقل، مش مسابقة لإرضاء الآخرين.</li>
-
-<li><b>التنوع:</b> نقرأ روايات وطب وهندسة وفلسفة وتاريخ وعلوم.</li>
-
-<li><b>الجدول والنقاط:</b> نتفق على المواعيد والإنجازات والنقاط بشكل واضح وعادل.</li>
-
-<li><b>روح النادي:</b> الهدف المعرفة والمتعة، مش التظاهر بالثقافة—إحنا أصلًا ثلاثة أرباع!</li>
-
-</ol>
-
-</div>
+  <div class="head"><h2>📜 نظام النادي</h2></div>
+  <div class="panel rules"><ol>
+    <li><b>القراءة أساس النادي:</b> كل عضو يلتزم بالقدر المتفق عليه قبل الجلسة.</li>
+    <li><b>النقاش باحترام:</b> نناقش الأفكار لا الأشخاص، والاختلاف مرحّب به.</li>
+    <li><b>الحضور والمشاركة:</b> نحاول حضور الجلسات والمشاركة بفاعلية.</li>
+    <li><b>لا حرق للأحداث:</b> ممنوع كشف النهايات دون تنبيه.</li>
+    <li><b>التقييم بصدق:</b> رأي كل عضو مستقل، مش مسابقة لإرضاء الآخرين.</li>
+    <li><b>التنوع:</b> نقرأ روايات وطب وهندسة وفلسفة وتاريخ وعلوم.</li>
+    <li><b>الجدول والنقاط:</b> نتفق على المواعيد والإنجازات والنقاط بشكل واضح وعادل.</li>
+    <li><b>روح النادي:</b> الهدف المعرفة والمتعة، مش التظاهر بالثقافة—إحنا أصلًا ثلاثة أرباع!</li>
+  </ol></div>
 </section>
 
 <section class="panel">
-
-<div class="head"><h2>⚙️ حالة الاتصال</h2></div>
-
-<div id="connection" class="status">جارٍ الاتصال…</div>
-
-<p class="meta">
-الموقع يقرأ الكتب من Supabase.
-الإضافة تحتاج صلاحية INSERT مناسبة.
-</p>
-
+  <div class="head"><h2>⚙️ حالة الاتصال</h2></div>
+  <div id="connection" class="status">جارٍ الاتصال…</div>
+  <p class="meta">الموقع يقرأ الكتب من Supabase. الحفظ يحتاج سياسة INSERT مناسبة على جدول books.</p>
 </section>
-
 </main>
 
-<footer class="footer">
-3/4 — كل واحد فينا ربع مثقف © 2026
-</footer>
+<footer class="footer">3/4 — كل واحد فينا ربع مثقف © 2026</footer>
 
 <script>
+"use strict";
 
-// ==============================
-// SUPABASE CONFIGURATION
-// ==============================
-
+// إعداد Supabase
 const SUPABASE_URL = "https://pwnslupnutrtdotiilic.supabase.co";
-
 const SUPABASE_KEY = "sb_publishable_kcluJqcu5I-5vnVrpoFqGg_2xWokB1O";
 
-const db = window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
-
+let db = null;
 let allBooks = [];
 
+const $ = id => document.getElementById(id);
 
-// ==============================
-// LOAD BOOKS
-// ==============================
-
-async function loadBooks(){
-
-const status = document.getElementById("booksStatus");
-
-status.textContent = "بنحمّل الكتب…";
-status.className = "status";
-
-try{
-
-const {data,error} = await db
-.from("books")
-.select("*")
-.order("created_at",{ascending:false});
-
-if(error) throw error;
-
-allBooks = data || [];
-
-renderBooks(allBooks);
-
-status.textContent = allBooks.length
-? "عدد الكتب في المكتبة: " + allBooks.length
-: "المكتبة لسه فاضية—أضيفوا أول كتاب!";
-
-status.className = "status ok";
-
-}catch(error){
-
-status.textContent = "تعذر تحميل الكتب: " + error.message;
-status.className = "status err";
-
-console.error("LOAD BOOKS ERROR:",error);
-
+function showStatus(element, message, type = "") {
+  element.textContent = message;
+  element.className = "status " + type;
 }
 
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  }[char]));
 }
 
-
-// ==============================
-// DISPLAY BOOKS
-// ==============================
-
-function renderBooks(books){
-
-const grid = document.getElementById("booksGrid");
-
-if(!books.length){
-
-grid.innerHTML =
-'<div class="card meta">لا توجد كتب مطابقة.</div>';
-
-return;
-
+function renderBooks(books) {
+  const grid = $("booksGrid");
+  if (!books.length) {
+    grid.innerHTML = '<div class="card meta">لا توجد كتب مطابقة.</div>';
+    return;
+  }
+  grid.innerHTML = books.map(book => `
+    <article class="card">
+      <h3>${esc(book.title)}</h3>
+      <div class="meta">${esc(book.author || "مؤلف غير محدد")} · ${esc(book.category || "أخرى")}${book.pages ? " · " + esc(book.pages) + " صفحة" : ""}</div>
+      <span class="pill">${esc(book.status || "على قائمة القراءة")}</span>
+      ${book.notes ? `<p class="meta">${esc(book.notes)}</p>` : ""}
+    </article>
+  `).join("");
 }
 
-grid.innerHTML = books.map(book=>`
-
-<article class="card">
-
-<h3>${esc(book.title)}</h3>
-
-<div class="meta">
-${esc(book.author || "مؤلف غير محدد")}
- ·
-${esc(book.category || "أخرى")}
-${book.pages ? " · " + book.pages + " صفحة" : ""}
-</div>
-
-<span class="pill">
-${esc(book.status || "على قائمة القراءة")}
-</span>
-
-${book.notes ? `<p class="meta">${esc(book.notes)}</p>` : ""}
-
-</article>
-
-`).join("");
-
+function filterBooks() {
+  const query = $("search").value.toLowerCase().trim();
+  const filtered = allBooks.filter(book =>
+    `${book.title || ""} ${book.author || ""} ${book.category || ""}`.toLowerCase().includes(query)
+  );
+  renderBooks(filtered);
 }
 
-
-// ==============================
-// SEARCH
-// ==============================
-
-function filterBooks(){
-
-const query = document
-.getElementById("search")
-.value
-.toLowerCase()
-.trim();
-
-renderBooks(
-
-allBooks.filter(book=>
-
-(
-book.title + " " +
-(book.author || "") + " " +
-(book.category || "")
-)
-.toLowerCase()
-.includes(query)
-
-)
-
+async function loadBooks() {
+  const status = $("booksStatus");
+  showStatus(status, "بنحمّل الكتب…");
+  if (!db) {
+    showStatus(status, "Supabase مش متاح؛ تأكد من تحميل المكتبة.", "err");
+    return;
+  }
+  try {
+    const { data, error } = await db.from("books").select("*").order("created_at", { ascending: false });
+    if (error) throw error;
+    allBooks = data || [];
+    renderBooks(allBooks);
+    showStatus(status, allBooks.length ? `عدد الكتب في المكتبة: ${allBooks.length}` : "المكتبة لسه فاضية—أضيفوا أول كتاب!", "ok");
+  } catch (error) {
+    showStatus(status, "تعذر تحميل الكتب: " + (error.message || error), "err");
+    console.error("LOAD BOOKS ERROR:", error);
+  }
 }
 
-
-// ==============================
-// HTML ESCAPE
-// ==============================
-
-function esc(value){
-
-return String(value).replace(/[&<>"']/g,char=>({
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#39;"
-
-}[char]));
-
+async function checkConnection() {
+  const connection = $("connection");
+  try {
+    if (!db) throw new Error("مكتبة Supabase لم يتم تحميلها.");
+    const { error } = await db.from("members").select("id").limit(1);
+    if (error) throw error;
+    showStatus(connection, "متصل بـ Supabase بنجاح ✓", "ok");
+  } catch (error) {
+    showStatus(connection, "خطأ في الاتصال: " + (error.message || error), "err");
+    console.error("CONNECTION ERROR:", error);
+  }
 }
 
-
-// ==============================
-// ADD BOOK
-// ==============================
-
-document
-.getElementById("bookForm")
-.addEventListener("submit",async event=>{
-
-event.preventDefault();
-
-const status = document.getElementById("addStatus");
-const saveBtn = document.getElementById("saveBtn");
-
-saveBtn.disabled = true;
-
-status.textContent = "جارٍ الحفظ…";
-status.className = "status";
-
-try{
-
-const book = {
-
-title:document.getElementById("title").value.trim(),
-
-author:document.getElementById("author").value.trim() || null,
-
-category:document.getElementById("category").value,
-
-pages:Number(document.getElementById("pages").value) || null,
-
-status:document.getElementById("bookStatus").value,
-
-notes:document.getElementById("notes").value.trim() || null
-
-};
-
-if(!book.title){
-
-throw new Error("اكتب اسم الكتاب أولًا.");
-
+// ربط Supabase بأمان
+try {
+  if (!window.supabase || !window.supabase.createClient) {
+    throw new Error("تعذر تحميل مكتبة Supabase من CDN.");
+  }
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch (error) {
+  showStatus($("connection"), "تعذر بدء Supabase: " + error.message, "err");
+  console.error(error);
 }
 
-const {data,error} = await db
-.from("books")
-.insert(book)
-.select()
-.single();
+// حفظ كتاب
+$("bookForm").addEventListener("submit", async event => {
+  event.preventDefault();
 
-if(error) throw error;
+  const status = $("addStatus");
+  const saveBtn = $("saveBtn");
+  saveBtn.disabled = true;
+  showStatus(status, "جارٍ الحفظ…");
 
-status.textContent = "تم حفظ الكتاب بنجاح ✓";
-status.className = "status ok";
+  try {
+    if (!db) throw new Error("الاتصال بـ Supabase غير جاهز.");
 
-event.target.reset();
+    const book = {
+      title: $("title").value.trim(),
+      author: $("author").value.trim() || null,
+      category: $("category").value,
+      pages: Number($("pages").value) || null,
+      status: $("bookStatus").value,
+      notes: $("notes").value.trim() || null
+    };
 
-await loadBooks();
+    if (!book.title) throw new Error("اكتب اسم الكتاب أولًا.");
 
-}catch(error){
+    const { error } = await db.from("books").insert(book);
+    if (error) throw error;
 
-status.textContent = "فشل الحفظ: " + error.message;
-status.className = "status err";
-
-console.error("INSERT BOOK ERROR:",error);
-
-}finally{
-
-saveBtn.disabled = false;
-
-}
-
+    showStatus(status, "تم حفظ الكتاب بنجاح ✓", "ok");
+    event.target.reset();
+    await loadBooks();
+  } catch (error) {
+    showStatus(status, "فشل الحفظ: " + (error.message || error), "err");
+    console.error("INSERT BOOK ERROR:", error);
+  } finally {
+    saveBtn.disabled = false;
+  }
 });
 
-
-// ==============================
-// CONNECTION CHECK
-// ==============================
-
-async function checkConnection(){
-
-const connection = document.getElementById("connection");
-
-try{
-
-const {error} = await db
-.from("members")
-.select("id")
-.limit(1);
-
-if(error) throw error;
-
-connection.textContent = "متصل بـ Supabase بنجاح ✓";
-connection.className = "status ok";
-
-}catch(error){
-
-connection.textContent =
-"خطأ في الاتصال: " + error.message;
-
-connection.className = "status err";
-
-console.error("CONNECTION ERROR:",error);
-
-}
-
-}
-
-
-// ==============================
-// INITIALIZATION
-// ==============================
-
-(async function(){
-
-await checkConnection();
-
-await loadBooks();
-
+// تشغيل الموقع
+(async () => {
+  await checkConnection();
+  await loadBooks();
 })();
-
 </script>
-
 </body>
 </html>

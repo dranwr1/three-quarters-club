@@ -701,6 +701,8 @@ async function loadClubData(){
 }
 
 function renderClubData(){
+  const primaryMemberId="e0f5d259-2252-4703-b8bd-2e87ebff2422";
+  const duplicateMemberId="b0ee9a1c-578c-459e-8739-cb13082256d0";
 
   const balances=allMembers.map(m=>({
     id:m.id,
@@ -729,13 +731,14 @@ function renderClubData(){
     `).join("")
     :'<p class="meta">لا يوجد أعضاء مسجلون.</p>';
 
-  $("membersGrid").innerHTML=allMembers.length
-    ?allMembers.map(m=>`
+  const publicMembers=allMembers.filter(m=>m.id!==duplicateMemberId);
+  $("membersGrid").innerHTML=publicMembers.length
+    ?publicMembers.map(m=>`
       <div class="card member">
         <div class="avatar">${esc((m.name||"؟").charAt(0))}</div>
         <div>
           <h3>${esc(m.name||"عضو")}</h3>
-          <div class="meta">${esc(m.role||"عضو")}</div>
+          <div class="meta">${esc(m.id===primaryMemberId?"عضو مؤسس":m.role||"عضو")}</div>
           <div class="meta">
             ${balances.find(x=>x.id===m.id)?.total||0} نقطة
           </div>

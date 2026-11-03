@@ -59,9 +59,18 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .admin-box h3{color:var(--gold);margin-top:0}
 .small-note{font-size:12px;color:var(--muted);line-height:1.8}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.role-card{border-top:3px solid var(--gold)}
+.role-card h3{color:var(--gold)}
+.court-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.court-stage{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.court-entry{padding:12px 0;border-bottom:1px solid var(--line)}
+.court-entry:last-child{border-bottom:0}
+.court-entry p{margin:7px 0;line-height:1.8;white-space:pre-wrap}
+.court-verdict{color:var(--gold);font-weight:800}
 hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 @media(max-width:650px){
  .hero{grid-template-columns:1fr}
+ .court-layout{grid-template-columns:1fr}
  .quote{padding:12px}
  .design-preview{max-height:280px}
 }
@@ -78,6 +87,8 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <nav id="mainNav" class="hidden">
 <a href="#about">عن النادي</a>
 <a href="#books">المكتبة</a>
+<a href="#roles">أدوار النادي</a>
+<a href="#court">محكمة الكتب</a>
 <a href="#add">أضف كتاب</a>
 <a href="#points">النقاط</a>
 <a href="#members">الأعضاء</a>
@@ -146,6 +157,52 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <div id="booksStatus" class="status">بنحمّل الكتب…</div>
 </div>
 <div id="booksGrid" class="grid" style="margin-top:14px"></div>
+</section>
+
+<section id="roles">
+<div class="head"><h2>🎭 أدوار النادي</h2></div>
+<div class="grid">
+<article class="card role-card">
+<h3>مدير العبث</h3>
+<p class="meta">يضبط إيقاع المحكمة، يوزع فرص الكلام، ويضمن أن يظل النقاش ممتعًا ومنظمًا.</p>
+</article>
+<article class="card role-card">
+<h3>محامي المؤلف</h3>
+<p class="meta">يعرض أقوى قراءة ممكنة لقرارات المؤلف، ويدافع عن اختياراته بالحجج والشواهد.</p>
+</article>
+<article class="card role-card">
+<h3>ناقد النادي</h3>
+<p class="meta">يفحص البناء والأفكار، يختبر الأدلة، ويطرح الأسئلة التي توسع النقاش.</p>
+</article>
+</div>
+</section>
+
+<section id="court">
+<div class="head"><h2>⚖️ محكمة الكتب</h2></div>
+<div class="panel">
+<p class="small-note">تُحفظ الجلسات وإنجازاتها على هذا الجهاز فقط، ولا تغيّر نقاط القراءة أو الترشيح المسجلة في النادي.</p>
+<form id="courtSetupForm">
+<select id="courtBook" required><option value="">اختر كتاب القضية</option></select>
+<select id="roleChaos" required><option value="">مدير العبث</option></select>
+<select id="roleAuthor" required><option value="">محامي المؤلف</option></select>
+<select id="roleCritic" required><option value="">ناقد النادي</option></select>
+<div class="actions"><button id="startCourtBtn" type="submit">بدء محكمة جديدة</button></div>
+</form>
+<div id="courtStatus" class="status" role="status">اختاروا كتابًا ووزعوا الأدوار لبدء الجلسة.</div>
+</div>
+
+<div id="activeCourtView" class="panel hidden" style="margin-top:14px"></div>
+<div class="grid" style="margin-top:14px">
+<div class="panel">
+<div class="head"><h2>🏅 نقاط المشاركة</h2></div>
+<div id="courtPointsSummary" class="meta">جارٍ تحميل إنجازات المحكمة…</div>
+<p class="small-note">تحليل مميز: 3 · اقتباس مهم: 2 · اكتشاف خطأ بالدليل: 5 · مشاركة فعالة بالمحكمة: 2 · تصويت بتعليل قوي: 3 نقاط. رصيد محلي منفصل عن لوحة النادي.</p>
+</div>
+<div class="panel">
+<div class="head"><h2>🗂️ قضايا سابقة</h2></div>
+<div id="courtArchive" class="meta">لا توجد قضايا محفوظة على هذا الجهاز.</div>
+</div>
+</div>
 </section>
 
 <section id="add">
@@ -263,9 +320,19 @@ const SUPABASE_URL = "https://pwnslupnutrtdotiilic.supabase.co";
 const SUPABASE_KEY = "sb_publishable_kcluJqcu5I-5vnVrpoFqGg_2xWokB1O";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const COURT_STORAGE_KEY = "threeQuartersCourt.v1";
+const COURT_ACHIEVEMENTS = {
+  analysis: {label:"تحليل مميز",points:3},
+  quote: {label:"اقتباس مهم",points:2},
+  evidence_error: {label:"اكتشاف خطأ بالدليل",points:5},
+  court_participation: {label:"مشاركة فعالة بالمحكمة",points:2},
+  reasoned_vote: {label:"تصويت بتعليل قوي",points:3}
+};
 let allBooks = [];
 let allMembers = [];
 let allPoints = [];
+let activeUserId = null;
+let courtData = loadCourtData();
 
 const CLUB_ADMIN_ID = "6d11154d-af6b-4872-9252-df019a0226f8";
 const $ = id => document.getElementById(id);
@@ -281,18 +348,35 @@ function esc(v){
   }[c]));
 }
 
+function loadCourtData(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(COURT_STORAGE_KEY)||"{}");
+    return {activeSessionId:saved.activeSessionId||null,sessions:Array.isArray(saved.sessions)?saved.sessions:[]};
+  }catch(e){
+    console.warn("Court data could not be read:",e);
+    return {activeSessionId:null,sessions:[]};
+  }
+}
+
+function saveCourtData(){
+  localStorage.setItem(COURT_STORAGE_KEY,JSON.stringify(courtData));
+}
+
 async function showApp(session){
   $("loginSection").classList.toggle("hidden",!!session);
   $("app").classList.toggle("hidden",!session);
   $("mainNav").classList.toggle("hidden",!session);
 
   if(!session){
+    activeUserId=null;
     allBooks=[];
     $("booksGrid").innerHTML="";
+    renderCourt();
     return;
   }
 
   const user=session.user;
+  activeUserId=user.id;
   const email=user.email||"عضو النادي";
 
   $("welcome").textContent="أهلًا بك يا "+email;
@@ -333,6 +417,7 @@ async function loadBooks(){
 
     allBooks=data||[];
     renderBooks(allBooks);
+    fillCourtBooks();
 
     status(
       $("booksStatus"),
@@ -405,6 +490,8 @@ async function loadClubData(){
 
     renderClubData();
     fillAwardMembers();
+    fillCourtMembers();
+    renderCourt();
 
   }catch(e){
     $("leaderboard").textContent="تعذر تحميل النقاط: "+e.message;
@@ -510,6 +597,178 @@ function refreshAwardReferences(){
       ).join("")
     :'<option value="">لا توجد كتب مناسبة لهذا الإنجاز</option>';
 }
+
+function fillCourtBooks(){
+  const select=$("courtBook");
+  if(!select)return;
+  const old=select.value;
+  select.innerHTML='<option value="">اختر كتاب القضية</option>'+allBooks.map(book=>
+    `<option value="${esc(book.id)}">${esc(book.title)}</option>`
+  ).join("");
+  if(allBooks.some(book=>String(book.id)===old))select.value=old;
+}
+
+function fillCourtMembers(){
+  ["roleChaos","roleAuthor","roleCritic"].forEach(id=>{
+    const select=$(id);
+    if(!select)return;
+    const old=select.value;
+    const label=select.options[0]?.textContent||"اختر العضو";
+    select.innerHTML=`<option value="">${esc(label)}</option>`+allMembers.map(member=>
+      `<option value="${esc(member.id)}">${esc(member.name||"عضو")}</option>`
+    ).join("");
+    if(allMembers.some(member=>String(member.id)===old))select.value=old;
+  });
+}
+
+function getActiveCourt(){
+  return courtData.sessions.find(session=>session.id===courtData.activeSessionId)||null;
+}
+
+function getCurrentMember(){
+  return allMembers.find(member=>member.user_id===activeUserId)||null;
+}
+
+function awardCourtAchievement(session,memberId,key){
+  if(!COURT_ACHIEVEMENTS[key])return false;
+  session.awards=session.awards||[];
+  if(session.awards.some(award=>award.member_id===memberId&&award.key===key))return false;
+  session.awards.push({member_id:memberId,key,points:COURT_ACHIEVEMENTS[key].points,created_at:new Date().toISOString()});
+  return true;
+}
+
+function renderCourt(){
+  const view=$("activeCourtView");
+  if(!view)return;
+  const session=getActiveCourt();
+  const currentMember=getCurrentMember();
+  const allAwards=courtData.sessions.flatMap(item=>item.awards||[]);
+  const memberAwards=currentMember?allAwards.filter(award=>award.member_id===currentMember.id):[];
+  const memberPoints=memberAwards.reduce((sum,award)=>sum+(Number(award.points)||0),0);
+  $("courtPointsSummary").innerHTML=currentMember
+    ?`رصيدك المحلي: <b class="points-value">${memberPoints} نقطة</b> · ${memberAwards.length} إنجاز`
+    :`إجمالي إنجازات المحكمة على هذا الجهاز: <b class="points-value">${allAwards.reduce((sum,award)=>sum+(Number(award.points)||0),0)} نقطة</b>`;
+
+  const archive=courtData.sessions.filter(item=>item.id!==courtData.activeSessionId);
+  $("courtArchive").innerHTML=archive.length?archive.map(item=>{
+    const book=allBooks.find(entry=>String(entry.id)===String(item.book_id));
+    return `<div class="history-row"><span>${esc(book?.title||item.book_title)}<div class="meta">${new Date(item.created_at).toLocaleDateString("ar-EG")} · ${(item.votes||[]).length} تصويت</div></span><span class="meta">قضية سابقة</span></div>`;
+  }).join(""):'<p class="meta">لا توجد قضايا سابقة محفوظة على هذا الجهاز.</p>';
+
+  if(!session){
+    view.classList.add("hidden");
+    return;
+  }
+
+  const book=allBooks.find(entry=>String(entry.id)===String(session.book_id));
+  const roleNames={chaos:"مدير العبث",author:"محامي المؤلف",critic:"ناقد النادي"};
+  const roleHtml=Object.entries(roleNames).map(([key,label])=>{
+    const member=allMembers.find(entry=>String(entry.id)===String(session.roles[key]));
+    return `<div class="meta"><b>${label}:</b> ${esc(member?.name||session.role_names?.[key]||"عضو")}</div>`;
+  }).join("");
+  const contributions=session.contributions||[];
+  const votes=session.votes||[];
+  const options={recommend:"نوصي بالكتاب",discuss:"يحتاج نقاشًا إضافيًا",not_recommend:"لا نوصي به"};
+  const tallies=Object.keys(options).map(key=>({key,label:options[key],count:votes.filter(vote=>vote.choice===key).length}));
+  const topCount=Math.max(0,...tallies.map(item=>item.count));
+  const winners=tallies.filter(item=>item.count===topCount&&topCount>0);
+  const result=!votes.length?"لم يبدأ التصويت النهائي":winners.length>1?"تعادل في التصويت":winners[0].label;
+  const currentVote=currentMember&&votes.some(vote=>vote.member_id===currentMember.id);
+
+  view.classList.remove("hidden");
+  view.innerHTML=`
+    <div class="head"><h2>📖 ${esc(book?.title||session.book_title)}</h2></div>
+    <div class="meta">${esc(book?.author||"مؤلف غير محدد")} · ${esc(book?.category||"أخرى")}${book?.pages?` · ${esc(book.pages)} صفحة`:""}</div>
+    <div class="court-stage"><b>توزيع أدوار الجلسة</b><div class="grid" style="margin-top:10px">${roleHtml}</div></div>
+    <div class="court-layout court-stage">
+      <div>
+        <h3>🗣️ المرافعات والنقاش والأسئلة</h3>
+        <form id="courtContributionForm">
+          <select id="courtStage"><option value="مرافعة">مرافعة</option><option value="نقاش">نقاش</option><option value="سؤال">سؤال</option></select>
+          <select id="courtAchievement"><option value="">مشاركة عادية</option><option value="analysis">تحليل مميز (+3)</option><option value="quote">اقتباس مهم (+2)</option><option value="evidence_error">اكتشاف خطأ بالدليل (+5)</option></select>
+          <textarea id="courtContributionText" placeholder="اكتب مداخلة واضحة (30 حرفًا على الأقل)" required></textarea>
+          <div class="actions"><button id="courtContributionBtn" type="submit" ${currentMember?"":"disabled"}>إضافة للمحكمة</button></div>
+        </form>
+        <div id="courtContributionStatus" class="status">${currentMember?"تُسجّل المشاركة باسمك.":"حسابك غير مربوط بعضوية؛ اطلب من المدير ربطه لتسجيل المشاركة."}</div>
+      </div>
+      <div>
+        <h3>🗳️ التصويت النهائي</h3>
+        <form id="courtVoteForm">
+          <select id="courtVoteChoice"><option value="recommend">نوصي بالكتاب</option><option value="discuss">يحتاج نقاشًا إضافيًا</option><option value="not_recommend">لا نوصي به</option></select>
+          <textarea id="courtVoteReason" placeholder="اكتب تعليلًا واضحًا (40 حرفًا على الأقل لاحتساب الإنجاز)" required></textarea>
+          <div class="actions"><button id="courtVoteBtn" type="submit" ${currentMember&&!currentVote?"":"disabled"}>${currentVote?"تم تسجيل تصويتك":"تسجيل التصويت"}</button></div>
+        </form>
+        <div class="court-verdict">الحكم الحالي: ${esc(result)}</div>
+        <div class="meta">${tallies.map(item=>`${item.label}: ${item.count}`).join(" · ")}</div>
+        <div id="courtVoteStatus" class="status">${currentMember?currentVote?"صوت واحد لكل عضو في القضية.":"التصويت بتعليل قوي يمنح 3 نقاط مرة واحدة.":"اربط حسابك بعضوية النادي للمشاركة."}</div>
+      </div>
+    </div>
+    <div class="court-stage"><h3>سجل الجلسة</h3>${contributions.length?contributions.slice().reverse().map(item=>{
+      const member=allMembers.find(entry=>String(entry.id)===String(item.member_id));
+      return `<div class="court-entry"><b>${esc(member?.name||item.member_name)} · ${esc(item.stage)}</b><p>${esc(item.text)}</p><span class="meta">${new Date(item.created_at).toLocaleString("ar-EG")}</span></div>`;
+    }).join(""):'<p class="meta">لم تُسجل مرافعات أو أسئلة بعد.</p>'}</div>
+    <div class="court-stage"><h3>الأصوات والتعليلات</h3>${votes.length?votes.map(vote=>{
+      const member=allMembers.find(entry=>String(entry.id)===String(vote.member_id));
+      return `<div class="court-entry"><b>${esc(member?.name||vote.member_name)}: ${esc(options[vote.choice]||vote.choice)}</b><p>${esc(vote.reason)}</p></div>`;
+    }).join(""):'<p class="meta">لم يُسجل تصويت بعد.</p>'}</div>
+  `;
+
+  $("courtContributionForm").addEventListener("submit",event=>{
+    event.preventDefault();
+    const member=getCurrentMember();
+    if(!member)return;
+    const text=$("courtContributionText").value.trim();
+    if(!text)return;
+    if(text.length<30){
+      status($("courtContributionStatus"),"اكتب 30 حرفًا على الأقل لتسجيل المداخلة والإنجاز.","err");
+      return;
+    }
+    session.contributions=session.contributions||[];
+    session.contributions.push({member_id:member.id,member_name:member.name,stage:$("courtStage").value,text,created_at:new Date().toISOString()});
+    const participationAdded=awardCourtAchievement(session,member.id,"court_participation");
+    const key=$("courtAchievement").value;
+    const achievementAdded=key?awardCourtAchievement(session,member.id,key):false;
+    saveCourtData();
+    renderCourt();
+    const message=achievementAdded?`تمت المشاركة وإضافة إنجاز ${COURT_ACHIEVEMENTS[key].label}.`:participationAdded?"تمت المشاركة وإضافة نقطتي المشاركة الفعالة.":"تمت إضافة المشاركة؛ نقاط الإنجاز تُسجل مرة واحدة لكل عضو في القضية.";
+    status($("courtContributionStatus"),message,"ok");
+  });
+
+  $("courtVoteForm").addEventListener("submit",event=>{
+    event.preventDefault();
+    const member=getCurrentMember();
+    if(!member||votes.some(vote=>vote.member_id===member.id))return;
+    const reason=$("courtVoteReason").value.trim();
+    if(!reason)return;
+    session.votes=session.votes||[];
+    session.votes.push({member_id:member.id,member_name:member.name,choice:$("courtVoteChoice").value,reason,created_at:new Date().toISOString()});
+    const strongReason=reason.length>=40;
+    const earned=strongReason&&awardCourtAchievement(session,member.id,"reasoned_vote");
+    saveCourtData();
+    renderCourt();
+    status($("courtVoteStatus"),earned?"تم تسجيل التصويت وإضافة 3 نقاط للتعليل القوي.":strongReason?"تم تسجيل التصويت؛ إنجاز التعليل القوي مُسجل من قبل.":"تم تسجيل التصويت؛ التعليل أقل من 40 حرفًا، فلم تُحتسب نقاط الإنجاز.","ok");
+  });
+}
+
+$("courtSetupForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const book=allBooks.find(entry=>String(entry.id)===$("courtBook").value);
+  const roles={chaos:$("roleChaos").value,author:$("roleAuthor").value,critic:$("roleCritic").value};
+  if(!book){status($("courtStatus"),"اختاروا كتابًا من المكتبة أولًا.","err");return;}
+  if(new Set(Object.values(roles)).size!==3){status($("courtStatus"),"وزعوا الأدوار على ثلاثة أعضاء مختلفين.","err");return;}
+  const session={id:Date.now().toString(36)+Math.random().toString(36).slice(2),book_id:book.id,book_title:book.title,roles,created_at:new Date().toISOString(),contributions:[],votes:[],awards:[]};
+  courtData.sessions.unshift(session);
+  courtData.activeSessionId=session.id;
+  try{
+    saveCourtData();
+    renderCourt();
+    status($("courtStatus"),"بدأت المحكمة؛ الكتاب معروض والأدوار موزعة.","ok");
+  }catch(error){
+    courtData.sessions.shift();
+    courtData.activeSessionId=courtData.sessions[0]?.id||null;
+    status($("courtStatus"),"تعذر حفظ القضية على هذا الجهاز: "+error.message,"err");
+  }
+});
 
 $("awardMember").addEventListener("change",refreshAwardReferences);
 $("awardType").addEventListener("change",refreshAwardReferences);

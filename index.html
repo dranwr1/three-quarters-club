@@ -87,6 +87,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <a href="#about">عن النادي</a>
 <a href="#books">المكتبة</a>
 <a href="#journey">رحلة القراءة</a>
+<a href="#ai-agent">المساعد الذكي</a>
 <a href="#roles">أدوار النادي</a>
 <a href="#court">محكمة الكتب</a>
 <a href="#add">أضف كتاب</a>
@@ -162,6 +163,23 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <ul class="rules"><li>20–30 دقيقة قراءة في 4 أيام أسبوعيًا، أو 10 صفحات يوميًا.</li><li>وقت الامتحانات: نكتفي بالحد الأدنى أو نوقف الخطة مؤقتًا بلا تأنيب.</li><li>جلسة نادي كل أسبوعين: ملخص قصير + سؤال للنقاش + تقييم من 5.</li><li>بعد كل كتاب: نسجل رأينا، وأهم اقتباس، وهل نرشحه للعضو التالي.</li></ul>
 <p class="meta">ملحوظة: الخطة دي إطار تنظيمي، وليست ترتيبًا نهائيًا لعناوين ملف الترشيحات. ترتيب العناوين نفسها يحتاج مراجعة صفحات الملف واحدة واحدة.</p>
 </div></div></section>
+
+
+<section id="ai-agent">
+<div class="head"><h2>🤖 مساعد 3/4 الذكي</h2></div>
+<div class="panel">
+<p class="meta">أمين مكتبة النادي: اسأله عن الكتب، التصنيفات، خطة القراءة، أو ملخص تقدم المكتبة. النسخة الأولى للقراءة والتحليل والاقتراح فقط؛ لا تعدّل بيانات النادي من تلقاء نفسها.</p>
+<div id="agentMessages" class="panel" style="min-height:180px;max-height:420px;overflow:auto;margin:12px 0;background:#17120f" aria-live="polite">
+<div class="card"><b style="color:var(--gold)">3/4 AI</b><p class="meta">أهلاً بيكم! أقدر أساعدكم في تنظيم المكتبة واقتراح خطة قراءة مناسبة. اسألوني عن أي كتاب أو عن الخطوة التالية للنادي.</p></div>
+</div>
+<form id="agentForm" style="grid-template-columns:1fr auto;align-items:end">
+<textarea id="agentQuestion" placeholder="اكتب سؤالك للمساعد الذكي…" rows="2" style="grid-column:1;min-height:58px" maxlength="2000" required></textarea>
+<button id="agentSend" type="submit">إرسال</button>
+</form>
+<div id="agentStatus" class="status" role="status">المساعد يحتاج إعداد دالة Supabase ومفتاح API على الخادم قبل التشغيل.</div>
+<p class="small-note">الخصوصية: لا تكتبوا كلمات مرور أو بيانات حساسة. مفتاح الذكاء الاصطناعي لا يوضع داخل ملف HTML أبدًا.</p>
+</div>
+</section>
 
 <section id="roles">
 <div class="head"><h2>🎭 أدوار النادي</h2></div>
@@ -1222,6 +1240,50 @@ async function importLegacyCourtSessions(){
 }
 
 $("importLegacyCourtsBtn").addEventListener("click",importLegacyCourtSessions);
+
+// 3/4 AI Agent — the API key remains on the Supabase Edge Function server.
+const agentHistory = [];
+function appendAgentMessage(role, content){
+  const wrap=document.createElement('div');
+  wrap.className='card';
+  wrap.style.marginBottom='10px';
+  const label=document.createElement('b');
+  label.style.color='var(--gold)';
+  label.textContent=role==='assistant'?'3/4 AI':'أنت';
+  const body=document.createElement('p');
+  body.className='meta';
+  body.style.whiteSpace='pre-wrap';
+  body.textContent=content;
+  wrap.append(label,body);
+  $('agentMessages').appendChild(wrap);
+  $('agentMessages').scrollTop=$('agentMessages').scrollHeight;
+}
+$('agentForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  const question=$('agentQuestion').value.trim();
+  if(!question)return;
+  const {data:{session}}=await db.auth.getSession();
+  if(!session){status($('agentStatus'),'سجّل الدخول الأول عشان تستخدم المساعد.','err');return;}
+  appendAgentMessage('user',question);
+  agentHistory.push({role:'user',content:question});
+  $('agentQuestion').value='';
+  $('agentSend').disabled=true;
+  status($('agentStatus'),'المساعد بيفكر…');
+  try{
+    const {data,error}=await db.functions.invoke('club-agent',{
+      body:{question,history:agentHistory.slice(-8,-1)}
+    });
+    if(error)throw error;
+    if(!data||typeof data.answer!=='string')throw new Error('استجابة غير مفهومة من المساعد.');
+    appendAgentMessage('assistant',data.answer);
+    agentHistory.push({role:'assistant',content:data.answer});
+    status($('agentStatus'),'تم الرد.');
+  }catch(error){
+    console.error('3/4 agent error:',error);
+    status($('agentStatus'),'المساعد مش جاهز أو حصل خطأ: '+(error.message||'راجع إعدادات Supabase.'),'err');
+  }finally{$('agentSend').disabled=false;}
+});
+
 </script>
 </body>
 </html>

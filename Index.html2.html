@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3/4 | ثلاثة أرباع مثقف</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#17120f;--panel:#241b16;--gold:#d6ad70;--cream:#f4e6ca;--muted:#b9a58b;--line:#514033}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at top,#39271b,#17120f 48%);color:var(--cream);font-family:Cairo,sans-serif}
+header{text-align:center;padding:30px 16px;border-bottom:1px solid var(--line)}
+.logo{width:76px;height:76px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;margin:auto auto 12px;color:var(--gold);font-size:27px;font-weight:800}
+h1{font:700 clamp(34px,7vw,55px) Amiri,serif;color:var(--gold);margin:0}
+.tagline{color:var(--muted);margin:8px}
+nav{position:sticky;top:0;background:#17120fee;backdrop-filter:blur(10px);z-index:5;border-bottom:1px solid var(--line);display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px}
+nav a{color:var(--cream);text-decoration:none;padding:7px 13px;border-radius:20px}
+nav a:hover{color:var(--gold);background:#30231b}
+main{max-width:1050px;margin:auto;padding:20px 16px 50px}
+section{margin:25px 0;scroll-margin-top:85px}
+.head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.head h2{color:var(--gold);margin:0}
+.head:after{content:"";height:1px;background:var(--line);flex:1}
+.panel,.card{background:linear-gradient(145deg,#241b16,#1e1712);border:1px solid var(--line);border-radius:17px;padding:17px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.hero p,.rules li{color:var(--muted);line-height:1.9}
+.quote{text-align:center;align-self:center;font:700 24px Amiri;color:var(--gold)}
+.design-preview{width:100%;max-height:350px;object-fit:cover;object-position:top;border-radius:13px;border:1px solid var(--line);display:block;margin-top:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
+.card h3{margin:0 0 8px;font-size:19px}
+.meta{color:var(--muted);font-size:13px}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:3px 10px;color:var(--gold);font-size:12px;margin-top:10px}
+form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+input,select,textarea{font:inherit;color:var(--cream);background:#17120f;border:1px solid var(--line);border-radius:10px;padding:11px;width:100%}
+textarea{grid-column:1/-1;min-height:75px}
+button{font:600 15px Cairo;cursor:pointer;border:1px solid var(--gold);background:var(--gold);color:#21170f;border-radius:10px;padding:10px 16px}
+button:disabled{opacity:.55;cursor:not-allowed}
+.secondary{background:transparent;color:var(--gold)}
+.actions{display:flex;gap:9px;grid-column:1/-1;flex-wrap:wrap}
+.status{font-size:14px;color:var(--muted);margin:12px 0;overflow-wrap:anywhere}
+.ok{color:#9bd6a2}
+.err{color:#ff9c8a}
+.member{display:flex;align-items:center;gap:12px}
+.avatar{width:45px;height:45px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-weight:bold;flex-shrink:0}
+.footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid var(--line)}
+.hidden{display:none!important}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px}
+.stat-card{background:#1b1511;border:1px solid var(--line);border-radius:13px;padding:14px}
+.stat-number{font-size:27px;font-weight:800;color:var(--gold)}
+.rank-row,.history-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.rank-row:last-child,.history-row:last-child{border-bottom:0}
+.rank-name{display:flex;align-items:center;gap:9px}
+.rank-number{color:var(--gold);font-weight:800;min-width:25px}
+.points-value{color:var(--gold);font-weight:800;white-space:nowrap}
+.admin-box{border:1px dashed var(--gold);border-radius:14px;padding:15px;margin-top:15px}
+.admin-box h3{color:var(--gold);margin-top:0}
+.small-note{font-size:12px;color:var(--muted);line-height:1.8}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.role-card{border-top:3px solid var(--gold)}
+.role-card h3{color:var(--gold)}
+.court-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.court-stage{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.court-entry{padding:12px 0;border-bottom:1px solid var(--line)}
+.court-entry:last-child{border-bottom:0}
+.court-entry p{margin:7px 0;line-height:1.8;white-space:pre-wrap}
+.court-verdict{color:var(--gold);font-weight:800}
+hr{border:0;border-top:1px solid var(--line);margin:22px 0}
+@media(max-width:650px){
+ .hero{grid-template-columns:1fr}
+ .court-layout{grid-template-columns:1fr}
+ .quote{padding:12px}
+ .design-preview{max-height:280px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">3/4</div>
+<h1>ثلاثة أرباع مثقف</h1>
+<p class="tagline">كل واحد فينا ربع مثقف… والباقي نقاشات!</p>
+</header>
+
+<nav id="mainNav" class="hidden">
+<a href="#about">عن النادي</a>
+<a href="#books">المكتبة</a>
+<a href="#journey">رحلة القراءة</a>
+<a href="#ai-agent">المساعد الذكي</a>
+<a href="#roles">أدوار النادي</a>
+<a href="#court">محكمة الكتب</a>
+<a href="#add">أضف كتاب</a>
+<a href="#points">النقاط</a>
+<a href="#members">الأعضاء</a>
+<a href="#rules">النظام</a>
+</nav>
+
+<main>
+
+<section id="loginSection">
+<div class="panel" style="max-width:520px;margin:25px auto">
+<div class="head"><h2>🔐 دخول أعضاء النادي</h2></div>
+<p class="meta">سجل دخولك لمتابعة مكتبة النادي والمشاركة في أنشطته.</p>
+<form id="loginForm">
+<input id="loginEmail" type="email" placeholder="الإيميل" autocomplete="username" required>
+<input id="loginPassword" type="password" placeholder="كلمة المرور" autocomplete="current-password" required>
+<div class="actions">
+<button id="loginBtn" type="submit">تسجيل الدخول</button>
+<button id="resetBtn" class="secondary" type="button">نسيت كلمة المرور؟</button>
+</div>
+</form>
+<div id="loginStatus" class="status" role="status"></div>
+<hr>
+<div class="head"><h2>✨ انضم إلى النادي</h2></div>
+<p class="meta">أنشئ حسابك الجديد وابدأ رحلتك الثقافية معنا.</p>
+<form id="signupForm">
+<input id="signupName" placeholder="الاسم بالكامل" autocomplete="name" required>
+<input id="signupUsername" placeholder="اسم المستخدم (بالإنجليزية)" minlength="3" maxlength="20" required>
+<input id="signupEmail" type="email" placeholder="البريد الإلكتروني" autocomplete="email" required>
+<input id="signupPassword" type="password" placeholder="كلمة المرور (8 أحرف على الأقل)" minlength="8" autocomplete="new-password" required>
+<div class="actions"><button id="signupBtn" type="submit">إنشاء حساب جديد</button></div>
+</form>
+<div id="signupStatus" class="status" role="status"></div>
+</div>
+</section>
+
+<div id="app" class="hidden">
+<div class="panel topbar">
+<div class="member"><div class="avatar" id="userAvatar">3/4</div><span id="welcome" class="meta">أهلًا بك في النادي</span></div>
+<button id="logoutBtn" class="secondary" type="button">تسجيل الخروج</button>
+</div>
+
+<section id="about" class="hero">
+<div class="panel">
+<div class="head"><h2>أهلًا بيكم في 3/4</h2></div>
+<p>نادي قراءة صغير بثلاثة عقول ورفوف كبيرة من الأسئلة. بنقرأ عشان نفهم، ونناقش عشان نختلف بأدب، ونضحك عشان الثقافة ما تتحولش لمحاضرة.</p>
+<p>هدفنا قراءة منتظمة، نقاش محترم، وتراكم معرفة حقيقية—حتى لو كل واحد فينا ربع مثقف بس.</p>
+<img class="design-preview" src="club-design.png" alt="التصميم التصوري لموقع ثلاثة أرباع مثقف">
+</div>
+<div class="panel quote">«الكتاب باب…<br>والنقاش هو الرحلة»<br><span class="meta">فلسفة الأرباع الثلاثة</span></div>
+</section>
+
+<section id="books">
+<div class="head"><h2>📚 مكتبة النادي</h2></div>
+<div class="panel"><input id="search" placeholder="ابحث عن كتاب أو مؤلف…"><div id="booksStatus" class="status">بنحمّل الكتب…</div></div>
+<div id="booksGrid" class="grid" style="margin-top:14px"></div>
+</section>
+
+<section id="journey">
+<div class="head"><h2>🧭 رحلة القراءة</h2></div>
+<div class="panel">
+<p>خطة مرنة للنادي: نبدأ بكتب تأسيسية قصيرة، ثم ننتقل للأدب والفكر، وبعدها الكتب التراثية والأعمال الثقيلة. اختاروا كتابًا واحدًا في كل مرحلة، ومش لازم كل الأعضاء يقرؤوا بنفس السرعة.</p>
+<div class="grid">
+<article class="card"><h3>① مرحلة التأسيس</h3><p class="meta">كتاب قصير أو مدخل مبسط. الهدف تكوين عادة القراءة ومناقشة الفكرة الأساسية.</p><span class="pill">2–3 أسابيع</span></article>
+<article class="card"><h3>② الأدب والرواية</h3><p class="meta">رواية أو عمل أدبي؛ نركز على الشخصيات، البناء، والرسائل من غير حرق الأحداث.</p><span class="pill">3–4 أسابيع</span></article>
+<article class="card"><h3>③ الفكر والإنسان</h3><p class="meta">كتب فلسفة أو علم نفس أو مجتمع؛ نقسمها إلى أجزاء ونناقش سؤالًا واحدًا كل مرة.</p><span class="pill">4–6 أسابيع</span></article>
+<article class="card"><h3>④ التاريخ والتراث</h3><p class="meta">نقرأ بتأنٍ، ونستعين بمقدمة أو شرح عند الحاجة، ونميز بين النص وسياقه.</p><span class="pill">4–8 أسابيع</span></article>
+<article class="card"><h3>⑤ الكتب الثقيلة</h3><p class="meta">الأعمال الكبيرة أو المتخصصة. تُقرأ على مراحل، وممكن نوازيها بكتاب خفيف.</p><span class="pill">حسب حجم الكتاب</span></article>
+</div>
+<div class="panel" style="margin-top:14px">
+<h3>📅 إيقاع مناسب مع الدراسة</h3>
+<ul class="rules"><li>20–30 دقيقة قراءة في 4 أيام أسبوعيًا، أو 10 صفحات يوميًا.</li><li>وقت الامتحانات: نكتفي بالحد الأدنى أو نوقف الخطة مؤقتًا بلا تأنيب.</li><li>جلسة نادي كل أسبوعين: ملخص قصير + سؤال للنقاش + تقييم من 5.</li><li>بعد كل كتاب: نسجل رأينا، وأهم اقتباس، وهل نرشحه للعضو التالي.</li></ul>
+<p class="meta">ملحوظة: الخطة دي إطار تنظيمي، وليست ترتيبًا نهائيًا لعناوين ملف الترشيحات. ترتيب العناوين نفسها يحتاج مراجعة صفحات الملف واحدة واحدة.</p>
+</div></div></section>
+
+
+<section id="ai-agent">
+<div class="head"><h2>🤖 مساعد 3/4 الذكي</h2></div>
+<div class="panel">
+<p class="meta">أمين مكتبة النادي: اسأله عن الكتب، التصنيفات، خطة القراءة، أو ملخص تقدم المكتبة. النسخة الأولى للقراءة والتحليل والاقتراح فقط؛ لا تعدّل بيانات النادي من تلقاء نفسها.</p>
+<div id="agentMessages" class="panel" style="min-height:180px;max-height:420px;overflow:auto;margin:12px 0;background:#17120f" aria-live="polite">
+<div class="card"><b style="color:var(--gold)">3/4 AI</b><p class="meta">أهلاً بيكم! أقدر أساعدكم في تنظيم المكتبة واقتراح خطة قراءة مناسبة. اسألوني عن أي كتاب أو عن الخطوة التالية للنادي.</p></div>
+</div>
+<form id="agentForm" style="grid-template-columns:1fr auto;align-items:end">
+<textarea id="agentQuestion" placeholder="اكتب سؤالك للمساعد الذكي…" rows="2" style="grid-column:1;min-height:58px" maxlength="2000" required></textarea>
+<button id="agentSend" type="submit">إرسال</button>
+</form>
+<div id="agentStatus" class="status" role="status">المساعد يحتاج إعداد دالة Supabase ومفتاح API على الخادم قبل التشغيل.</div>
+<p class="small-note">الخصوصية: لا تكتبوا كلمات مرور أو بيانات حساسة. مفتاح الذكاء الاصطناعي لا يوضع داخل ملف HTML أبدًا.</p>
+</div>
+</section>
+
+<section id="roles">
+<div class="head"><h2>🎭 أدوار النادي</h2></div>
+<div class="grid">
+<article class="card role-card"><h3>مدير العبث</h3><p class="meta">يضبط إيقاع المحكمة، يوزع فرص الكلام، ويضمن أن يظل النقاش ممتعًا ومنظمًا.</p></article>
+<article class="card role-card"><h3>محامي المؤلف</h3><p class="meta">يعرض أقوى قراءة ممكنة لقرارات المؤلف، ويدافع عن اختياراته بالحجج والشواهد.</p></article>
+<article class="card role-card"><h3>ناقد النادي</h3><p class="meta">يفحص البناء والأفكار، يختبر الأدلة، ويطرح الأسئلة التي توسع النقاش.</p></article>
+</div>
+</section>
+
+<section id="court">
+<div class="head"><h2>⚖️ محكمة الكتب</h2></div>
+<div class="panel">
+<p class="small-note">القضايا والمرافعات والتصويت والإنجازات مشتركة بين أعضاء النادي المسجلين. نقاط المحكمة منفصلة عن نقاط القراءة والترشيح.</p>
+<div id="courtConnectionStatus" class="status" role="status">جارٍ الاتصال بمحكمة النادي المشتركة…</div>
+<form id="courtSetupForm">
+<select id="courtBook" required><option value="">اختر كتاب القضية</option></select>
+<select id="roleChaos" required><option value="">مدير العبث</option></select>
+<select id="roleAuthor" required><option value="">محامي المؤلف</option></select>
+<select id="roleCritic" required><option value="">ناقد النادي</option></select>
+<div class="actions"><button id="startCourtBtn" type="submit">بدء محكمة جديدة</button></div>
+</form>
+<div id="courtStatus" class="status" role="status">اختاروا كتابًا ووزعوا الأدوار لبدء الجلسة.</div>
+</div>
+<div id="legacyImportBox" class="panel hidden" style="margin-top:14px">
+<h3>نقل جلسات هذا المتصفح</h3>
+<p class="small-note">يستورد القضايا القديمة مرة واحدة إلى Supabase. تُنقل مشاركاتك وتصويتاتك المرتبطة بحسابك فقط؛ لا يمكن إثبات هوية المشاركات المحلية لأعضاء آخرين. لن تُحذف البيانات المحلية.</p>
+<button id="importLegacyCourtsBtn" type="button">استيراد الجلسات المحلية</button>
+<div id="legacyImportStatus" class="status" role="status"></div>
+</div>
+<div id="activeCourtView" class="panel hidden" style="margin-top:14px"></div>
+<div class="grid" style="margin-top:14px">
+<div class="panel"><div class="head"><h2>🏅 نقاط المشاركة</h2></div><div id="courtPointsSummary" class="meta">جارٍ تحميل إنجازات المحكمة…</div><p class="small-note">تحليل مميز: 3 · اقتباس مهم: 2 · اكتشاف خطأ بالدليل: 5 · مشاركة فعالة بالمحكمة: 2 · تصويت بتعليل قوي: 3 نقاط. تُحتسب كل فئة مرة واحدة للعضو في القضية.</p></div>
+<div class="panel"><div class="head"><h2>🗂️ قضايا سابقة</h2></div><div id="courtArchive" class="meta">لا توجد قضايا سابقة.</div></div>
+</div>
+</section>
+
+<script>
+function renderLegacyImportBox(){
+  const box=$("legacyImportBox");
+  const button=$("importLegacyCourtsBtn");
+  if(!box||!button)return;
+  const hasLegacyCases=legacyCourtData.sessions.length>0;
+  box.classList.toggle("hidden",!courtConnected||!hasLegacyCases);
+  button.disabled=!getCurrentMember();
+  if(hasLegacyCases&&!getCurrentMember()){
+    $("legacyImportStatus").textContent="اربط حسابك بعضوية النادي لاستيراد جلساتك القديمة.";
+  }
+}
+
+async function loadSharedCourt(){
+  if(!activeUserId)return false;
+  if(!getCurrentMember()){
+    courtConnected=false;
+    status($("courtConnectionStatus"),"حسابك غير مربوط بعضوية النادي؛ لم يتم تأكيد الوصول للمحكمة المشتركة.","err");
+    renderLegacyImportBox();
+    return false;
+  }
+  status($("courtConnectionStatus"),"جارٍ تحميل القضايا المشتركة…");
+
+  try{
+    const results=await Promise.all([
+      db.from("book_court_cases").select("*").order("created_at",{ascending:false}),
+      db.from("book_court_roles").select("*"),
+      db.from("book_court_contributions").select("*").order("created_at",{ascending:false}),
+      db.from("book_court_votes").select("*").order("created_at",{ascending:false}),
+      db.from("book_court_achievements").select("*").order("created_at",{ascending:false})
+    ]);
+    for(const result of results)if(result.error)throw result.error;
+
+    const [cases,roles,contributions,votes,achievements]=results.map(result=>result.data||[]);
+    const rolesByCase=new Map();
+    roles.forEach(role=>{
+      if(!rolesByCase.has(role.case_id))rolesByCase.set(role.case_id,{});
+      rolesByCase.get(role.case_id)[role.role_key]=role.member_id;
+    });
+
+    courtData.sessions=cases.map(item=>({
+      id:item.id,
+      book_id:item.book_id,
+      book_title:item.title_snapshot,
+      created_at:item.created_at,
+      status:item.status,
+      roles:rolesByCase.get(item.id)||{},
+      contributions:contributions.filter(entry=>entry.case_id===item.id).map(entry=>({
+        member_id:entry.member_id,stage:entry.stage,text:entry.content,created_at:entry.created_at
+      })),
+      votes:votes.filter(entry=>entry.case_id===item.id).map(entry=>({
+        member_id:entry.member_id,choice:entry.choice,reason:entry.rationale,created_at:entry.created_at
+      })),
+      awards:achievements.filter(entry=>entry.case_id===item.id).map(entry=>({
+        member_id:entry.member_id,key:entry.achievement_key,points:entry.points,created_at:entry.created_at
+      }))
+    }));
+    courtData.activeSessionId=courtData.sessions.find(item=>item.status==="open")?.id||courtData.sessions[0]?.id||null;
+    courtConnected=true;
+    status($("courtConnectionStatus"),"متصل ببيانات محكمة النادي المشتركة.","ok");
+    renderCourt();
+    renderLegacyImportBox();
+    return true;
+  }catch(error){
+    courtConnected=false;
+    status($("courtConnectionStatus"),"لم يتم تأكيد اتصال المحكمة: "+error.message+". تأكد من تطبيق 202611030001_book_court.sql.","err");
+    renderLegacyImportBox();
+    console.error("Shared court load failed:",error);
+    return false;
+  }
+}
+
+function stopCourtRealtime(){
+  if(courtReloadTimer){
+    clearTimeout(courtReloadTimer);
+    courtReloadTimer=null;
+  }
+  if(courtRealtimeChannel){
+    db.removeChannel(courtRealtimeChannel);
+    courtRealtimeChannel=null;
+  }
+}
+
+function scheduleCourtReload(){
+  if(courtReloadTimer)clearTimeout(courtReloadTimer);
+  courtReloadTimer=setTimeout(()=>loadSharedCourt(),180);
+}
+
+function startCourtRealtime(){
+  stopCourtRealtime();
+  if(!courtConnected||!activeUserId)return;
+  const channel=db.channel("book-court-"+activeUserId);
+  ["book_court_cases","book_court_roles","book_court_contributions","book_court_votes","book_court_achievements"].forEach(table=>{
+    channel.on("postgres_changes",{event:"*",schema:"public",table},scheduleCourtReload);
+  });
+  courtRealtimeChannel=channel.subscribe(state=>{
+    if(state==="SUBSCRIBED"){
+      status($("courtConnectionStatus"),"متصل بالقضايا المشتركة والتحديث الفوري.","ok");
+    }else if(state==="CHANNEL_ERROR"||state==="TIMED_OUT"){
+      status($("courtConnectionStatus"),"بيانات المحكمة متاحة؛ تعذر التحديث الفوري. حدّث الصفحة لإعادة التحميل.","err");
+    }
+  });
+}
+
+function renderCourt(){
+  const view=$("activeCourtView");
+  if(!view)return;
+  const session=getActiveCourt();
+  const currentMember=getCurrentMember();
+  const allAwards=courtData.sessions.flatMap(item=>item.awards||[]);
+  const memberAwards=currentMember?allAwards.filter(award=>award.member_id===currentMember.id):[];
+  const memberPoints=memberAwards.reduce((sum,award)=>sum+(Number(award.points)||0),0);
+  $("courtPointsSummary").innerHTML=currentMember
+    ?`رصيدك في المحكمة: <b class="points-value">${memberPoints} نقطة</b> · ${memberAwards.length} إنجاز`
+    :`إجمالي نقاط المحكمة: <b class="points-value">${allAwards.reduce((sum,award)=>sum+(Number(award.points)||0),0)} نقطة</b>`;
+
+  const archive=courtData.sessions.filter(item=>item.id!==courtData.activeSessionId);
+  $("courtArchive").innerHTML=archive.length?archive.map(item=>{
+    const book=allBooks.find(entry=>String(entry.id)===String(item.book_id));
+    return `<div class="history-row"><span>${esc(book?.title||item.book_title)}<div class="meta">${new Date(item.created_at).toLocaleDateString("ar-EG")} · ${(item.votes||[]).length} تصويت</div></span><span class="meta">${item.status==="closed"?"منتهية":"قضية سابقة"}</span></div>`;
+  }).join(""):'<p class="meta">لا توجد قضايا سابقة.</p>';
+
+  if(!session){
+    view.classList.add("hidden");
+    return;
+  }
+
+  const book=allBooks.find(entry=>String(entry.id)===String(session.book_id));
+  const roleNames={chaos:"مدير العبث",author:"محامي المؤلف",critic:"ناقد النادي"};
+  const roleHtml=Object.entries(roleNames).map(([key,label])=>{
+    const member=allMembers.find(entry=>String(entry.id)===String(session.roles[key]));
+    return `<div class="meta"><b>${label}:</b> ${esc(member?.name||"عضو")}</div>`;
+  }).join("");
+  const contributions=session.contributions||[];
+  const votes=session.votes||[];
+  const options={recommend:"نوصي بالكتاب",discuss:"يحتاج نقاشًا إضافيًا",not_recommend:"لا نوصي به"};
+  const tallies=Object.keys(options).map(key=>({key,label:options[key],count:votes.filter(vote=>vote.choice===key).length}));
+  const topCount=Math.max(0,...tallies.map(item=>item.count));
+  const winners=tallies.filter(item=>item.count===topCount&&topCount>0);
+  const result=!votes.length?"لم يبدأ التصويت النهائي":winners.length>1?"تعادل في التصويت":winners[0].label;
+  const currentVote=currentMember&&votes.some(vote=>vote.member_id===currentMember.id);
+  const isOpen=session.status==="open";
+
+  view.classList.remove("hidden");
+  view.innerHTML=`
+    <div class="head"><h2>📖 ${esc(book?.title||session.book_title)}</h2></div>
+    <div class="meta">${esc(book?.author||"مؤلف غير محدد")} · ${esc(book?.category||"أخرى")}${book?.pages?` · ${esc(book.pages)} صفحة`:""}</div>
+    <div class="court-stage"><b>توزيع أدوار الجلسة</b><div class="grid" style="margin-top:10px">${roleHtml}</div></div>
+    <div class="court-layout court-stage">
+      <div>
+        <h3>🗣️ المرافعات والنقاش والأسئلة</h3>
+        <form id="courtContributionForm">
+          <select id="courtStage"><option value="مرافعة">مرافعة</option><option value="نقاش">نقاش</option><option value="سؤال">سؤال</option></select>
+          <select id="courtAchievement"><option value="">مشاركة عادية</option><option value="analysis">تحليل مميز (+3)</option><option value="quote">اقتباس مهم (+2)</option><option value="evidence_error">اكتشاف خطأ بالدليل (+5)</option></select>
+          <textarea id="courtContributionText" placeholder="اكتب مداخلة واضحة (30 حرفًا على الأقل)" required ${isOpen?"":"disabled"}></textarea>
+          <div class="actions"><button id="courtContributionBtn" type="submit" ${currentMember&&isOpen?"":"disabled"}>إضافة للمحكمة</button></div>
+        </form>
+        <div id="courtContributionStatus" class="status">${!isOpen?"هذه القضية مغلقة.":currentMember?"تُسجّل المشاركة باسمك.":"حسابك غير مربوط بعضوية؛ اطلب من المدير ربطه لتسجيل المشاركة."}</div>
+      </div>
+      <div>
+        <h3>🗳️ التصويت النهائي</h3>
+        <form id="courtVoteForm">
+          <select id="courtVoteChoice" ${isOpen?"":"disabled"}><option value="recommend">نوصي بالكتاب</option><option value="discuss">يحتاج نقاشًا إضافيًا</option><option value="not_recommend">لا نوصي به</option></select>
+          <textarea id="courtVoteReason" placeholder="اكتب تعليلًا واضحًا (40 حرفًا على الأقل لاحتساب الإنجاز)" required ${isOpen?"":"disabled"}></textarea>
+          <div class="actions"><button id="courtVoteBtn" type="submit" ${currentMember&&isOpen&&!currentVote?"":"disabled"}>${currentVote?"تم تسجيل تصويتك":"تسجيل التصويت"}</button></div>
+        </form>
+        <div class="court-verdict">الحكم الحالي: ${esc(result)}</div>
+        <div class="meta">${tallies.map(item=>`${item.label}: ${item.count}`).join(" · ")}</div>
+        <div id="courtVoteStatus" class="status">${!isOpen?"هذه القضية مغلقة.":currentMember?currentVote?"صوت واحد لكل عضو في القضية.":"التصويت بتعليل قوي يمنح 3 نقاط مرة واحدة.":"اربط حسابك بعضوية النادي للمشاركة."}</div>
+      </div>
+    </div>
+    <div class="court-stage"><h3>سجل الجلسة</h3>${contributions.length?contributions.slice().reverse().map(item=>{
+      const member=allMembers.find(entry=>String(entry.id)===String(item.member_id));
+      return `<div class="court-entry"><b>${esc(member?.name||"عضو")} · ${esc(item.stage)}</b><p>${esc(item.text)}</p><span class="meta">${new Date(item.created_at).toLocaleString("ar-EG")}</span></div>`;
+    }).join(""):'<p class="meta">لم تُسجل مرافعات أو أسئلة بعد.</p>'}</div>
+    <div class="court-stage"><h3>الأصوات والتعليلات</h3>${votes.length?votes.map(vote=>{
+      const member=allMembers.find(entry=>String(entry.id)===String(vote.member_id));
+      return `<div class="court-entry"><b>${esc(member?.name||"عضو")}: ${esc(options[vote.choice]||vote.choice)}</b><p>${esc(vote.reason)}</p></div>`;
+    }).join(""):'<p class="meta">لم يُسجل تصويت بعد.</p>'}</div>
+  `;
+
+  $("courtContributionForm").addEventListener("submit",async event=>{
+    event.preventDefault();
+    const text=$("courtContributionText").value.trim();
+    if(text.length<30){
+      status($("courtContributionStatus"),"اكتب 30 حرفًا على الأقل لتسجيل المداخلة والإنجاز.","err");
+      return;
+    }
+    const button=$("courtContributionBtn");
+    button.disabled=true;
+    try{
+      const {data,error}=await db.rpc("submit_book_court_contribution",{
+        p_case_id:session.id,p_stage:$("courtStage").value,p_content:text,
+        p_achievement_key:$("courtAchievement").value||null,p_legacy_id:null
+      });
+      if(error)throw error;
+      await loadSharedCourt();
+      status($("courtContributionStatus"),`تم تسجيل المداخلة وإضافة ${Number(data?.points_awarded)||0} نقطة للمحكمة.` ,"ok");
+    }catch(error){
+      status($("courtContributionStatus"),"تعذر تسجيل المداخلة: "+error.message,"err");
+    }
+    finally{
+      if(button.isConnected)button.disabled=!getCurrentMember();
+    }
+  });
+
+  $("courtVoteForm").addEventListener("submit",async event=>{
+    event.preventDefault();
+    const button=$("courtVoteBtn");
+    button.disabled=true;
+    try{
+      const {data,error}=await db.rpc("cast_book_court_vote",{
+        p_case_id:session.id,p_choice:$("courtVoteChoice").value,
+        p_rationale:$("courtVoteReason").value.trim(),p_legacy_id:null
+      });
+      if(error)throw error;
+      await loadSharedCourt();
+      status($("courtVoteStatus"),data?.duplicate?"سبق تسجيل تصويتك في هذه القضية.":`تم تسجيل التصويت وإضافة ${Number(data?.points_awarded)||0} نقطة للمحكمة.`,"ok");
+    }catch(error){
+      status($("courtVoteStatus"),"تعذر تسجيل التصويت: "+error.message,"err");
+    }
+    finally{
+      if(button.isConnected)button.disabled=!getCurrentMember()||currentVote;
+    }
+  });
+}
+</script>
+<section id="add">
+<div class="head"><h2>➕ إضافة كتاب</h2></div>
+<div class="panel">
+<form id="bookForm">
+<input id="title" placeholder="اسم الكتاب *" required>
+<input id="author" placeholder="اسم المؤلف">
+<select id="category">
+<option>رواية</option><option>طب</option><option>هندسة</option><option>فلسفة</option><option>تاريخ</option><option>علم نفس</option><option>علوم</option><option>أخرى</option>
+</select>
+<input id="pages" type="number" min="1" placeholder="عدد الصفحات">
+<select id="bookStatus">
+<option>على قائمة القراءة</option><option>قيد القراءة</option><option>تمت قراءته</option>
+</select>
+<textarea id="notes" placeholder="ملاحظات (اختياري)"></textarea>
+<div class="actions">
+<button id="saveBtn" type="submit">حفظ الكتاب</button>
+<button class="secondary" type="button" id="refreshBooksBtn">تحديث المكتبة</button>
+</div>
+</form>
+<div id="addStatus" class="status">جاهز لإضافة كتاب.</div>
+</div>
+</section>
+
+<section id="points">
+<div class="head"><h2>🏆 نقاط وإنجازات النادي</h2></div>
+
+<div class="stat-grid">
+<div class="stat-card">
+<div class="meta">إجمالي النقاط المسجلة</div>
+<div class="stat-number" id="totalPoints">0</div>
+</div>
+<div class="stat-card">
+<div class="meta">عدد الأعضاء</div>
+<div class="stat-number" id="membersCount">0</div>
+</div>
+<div class="stat-card">
+<div class="meta">الإنجازات المسجلة</div>
+<div class="stat-number" id="achievementsCount">0</div>
+</div>
+</div>
+
+<div class="grid">
+<div class="panel">
+<div class="head"><h2>🥇 ترتيب الأعضاء</h2></div>
+<div id="leaderboard" class="meta">جارٍ تحميل الترتيب…</div>
+</div>
+<div class="panel">
+<div class="head"><h2>🧾 آخر الإنجازات</h2></div>
+<div id="pointsHistory" class="meta">جارٍ تحميل السجل…</div>
+</div>
+</div>
+
+<div id="adminPointsBox" class="admin-box hidden">
+<h3>⚙️ لوحة المدير — إضافة نقاط</h3>
+<p class="small-note">النقاط تُحسب من قاعدة البيانات، ولا يمكن للعضو منح نقاط لنفسه. كل إنجاز مرجعي يُسجّل مرة واحدة فقط.</p>
+
+<form id="awardForm">
+<select id="awardMember" required>
+<option value="">اختر العضو</option>
+</select>
+
+<select id="awardType" required>
+<option value="book_read">قراءة كتاب كامل — 10 نقاط</option>
+<option value="book_recommendation">ترشيح كتاب — 2 نقطة</option>
+</select>
+
+<select id="awardReference" required>
+<option value="">اختر الكتاب</option>
+</select>
+
+<div class="actions">
+<button id="awardBtn" type="submit">اعتماد الإنجاز ومنح النقاط</button>
+</div>
+</form>
+
+<div id="awardStatus" class="status">اختر العضو والإنجاز والكتاب.</div>
+<p class="small-note">الحضور والمناقشات والمراجعات محتاجين واجهات الجلسات والمراجعات للموقع؛ لذلك مش ظاهرين هنا لحد ما يتجهزوا بشكل صحيح.</p>
+</div>
+</section>
+
+<section id="members">
+<div class="head"><h2>👥 أعضاء النادي</h2></div>
+<div id="membersGrid" class="grid">
+<div class="card meta">جارٍ تحميل الأعضاء…</div>
+</div>
+</section>
+
+<section id="rules">
+<div class="head"><h2>📜 نظام النادي</h2></div>
+<div class="panel rules">
+<ol>
+<li><b>القراءة أساس النادي:</b> كل عضو يلتزم بالقدر المتفق عليه قبل الجلسة.</li>
+<li><b>النقاش باحترام:</b> نناقش الأفكار لا الأشخاص، والاختلاف مرحّب به.</li>
+<li><b>الحضور والمشاركة:</b> نحاول حضور الجلسات والمشاركة بفاعلية.</li>
+<li><b>لا حرق للأحداث:</b> ممنوع كشف النهايات دون تنبيه.</li>
+<li><b>التقييم بصدق:</b> رأي كل عضو مستقل، مش مسابقة لإرضاء الآخرين.</li>
+<li><b>التنوع:</b> نقرأ روايات وطب وهندسة وفلسفة وتاريخ وعلوم.</li>
+<li><b>الجدول والنقاط:</b> نتفق على المواعيد والإنجازات والنقاط بشكل واضح وعادل.</li>
+<li><b>روح النادي:</b> الهدف المعرفة والمتعة، مش التظاهر بالثقافة—إحنا أصلًا ثلاثة أرباع!</li>
+</ol>
+</div>
+</section>
+
+</div>
+</main>
+
+<footer class="footer">3/4 — كل واحد فينا ربع مثقف © 2026</footer>
+
+<script>
+"use strict";
+
+const SUPABASE_URL = "https://pwnslupnutrtdotiilic.supabase.co";
+const SUPABASE_KEY = "sb_publishable_kcluJqcu5I-5vnVrpoFqGg_2xWokB1O";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const COURT_STORAGE_KEY = "threeQuartersCourt.v1";
+let allBooks = [];
+let allMembers = [];
+let allPoints = [];
+let activeUserId = null;
+let legacyCourtData = loadLegacyCourtData();
+let courtData = {activeSessionId:null,sessions:[]};
+let courtRealtimeChannel = null;
+let courtReloadTimer = null;
+let courtConnected = false;
+
+const CLUB_ADMIN_ID = "6d11154d-af6b-4872-9252-df019a0226f8";
+const $ = id => document.getElementById(id);
+
+function status(el,msg,type=""){
+  el.textContent=msg;
+  el.className="status "+type;
+}
+
+function esc(v){
+  return String(v??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function loadLegacyCourtData(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(COURT_STORAGE_KEY)||"{}");
+    return {activeSessionId:saved.activeSessionId||null,sessions:Array.isArray(saved.sessions)?saved.sessions:[]};
+  }catch(e){
+    console.warn("Court data could not be read:",e);
+    return {activeSessionId:null,sessions:[]};
+  }
+}
+
+async function showApp(session){
+  $("loginSection").classList.toggle("hidden",!!session);
+  $("app").classList.toggle("hidden",!session);
+  $("mainNav").classList.toggle("hidden",!session);
+
+  if(!session){
+    stopCourtRealtime();
+    activeUserId=null;
+    allBooks=[];
+    allMembers=[];
+    courtData={activeSessionId:null,sessions:[]};
+    $("booksGrid").innerHTML="";
+    renderCourt();
+    return;
+  }
+
+  const user=session.user;
+  activeUserId=user.id;
+  const email=user.email||"عضو النادي";
+
+  $("welcome").textContent="أهلًا بك يا "+email;
+  $("userAvatar").textContent="3/4";
+
+  try{
+    const {data,error}=await db.from("profiles")
+      .select("full_name,username")
+      .eq("id",user.id)
+      .maybeSingle();
+
+    if(!error&&data){
+      const name=data.full_name||data.username||email;
+      $("welcome").textContent="أهلًا بك يا "+name;
+      $("userAvatar").textContent=(data.full_name||data.username||"3/4").charAt(0);
+    }
+  }catch(err){
+    console.error("Profile error:",err);
+  }
+
+  $("adminPointsBox").classList.toggle("hidden",user.id!==CLUB_ADMIN_ID);
+
+  await loadBooks();
+  await loadClubData();
+  await loadSharedCourt();
+  startCourtRealtime();
+}
+
+async function loadBooks(){
+  if($("app").classList.contains("hidden"))return;
+
+  status($("booksStatus"),"بنحمّل الكتب…");
+
+  try{
+    const {data,error}=await db.from("books")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+    if(error)throw error;
+
+    allBooks=data||[];
+    renderBooks(allBooks);
+    fillCourtBooks();
+
+    status(
+      $("booksStatus"),
+      allBooks.length
+        ?`عدد الكتب في المكتبة: ${allBooks.length}`
+        :"المكتبة لسه فاضية—أضيفوا أول كتاب!",
+      "ok"
+    );
+
+  }catch(e){
+    status($("booksStatus"),"تعذر تحميل الكتب: "+e.message,"err");
+    console.error(e);
+  }
+}
+
+function renderBooks(books){
+  const grid=$("booksGrid");
+
+  if(!books.length){
+    grid.innerHTML='<div class="card meta">لا توجد كتب مطابقة.</div>';
+    return;
+  }
+
+  grid.innerHTML=books.map(b=>`
+    <article class="card">
+      <h3>${esc(b.title)}</h3>
+      <div class="meta">
+        ${esc(b.author||"مؤلف غير محدد")} · ${esc(b.category||"أخرى")}
+        ${b.pages?" · "+esc(b.pages)+" صفحة":""}
+      </div>
+      <span class="pill">${esc(b.status||"على قائمة القراءة")}</span>
+      ${b.notes?`<p class="meta">${esc(b.notes)}</p>`:""}
+    </article>
+  `).join("");
+}
+
+function filterBooks(){
+  const q=$("search").value.toLowerCase().trim();
+
+  renderBooks(allBooks.filter(b=>
+    `${b.title||""} ${b.author||""} ${b.category||""}`
+      .toLowerCase().includes(q)
+  ));
+}
+
+$("search").addEventListener("input",filterBooks);
+$("refreshBooksBtn").addEventListener("click",loadBooks);
+
+// =========================
+// MEMBERS + POINTS
+// =========================
+
+async function loadClubData(){
+  try{
+    const results=await Promise.all([
+      db.from("members")
+        .select("id,name,role,user_id")
+        .order("created_at",{ascending:true}),
+
+      db.from("points")
+        .select("id,member_id,achievement,points,created_at,achievement_key,reference_id")
+        .order("created_at",{ascending:false})
+    ]);
+
+    if(results[0].error)throw results[0].error;
+    if(results[1].error)throw results[1].error;
+
+    allMembers=results[0].data||[];
+    allPoints=results[1].data||[];
+
+    renderClubData();
+    fillAwardMembers();
+    fillCourtMembers();
+
+  }catch(e){
+    $("leaderboard").textContent="تعذر تحميل النقاط: "+e.message;
+    $("pointsHistory").textContent="تعذر تحميل السجل.";
+    console.error(e);
+  }
+}
+
+function renderClubData(){
+  const primaryMemberId="e0f5d259-2252-4703-b8bd-2e87ebff2422";
+  const duplicateMemberId="b0ee9a1c-578c-459e-8739-cb13082256d0";
+  const foundingPrimaryMemberId="8fd0afe9-c99b-4d57-8c0d-d91690e14e9b";
+  const foundingDuplicateMemberId="ef25ea78-8c3d-476c-9cc8-937487520241";
+
+  const balances=allMembers.map(m=>({
+    id:m.id,
+    name:m.name,
+    role:m.role,
+    total:allPoints
+      .filter(p=>p.member_id===m.id)
+      .reduce((s,p)=>s+(Number(p.points)||0),0)
+  })).sort((a,b)=>b.total-a.total);
+
+  $("totalPoints").textContent=
+    allPoints.reduce((s,p)=>s+(Number(p.points)||0),0);
+
+  $("membersCount").textContent=allMembers.length;
+  $("achievementsCount").textContent=allPoints.length;
+
+  $("leaderboard").innerHTML=balances.length
+    ?balances.map((m,i)=>`
+      <div class="rank-row">
+        <div class="rank-name">
+          <span class="rank-number">${i+1}.</span>
+          <span>${esc(m.name)}</span>
+        </div>
+        <span class="points-value">${m.total} نقطة</span>
+      </div>
+    `).join("")
+    :'<p class="meta">لا يوجد أعضاء مسجلون.</p>';
+
+  const hiddenMemberIds=new Set([duplicateMemberId,foundingDuplicateMemberId]);
+  const publicMembers=allMembers.filter(m=>!hiddenMemberIds.has(m.id));
+  $("membersGrid").innerHTML=publicMembers.length
+    ?publicMembers.map(m=>`
+      <div class="card member">
+        <div class="avatar">${esc((m.name||"؟").charAt(0))}</div>
+        <div>
+          <h3>${esc(m.name||"عضو")}</h3>
+          <div class="meta">${esc(m.id===primaryMemberId||m.id===foundingPrimaryMemberId?"عضو مؤسس":m.role||"عضو")}</div>
+          <div class="meta">
+            ${balances.find(x=>x.id===m.id)?.total||0} نقطة
+          </div>
+        </div>
+      </div>
+    `).join("")
+    :'<div class="card meta">لا يوجد أعضاء.</div>';
+
+  $("pointsHistory").innerHTML=allPoints.length
+    ?allPoints.slice(0,20).map(p=>{
+      const m=allMembers.find(x=>x.id===p.member_id);
+      const d=p.created_at
+        ?new Date(p.created_at).toLocaleDateString("ar-EG")
+        :"";
+
+      return `
+        <div class="history-row">
+          <div>
+            <b>${esc(m?.name||"عضو")}</b>
+            <div class="meta">${esc(p.achievement||"إنجاز")} · ${d}</div>
+          </div>
+          <span class="points-value">+${Number(p.points)||0}</span>
+        </div>
+      `;
+    }).join("")
+    :'<p class="meta">لسه مفيش إنجازات مسجلة.</p>';
+}
+
+function fillAwardMembers(){
+  const s=$("awardMember");
+  if(!s)return;
+
+  const old=s.value;
+
+  s.innerHTML='<option value="">اختر العضو</option>'+
+    allMembers.map(m=>
+      `<option value="${esc(m.id)}">${esc(m.name)}</option>`
+    ).join("");
+
+  if(allMembers.some(m=>m.id===old))s.value=old;
+
+  refreshAwardReferences();
+}
+
+function refreshAwardReferences(){
+  const memberId=$("awardMember").value;
+  const type=$("awardType").value;
+
+  let books=allBooks;
+
+  if(type==="book_recommendation"){
+    books=allBooks.filter(b=>b.added_by===memberId);
+  }
+
+  $("awardReference").innerHTML=books.length
+    ?'<option value="">اختر الكتاب</option>'+
+      books.map(b=>
+        `<option value="${esc(b.id)}">${esc(b.title)}</option>`
+      ).join("")
+    :'<option value="">لا توجد كتب مناسبة لهذا الإنجاز</option>';
+}
+
+function fillCourtBooks(){
+  const select=$("courtBook");
+  if(!select)return;
+  const old=select.value;
+  select.innerHTML='<option value="">اختر كتاب القضية</option>'+allBooks.map(book=>
+    `<option value="${esc(book.id)}">${esc(book.title)}</option>`
+  ).join("");
+  if(allBooks.some(book=>String(book.id)===old))select.value=old;
+}
+
+function fillCourtMembers(){
+  ["roleChaos","roleAuthor","roleCritic"].forEach(id=>{
+    const select=$(id);
+    if(!select)return;
+    const old=select.value;
+    const label=select.options[0]?.textContent||"اختر العضو";
+    select.innerHTML=`<option value="">${esc(label)}</option>`+allMembers.map(member=>
+      `<option value="${esc(member.id)}">${esc(member.name||"عضو")}</option>`
+    ).join("");
+    if(allMembers.some(member=>String(member.id)===old))select.value=old;
+  });
+}
+
+function getActiveCourt(){
+  return courtData.sessions.find(session=>session.id===courtData.activeSessionId)||null;
+}
+
+function getCurrentMember(){
+  return allMembers.find(member=>member.user_id===activeUserId)||null;
+}
+
+$("courtSetupForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+  const button=$("startCourtBtn");
+  button.disabled=true;
+  try{
+    if(!courtConnected)throw new Error("لم يتم تأكيد اتصال Supabase بعد تطبيق Migration.");
+    if(!getCurrentMember())throw new Error("حسابك غير مربوط بعضوية النادي.");
+    const {data,error}=await db.rpc("create_book_court",{
+      p_book_id:$("courtBook").value,
+      p_chaos_member_id:$("roleChaos").value,
+      p_author_member_id:$("roleAuthor").value,
+      p_critic_member_id:$("roleCritic").value,
+      p_legacy_id:null
+    });
+    if(error)throw error;
+    await loadSharedCourt();
+    status($("courtStatus"),"تم إنشاء القضية المشتركة بنجاح.","ok");
+  }catch(error){
+    status($("courtStatus"),"تعذر بدء المحكمة: "+error.message,"err");
+  }finally{
+    button.disabled=false;
+  }
+});
+
+$("awardMember").addEventListener("change",refreshAwardReferences);
+$("awardType").addEventListener("change",refreshAwardReferences);
+
+$("awardForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+
+  const btn=$("awardBtn");
+  btn.disabled=true;
+
+  status($("awardStatus"),"جارٍ تسجيل الإنجاز…");
+
+  try{
+    const memberId=$("awardMember").value;
+    const key=$("awardType").value;
+    const ref=$("awardReference").value;
+
+    if(!memberId||!ref){
+      throw new Error("اختار العضو والكتاب.");
+    }
+
+    const result=await db.rpc("award_club_points",{
+      p_member_id:memberId,
+      p_achievement_key:key,
+      p_reference_id:ref
+    });
+
+    if(result.error)throw result.error;
+
+    if(result.data&&result.data.success===false){
+      throw new Error(result.data.message||"تعذر تسجيل الإنجاز.");
+    }
+
+    status(
+      $("awardStatus"),
+      result.data?.message||"تم تسجيل الإنجاز بنجاح ✓",
+      "ok"
+    );
+
+    await loadClubData();
+
+  }catch(err){
+    status(
+      $("awardStatus"),
+      "لم تتم إضافة النقاط: "+err.message,
+      "err"
+    );
+    console.error(err);
+  }finally{
+    btn.disabled=false;
+  }
+});
+
+// =========================
+// REGISTRATION
+// =========================
+
+$("signupForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+
+  const btn=$("signupBtn");
+  btn.disabled=true;
+
+  status($("signupStatus"),"جارٍ إنشاء الحساب…");
+
+  try{
+    const fullName=$("signupName").value.trim();
+    const username=$("signupUsername").value.trim().toLowerCase();
+    const email=$("signupEmail").value.trim();
+    const password=$("signupPassword").value;
+
+    if(!/^[a-z0-9_]{3,20}$/.test(username)){
+      throw new Error("اسم المستخدم يجب أن يكون 3-20 حرفًا إنجليزيًا أو رقمًا أو _");
+    }
+
+    const {data,error}=await db.auth.signUp({
+      email,
+      password,
+      options:{data:{full_name:fullName,username}}
+    });
+
+    if(error)throw error;
+
+    e.target.reset();
+
+    if(data.session){
+      status($("signupStatus"),"تم إنشاء الحساب بنجاح ✓","ok");
+      await showApp(data.session);
+    }else{
+      status(
+        $("signupStatus"),
+        "تم إنشاء الحساب! راجع بريدك الإلكتروني لتأكيد التسجيل قبل الدخول.",
+        "ok"
+      );
+    }
+
+  }catch(err){
+    status($("signupStatus"),"تعذر إنشاء الحساب: "+err.message,"err");
+    console.error(err);
+  }finally{
+    btn.disabled=false;
+  }
+});
+
+// =========================
+// LOGIN
+// =========================
+
+$("loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+
+  const btn=$("loginBtn");
+  btn.disabled=true;
+
+  status($("loginStatus"),"جارٍ تسجيل الدخول…");
+
+  try{
+    const {data,error}=await db.auth.signInWithPassword({
+      email:$("loginEmail").value.trim(),
+      password:$("loginPassword").value
+    });
+
+    if(error)throw error;
+
+    status($("loginStatus"),"تم تسجيل الدخول بنجاح ✓","ok");
+    await showApp(data.session);
+
+  }catch(err){
+    status($("loginStatus"),"تعذر الدخول: "+err.message,"err");
+  }finally{
+    btn.disabled=false;
+  }
+});
+
+// =========================
+// PASSWORD RESET
+// =========================
+
+$("resetBtn").addEventListener("click",async()=>{
+  const email=$("loginEmail").value.trim();
+
+  if(!email){
+    status($("loginStatus"),"اكتب الإيميل في خانة الإيميل الأول.");
+    return;
+  }
+
+  try{
+    const {error}=await db.auth.resetPasswordForEmail(email,{
+      redirectTo:location.origin+location.pathname
+    });
+
+    if(error)throw error;
+
+    status(
+      $("loginStatus"),
+      "لو الإيميل مسجل، هيوصلك رابط استعادة كلمة المرور.",
+      "ok"
+    );
+
+  }catch(err){
+    status($("loginStatus"),"تعذر إرسال الرابط: "+err.message,"err");
+  }
+});
+
+// =========================
+// LOGOUT
+// =========================
+
+$("logoutBtn").addEventListener("click",async()=>{
+  const {error}=await db.auth.signOut();
+
+  if(error){
+    status($("loginStatus"),error.message,"err");
+  }
+});
+
+// =========================
+// ADD BOOK
+// =========================
+
+$("bookForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+
+  const btn=$("saveBtn");
+  btn.disabled=true;
+
+  status($("addStatus"),"جارٍ الحفظ…");
+
+  try{
+    const {data:{session}}=await db.auth.getSession();
+
+    if(!session){
+      throw new Error("سجّل الدخول الأول.");
+    }
+
+    // تحديد العضو المرتبط بالحساب الحالي
+    const {data:member,error:memberError}=await db.from("members")
+      .select("id")
+      .eq("user_id",session.user.id)
+      .maybeSingle();
+
+    if(memberError)throw memberError;
+
+    if(!member){
+      throw new Error(
+        "حسابك مش مربوط بعضوية في النادي. تواصل مع المدير لربط الحساب بعضويتك."
+      );
+    }
+
+    const book={
+      title:$("title").value.trim(),
+      author:$("author").value.trim()||null,
+      category:$("category").value,
+      pages:Number($("pages").value)||null,
+      status:$("bookStatus").value,
+      notes:$("notes").value.trim()||null,
+      added_by:member.id
+    };
+
+    if(!book.title){
+      throw new Error("اكتب اسم الكتاب.");
+    }
+
+    const {error}=await db.from("books").insert(book);
+
+    if(error)throw error;
+
+    status($("addStatus"),"تم حفظ الكتاب بنجاح ✓","ok");
+
+    e.target.reset();
+
+    await loadBooks();
+    refreshAwardReferences();
+
+  }catch(err){
+    status($("addStatus"),"فشل الحفظ: "+err.message,"err");
+    console.error(err);
+  }finally{
+    btn.disabled=false;
+  }
+});
+
+// =========================
+// AUTH STATE
+// =========================
+
+db.auth.onAuthStateChange((event,session)=>{
+  if(
+    event==="SIGNED_IN"||
+    event==="SIGNED_OUT"||
+    event==="INITIAL_SESSION"
+  ){
+    setTimeout(()=>showApp(session),0);
+  }
+});
+
+// =========================
+// RESTORE SESSION
+// =========================
+
+(async()=>{
+  const {data,error}=await db.auth.getSession();
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  await showApp(data.session);
+})();
+</script>
+<script>
+async function importLegacyCourtSessions(){
+  const member=getCurrentMember();
+  if(!courtConnected||!member){
+    status($("legacyImportStatus"),"اتصل بالمحكمة المشتركة واربط حسابك بعضوية النادي أولًا.","err");
+    return;
+  }
+
+  const button=$("importLegacyCourtsBtn");
+  button.disabled=true;
+  status($("legacyImportStatus"),"جارٍ استيراد القضايا والتحقق من ملكية المشاركات…");
+  let importedCases=0;
+  let importedEntries=0;
+  let skippedEntries=0;
+  const failures=[];
+
+  for(const [caseIndex,legacy] of legacyCourtData.sessions.entries()){
+    const legacyId=String(legacy.id||`legacy-${caseIndex}`);
+    try{
+      const {data:caseId,error:caseError}=await db.rpc("create_book_court",{
+        p_book_id:legacy.book_id,
+        p_chaos_member_id:legacy.roles?.chaos,
+        p_author_member_id:legacy.roles?.author,
+        p_critic_member_id:legacy.roles?.critic,
+        p_legacy_id:legacyId
+      });
+      if(caseError)throw caseError;
+      importedCases++;
+
+      const ownContributions=(legacy.contributions||[]).map((entry,index)=>({entry,index}))
+        .filter(item=>String(item.entry.member_id)===String(member.id));
+      const ownAwards=(legacy.awards||[]).filter(award=>
+        String(award.member_id)===String(member.id)&&["analysis","quote","evidence_error"].includes(award.key)
+      );
+      let claimedAchievement=false;
+
+      for(const {entry,index} of ownContributions){
+        const key=!claimedAchievement?ownAwards[0]?.key:null;
+        const {error}=await db.rpc("submit_book_court_contribution",{
+          p_case_id:caseId,
+          p_stage:entry.stage,
+          p_content:entry.text,
+          p_achievement_key:key||null,
+          p_legacy_id:`legacy:${legacyId}:contribution:${index}`
+        });
+        if(error)throw error;
+        importedEntries++;
+        if(key)claimedAchievement=true;
+      }
+
+      const ownVotes=(legacy.votes||[]).filter(vote=>String(vote.member_id)===String(member.id));
+      for(const [voteIndex,vote] of ownVotes.entries()){
+        const {error}=await db.rpc("cast_book_court_vote",{
+          p_case_id:caseId,
+          p_choice:vote.choice,
+          p_rationale:vote.reason,
+          p_legacy_id:`legacy:${legacyId}:vote:${voteIndex}`
+        });
+        if(error)throw error;
+        importedEntries++;
+      }
+      skippedEntries+=(legacy.contributions||[]).length-ownContributions.length;
+      skippedEntries+=(legacy.votes||[]).length-ownVotes.length;
+    }catch(error){
+      failures.push(`${legacy.book_title||legacy.id||`القضية ${caseIndex+1}`}: ${error.message}`);
+    }
+  }
+
+  await loadSharedCourt();
+  const result=`تمت معالجة ${importedCases} قضية و${importedEntries} مشاركة/تصويت. تم تجاهل ${skippedEntries} إدخالًا لعدم إمكان إثبات صاحبه.`;
+  status($("legacyImportStatus"),failures.length?`${result} تعذر استيراد ${failures.length} قضية: ${failures.join("؛ ")}`:result,failures.length?"err":"ok");
+  button.disabled=!getCurrentMember();
+}
+
+$("importLegacyCourtsBtn").addEventListener("click",importLegacyCourtSessions);
+
+// 3/4 AI Agent — the API key remains on the Supabase Edge Function server.
+const agentHistory = [];
+function appendAgentMessage(role, content){
+  const wrap=document.createElement('div');
+  wrap.className='card';
+  wrap.style.marginBottom='10px';
+  const label=document.createElement('b');
+  label.style.color='var(--gold)';
+  label.textContent=role==='assistant'?'3/4 AI':'أنت';
+  const body=document.createElement('p');
+  body.className='meta';
+  body.style.whiteSpace='pre-wrap';
+  body.textContent=content;
+  wrap.append(label,body);
+  $('agentMessages').appendChild(wrap);
+  $('agentMessages').scrollTop=$('agentMessages').scrollHeight;
+}
+$('agentForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  const question=$('agentQuestion').value.trim();
+  if(!question)return;
+  const {data:{session}}=await db.auth.getSession();
+  if(!session){status($('agentStatus'),'سجّل الدخول الأول عشان تستخدم المساعد.','err');return;}
+  appendAgentMessage('user',question);
+  agentHistory.push({role:'user',content:question});
+  $('agentQuestion').value='';
+  $('agentSend').disabled=true;
+  status($('agentStatus'),'المساعد بيفكر…');
+  try{
+    const {data,error}=await db.functions.invoke('club-agent',{
+      body:{question,history:agentHistory.slice(-8,-1)}
+    });
+    if(error)throw error;
+    if(!data||typeof data.answer!=='string')throw new Error('استجابة غير مفهومة من المساعد.');
+    appendAgentMessage('assistant',data.answer);
+    agentHistory.push({role:'assistant',content:data.answer});
+    status($('agentStatus'),'تم الرد.');
+  }catch(error){
+    console.error('3/4 agent error:',error);
+    status($('agentStatus'),'المساعد مش جاهز أو حصل خطأ: '+(error.message||'راجع إعدادات Supabase.'),'err');
+  }finally{$('agentSend').disabled=false;}
+});
+
+</script>
+</body>
+</html>

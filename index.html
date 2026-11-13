@@ -120,6 +120,12 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .member-profile-form{display:grid;grid-template-columns:1fr;gap:8px;border-top:1px solid var(--line);padding-top:12px}
 .member-profile-form textarea{min-height:75px}
 .card,.box,header,footer,section{background-color:var(--bg-card);color:var(--text-main);border:1px solid var(--border-color);box-shadow:0 4px 6px -1px rgba(0,0,0,.1);border-radius:12px}
+#tab-navbar{display:flex;overflow-x:auto;position:sticky;top:0;z-index:1000;background-color:var(--bg-primary);padding:10px}
+#tab-navbar .tab-btn{flex:0 0 auto;background:none;border:1px solid var(--border-color);color:var(--text-main);padding:10px 15px;cursor:pointer;white-space:nowrap}
+#tab-navbar .tab-btn.active{background-color:var(--accent-color);color:#fff}
+.club-section{display:none}
+.club-section.active{display:block}
+.club-section.active.hero{display:grid}
 h1,h2,h3,h4,h5,h6{color:var(--text-main);font-weight:700}
 p,span,li{color:var(--text-main);line-height:1.6}
 @media(max-width:700px){.roulette-layout{grid-template-columns:1fr}}
@@ -144,21 +150,21 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <p class="tagline">كل واحد فينا ربع مثقف… والباقي نقاشات!</p>
 </header>
 
-<nav id="mainNav" class="hidden">
-<a href="#about">عن النادي</a>
-<a href="#books">المكتبة</a>
-<a href="#reading-meter">مؤشر الثلاثة أرباع</a>
-<a href="#margin-notes">حائط الهوامش</a>
-<a href="#book-roulette">روليت الكتاب</a>
-<a href="#journey">رحلة القراءة</a>
-<a href="#ai-agent">المساعد الذكي</a>
-<a href="#roles">أدوار النادي</a>
-<a href="#court">محكمة الكتب</a>
-<a href="#add">أضف كتاب</a>
-<a href="#points">النقاط</a>
-<a href="#members">الأعضاء</a>
-<a href="#member-profiles">هويات الأعضاء</a>
-<a href="#rules">النظام</a>
+<nav id="tab-navbar" class="hidden" role="tablist" aria-label="أقسام النادي">
+<button class="tab-btn active" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-target="about">عن النادي</button>
+<button class="tab-btn" type="button" role="tab" id="tab-books" aria-controls="books" aria-selected="false" data-target="books">المكتبة</button>
+<button class="tab-btn" type="button" role="tab" id="tab-reading-meter" aria-controls="reading-meter" aria-selected="false" data-target="reading-meter">مؤشر الثلاثة أرباع</button>
+<button class="tab-btn" type="button" role="tab" id="tab-margin-notes" aria-controls="margin-notes" aria-selected="false" data-target="margin-notes">حائط الهوامش</button>
+<button class="tab-btn" type="button" role="tab" id="tab-book-roulette" aria-controls="book-roulette" aria-selected="false" data-target="book-roulette">روليت الكتاب</button>
+<button class="tab-btn" type="button" role="tab" id="tab-journey" aria-controls="journey" aria-selected="false" data-target="journey">رحلة القراءة</button>
+<button class="tab-btn" type="button" role="tab" id="tab-ai-agent" aria-controls="ai-agent" aria-selected="false" data-target="ai-agent">المساعد الذكي</button>
+<button class="tab-btn" type="button" role="tab" id="tab-roles" aria-controls="roles" aria-selected="false" data-target="roles">أدوار النادي</button>
+<button class="tab-btn" type="button" role="tab" id="tab-court" aria-controls="court" aria-selected="false" data-target="court">محكمة الكتب</button>
+<button class="tab-btn" type="button" role="tab" id="tab-add" aria-controls="add" aria-selected="false" data-target="add">أضف كتاب</button>
+<button class="tab-btn" type="button" role="tab" id="tab-points" aria-controls="points" aria-selected="false" data-target="points">النقاط</button>
+<button class="tab-btn" type="button" role="tab" id="tab-members" aria-controls="members" aria-selected="false" data-target="members">الأعضاء</button>
+<button class="tab-btn" type="button" role="tab" id="tab-member-profiles" aria-controls="member-profiles" aria-selected="false" data-target="member-profiles">هويات الأعضاء</button>
+<button class="tab-btn" type="button" role="tab" id="tab-rules" aria-controls="rules" aria-selected="false" data-target="rules">النظام</button>
 </nav>
 
 <main>
@@ -196,7 +202,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <button id="logoutBtn" class="secondary" type="button">تسجيل الخروج</button>
 </div>
 
-<section id="about" class="hero">
+<section id="about" class="club-section active hero" role="tabpanel" aria-labelledby="tab-about" tabindex="0">
 <div class="panel">
 <div class="head"><h2>أهلًا بيكم في 3/4</h2></div>
 <p>نادي قراءة صغير بثلاثة عقول ورفوف كبيرة من الأسئلة. بنقرأ عشان نفهم، ونناقش عشان نختلف بأدب، ونضحك عشان الثقافة ما تتحولش لمحاضرة.</p>
@@ -206,13 +212,13 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <div class="panel quote">«الكتاب باب…<br>والنقاش هو الرحلة»<br><span class="meta">فلسفة الأرباع الثلاثة</span></div>
 </section>
 
-<section id="books">
+<section id="books" class="club-section" role="tabpanel" aria-labelledby="tab-books" tabindex="0">
 <div class="head"><h2>📚 مكتبة النادي</h2></div>
 <div class="panel"><input id="search" placeholder="ابحث عن كتاب أو مؤلف…"><div id="booksStatus" class="status">بنحمّل الكتب…</div></div>
 <div id="booksGrid" class="grid" style="margin-top:14px"></div>
 </section>
 
-<section id="reading-meter">
+<section id="reading-meter" class="club-section" role="tabpanel" aria-labelledby="tab-reading-meter" tabindex="0">
 <div class="head"><h2>📊 مؤشر الثلاثة أرباع (عداد الربع الناقص)</h2></div>
 <div class="panel">
 <p class="meta">كل عضو يملأ ربعه بقراءته. وعندما يكمل الأعضاء الثلاثة الكتاب، يضيء الربع المحجوز لمحكمة الكتاب.</p>
@@ -226,7 +232,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 </div>
 </section>
 
-<section id="margin-notes">
+<section id="margin-notes" class="club-section" role="tabpanel" aria-labelledby="tab-margin-notes" tabindex="0">
 <div class="head"><h2>📝 حائط الاقتباسات والهوامش (Margin Notes)</h2></div>
 <div class="panel">
 <p class="meta">اقتباس بقي معك، خاطرة على الهامش، أو نقد لاذع بلا حرق للأحداث—اترك أثرًا يقرأه بقية النادي.</p>
@@ -267,7 +273,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 </div>
 </section>
 
-<section id="book-roulette">
+<section id="book-roulette" class="club-section" role="tabpanel" aria-labelledby="tab-book-roulette" tabindex="0">
 <div class="head"><h2>🎡 روليت الكتاب القادم وحق الفيتو 🛑</h2></div>
 <div class="panel">
 <p class="meta">اختاروا المرشحين، لفّوا العجلة، ثم اعتمدوا الكتاب أو استخدموا الفيتو بحكمة؛ فالفيتو مثل آخر قطعة كنافة، لا يُصرف كل يوم.</p>
@@ -296,7 +302,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 </div>
 </section>
 
-<section id="journey">
+<section id="journey" class="club-section" role="tabpanel" aria-labelledby="tab-journey" tabindex="0">
 <div class="head"><h2>🧭 رحلة القراءة</h2></div>
 <div class="panel">
 <p>خطة مرنة للنادي: نبدأ بكتب تأسيسية قصيرة، ثم ننتقل للأدب والفكر، وبعدها الكتب التراثية والأعمال الثقيلة. اختاروا كتابًا واحدًا في كل مرحلة، ومش لازم كل الأعضاء يقرؤوا بنفس السرعة.</p>
@@ -314,7 +320,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 </div></div></section>
 
 
-<section id="ai-agent">
+<section id="ai-agent" class="club-section" role="tabpanel" aria-labelledby="tab-ai-agent" tabindex="0">
 <div class="head"><h2>🤖 مساعد 3/4 الذكي</h2></div>
 <div class="panel">
 <p class="meta">أمين مكتبة النادي: اسأله عن الكتب، التصنيفات، خطة القراءة، أو ملخص تقدم المكتبة. النسخة الأولى للقراءة والتحليل والاقتراح فقط؛ لا تعدّل بيانات النادي من تلقاء نفسها.</p>
@@ -330,7 +336,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 </div>
 </section>
 
-<section id="roles">
+<section id="roles" class="club-section" role="tabpanel" aria-labelledby="tab-roles" tabindex="0">
 <div class="head"><h2>🎭 أدوار النادي</h2></div>
 <div class="grid">
 <article class="card role-card"><h3>مدير العبث</h3><p class="meta">يضبط إيقاع المحكمة، يوزع فرص الكلام، ويضمن أن يظل النقاش ممتعًا ومنظمًا.</p></article>
@@ -339,7 +345,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 </div>
 </section>
 
-<section id="court">
+<section id="court" class="club-section" role="tabpanel" aria-labelledby="tab-court" tabindex="0">
 <div class="head"><h2>⚖️ محكمة الكتب</h2></div>
 <div class="panel">
 <p class="small-note">القضايا والمرافعات والتصويت والإنجازات مشتركة بين أعضاء النادي المسجلين. نقاط المحكمة منفصلة عن نقاط القراءة والترشيح.</p>
@@ -629,7 +635,7 @@ function renderCourt(){
   });
 }
 </script>
-<section id="add">
+<section id="add" class="club-section" role="tabpanel" aria-labelledby="tab-add" tabindex="0">
 <div class="head"><h2>➕ إضافة كتاب</h2></div>
 <div class="panel">
 <form id="bookForm">
@@ -652,7 +658,7 @@ function renderCourt(){
 </div>
 </section>
 
-<section id="points">
+<section id="points" class="club-section" role="tabpanel" aria-labelledby="tab-points" tabindex="0">
 <div class="head"><h2>🏆 نقاط وإنجازات النادي</h2></div>
 
 <div class="stat-grid">
@@ -709,14 +715,14 @@ function renderCourt(){
 </div>
 </section>
 
-<section id="members">
+<section id="members" class="club-section" role="tabpanel" aria-labelledby="tab-members" tabindex="0">
 <div class="head"><h2>👥 أعضاء النادي</h2></div>
 <div id="membersGrid" class="grid">
 <div class="card meta">جارٍ تحميل الأعضاء…</div>
 </div>
 </section>
 
-<section id="member-profiles">
+<section id="member-profiles" class="club-section" role="tabpanel" aria-labelledby="tab-member-profiles" tabindex="0">
 <div class="head"><h2>🪪 هويات أرباع المثقفين (بروفايل الأعضاء والألقاب 🪪👑)</h2></div>
 <div class="panel">
   <p class="meta">بطاقة ثقافية لكل عضو: الإنجازات تُحصى تلقائيًا، والألقاب تُمنح حسب الوقائع لا حسب المحاباة الأدبية.</p>
@@ -725,7 +731,7 @@ function renderCourt(){
 </div>
 </section>
 
-<section id="rules">
+<section id="rules" class="club-section" role="tabpanel" aria-labelledby="tab-rules" tabindex="0">
 <div class="head"><h2>📜 نظام النادي</h2></div>
 <div class="panel rules">
 <ol>
@@ -772,6 +778,24 @@ let courtConnected = false;
 
 const CLUB_ADMIN_ID = "6d11154d-af6b-4872-9252-df019a0226f8";
 const $ = id => document.getElementById(id);
+
+const tabNavbar=$("tab-navbar");
+tabNavbar.addEventListener("click",event=>{
+  const tab=event.target.closest(".tab-btn");
+  if(!tab||!tabNavbar.contains(tab))return;
+
+  const selectedSection=$(tab.dataset.target);
+  if(!selectedSection?.classList.contains("club-section"))return;
+
+  tabNavbar.querySelectorAll(".tab-btn").forEach(button=>{
+    const isActive=button===tab;
+    button.classList.toggle("active",isActive);
+    button.setAttribute("aria-selected",String(isActive));
+  });
+  document.querySelectorAll("#app .club-section").forEach(section=>{
+    section.classList.toggle("active",section===selectedSection);
+  });
+});
 
 const THEME_STORAGE_KEY = "theme";
 const themeToggle = $("theme-toggle");
@@ -829,7 +853,7 @@ function loadLegacyCourtData(){
 async function showApp(session){
   $("loginSection").classList.toggle("hidden",!!session);
   $("app").classList.toggle("hidden",!session);
-  $("mainNav").classList.toggle("hidden",!session);
+  $("tab-navbar").classList.toggle("hidden",!session);
 
   if(!session){
     stopCourtRealtime();

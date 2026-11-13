@@ -7,8 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{color-scheme:dark;--bg-primary:#051F20;--bg-secondary:#0B2B26;--accent-color:#235347;--text-main:#DAF1DE;--muted-green:#8EB69B;--button-text:var(--text-main);--line:#315d50;--muted:var(--muted-green);--bg:var(--bg-primary);--panel:var(--bg-secondary);--gold:var(--muted-green);--cream:var(--text-main);--accent:var(--accent-color)}
-[data-theme="light"]{color-scheme:light;--bg-primary:#DAF1DE;--bg-secondary:#8EB69B;--accent-color:#235347;--text-main:#051F20;--muted-green:#0B2B26;--button-text:var(--text-main);--line:#5c866f;--muted:var(--muted-green);--gold:var(--accent-color)}
+:root{color-scheme:dark;--bg-primary:#031415;--bg-secondary:#08221D;--accent-color:#1E463C;--text-main:#E2F6E7;--text-muted:#A3C1AD;--muted-green:var(--text-muted);--button-text:var(--text-main);--border-color:#2D5A4C;--line:var(--border-color);--muted:var(--muted-green);--bg:var(--bg-primary);--panel:var(--bg-secondary);--gold:var(--muted-green);--cream:var(--text-main);--accent:var(--accent-color)}
+[data-theme="light"]{color-scheme:light;--bg-primary:#DAF1DE;--bg-secondary:#8EB69B;--accent-color:#235347;--text-main:#051F20;--muted-green:#0B2B26;--button-text:var(--text-main);--border-color:#5c866f;--line:var(--border-color);--muted:var(--muted-green);--gold:var(--accent-color)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg-primary);color:var(--text-main);font-family:Cairo,sans-serif;transition:background-color .3s ease,color .3s ease}
@@ -119,6 +119,9 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .profile-stat b{display:block;color:var(--gold);font-size:17px}
 .member-profile-form{display:grid;grid-template-columns:1fr;gap:8px;border-top:1px solid var(--line);padding-top:12px}
 .member-profile-form textarea{min-height:75px}
+.card,.box,header,footer,section{background-color:var(--bg-secondary);color:var(--text-main);border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,.3)}
+h1,h2,h3,h4,h5,h6{color:var(--text-main);font-weight:bold}
+p,span,li{color:var(--text-main)}
 @media(max-width:700px){.roulette-layout{grid-template-columns:1fr}}
 hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 @media(max-width:650px){

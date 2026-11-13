@@ -66,12 +66,67 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .court-entry:last-child{border-bottom:0}
 .court-entry p{margin:7px 0;line-height:1.8;white-space:pre-wrap}
 .court-verdict{color:var(--gold);font-weight:800}
+.reading-meter{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;direction:rtl;margin:18px 0 10px}
+.reading-quarter{position:relative;min-height:84px;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#17120f;display:flex;align-items:center;padding:12px;isolation:isolate}
+.reading-quarter-fill{position:absolute;inset-block:0;inset-inline-start:0;background:linear-gradient(90deg,#8b6636,var(--gold));opacity:.85;z-index:-1;transition:width .3s ease}
+.reading-quarter-label{font-size:13px;font-weight:700;line-height:1.6}
+.reading-quarter.locked{border-style:dashed;color:var(--muted);background:repeating-linear-gradient(135deg,#17120f,#17120f 9px,#211912 9px,#211912 18px)}
+.reading-quarter.unlocked{border-color:var(--gold);color:var(--cream)}
+.reading-book-title{color:var(--gold);font-size:18px;font-weight:800}
+.reading-progress-card{display:flex;flex-direction:column;gap:10px}
+.reading-progress-card form{grid-template-columns:minmax(90px,1fr) auto;align-items:center}
+.reading-progress-card .status{grid-column:1/-1;margin:0}
+.reading-progress-card input{min-width:0}
+.reading-progress-card button{white-space:nowrap}
+.reading-verified{color:#9bd6a2;font-weight:700}
+.reading-quiz-panel{grid-column:1/-1;border-top:1px solid var(--line);padding-top:10px}
+.reading-quiz-panel form{grid-template-columns:1fr}
+.reading-quiz-panel textarea{min-height:70px}
+.court-ai-verdict{margin-top:16px;padding:20px;border:2px solid var(--gold);border-radius:8px;background:linear-gradient(145deg,#2c2118,#1b1511);box-shadow:0 8px 26px #0006;white-space:pre-wrap;line-height:2}
+.court-ai-verdict h3{margin:0 0 10px;color:var(--gold);text-align:center}
+.court-ai-verdict .meta{text-align:center;margin-top:12px}
+.margin-note-card{position:relative;min-height:180px;padding:18px 16px 14px;background:linear-gradient(145deg,#332719,#2a2118);border:1px solid #80613d;box-shadow:2px 5px 12px #0005;transform:rotate(-.35deg)}
+.margin-note-card:nth-child(even){transform:rotate(.4deg);background:linear-gradient(145deg,#30251d,#272019)}
+.margin-note-card h3{color:var(--gold);font-size:16px}
+.margin-note-card blockquote{margin:14px 0;white-space:pre-wrap;line-height:1.9;color:var(--cream)}
+.margin-note-card .margin-note-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.margin-note-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
+.margin-note-actions button{padding:6px 10px;font-size:13px}
+.margin-note-actions button.liked{background:var(--gold);color:#21170f}
+.margin-summary{margin-top:16px;border:1px solid var(--gold);border-radius:14px;padding:18px;background:linear-gradient(145deg,#302217,#1c1712);white-space:pre-wrap;line-height:2}
+.margin-summary h3{margin-top:0;color:var(--gold)}
+.roulette-layout{display:grid;grid-template-columns:minmax(260px,.9fr) 1.1fr;gap:18px;align-items:center}
+.roulette-wheel-wrap{display:grid;place-items:center;position:relative;padding:14px}
+.roulette-wheel{display:block;width:min(100%,380px);height:auto;filter:drop-shadow(0 10px 18px #0008);transform:rotate(0rad)}
+.roulette-pointer{position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:1;color:var(--gold);font-size:35px;text-shadow:0 2px 6px #000}
+.roulette-candidates{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:12px 0}
+.roulette-candidate{display:flex;align-items:center;gap:8px;background:#17120f;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.roulette-candidate input{width:auto;margin:0;accent-color:var(--gold)}
+.roulette-result{border:1px solid var(--gold);border-radius:15px;padding:16px;margin-top:12px;background:linear-gradient(145deg,#302217,#1c1712)}
+.roulette-result h3{color:var(--gold);margin:0 0 8px}
+.roulette-veto-form{margin-top:12px}
+.roulette-veto-form textarea{min-height:70px}
+.roulette-member-status{padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#1b1511}
+.roulette-history{max-height:320px;overflow:auto}
+.profile-card{display:flex;flex-direction:column;gap:12px;border-top:3px solid var(--gold)}
+.profile-card h3{color:var(--gold);margin:0}
+.profile-badges{display:flex;gap:7px;flex-wrap:wrap}
+.profile-badge{display:inline-block;border:1px solid #80613d;border-radius:20px;padding:4px 10px;background:#302217;color:var(--gold);font-size:12px}
+.profile-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px}
+.profile-stat{padding:9px;border:1px solid var(--line);border-radius:10px;background:#17120f}
+.profile-stat b{display:block;color:var(--gold);font-size:17px}
+.member-profile-form{display:grid;grid-template-columns:1fr;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+.member-profile-form textarea{min-height:75px}
+@media(max-width:700px){.roulette-layout{grid-template-columns:1fr}}
 hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 @media(max-width:650px){
  .hero{grid-template-columns:1fr}
  .court-layout{grid-template-columns:1fr}
  .quote{padding:12px}
  .design-preview{max-height:280px}
+ .reading-meter{gap:4px}
+ .reading-quarter{min-height:100px;padding:8px}
+ .reading-quarter-label{font-size:11px}
 }
 </style>
 </head>
@@ -86,6 +141,9 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <nav id="mainNav" class="hidden">
 <a href="#about">عن النادي</a>
 <a href="#books">المكتبة</a>
+<a href="#reading-meter">مؤشر الثلاثة أرباع</a>
+<a href="#margin-notes">حائط الهوامش</a>
+<a href="#book-roulette">روليت الكتاب</a>
 <a href="#journey">رحلة القراءة</a>
 <a href="#ai-agent">المساعد الذكي</a>
 <a href="#roles">أدوار النادي</a>
@@ -93,6 +151,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <a href="#add">أضف كتاب</a>
 <a href="#points">النقاط</a>
 <a href="#members">الأعضاء</a>
+<a href="#member-profiles">هويات الأعضاء</a>
 <a href="#rules">النظام</a>
 </nav>
 
@@ -145,6 +204,90 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <div class="head"><h2>📚 مكتبة النادي</h2></div>
 <div class="panel"><input id="search" placeholder="ابحث عن كتاب أو مؤلف…"><div id="booksStatus" class="status">بنحمّل الكتب…</div></div>
 <div id="booksGrid" class="grid" style="margin-top:14px"></div>
+</section>
+
+<section id="reading-meter">
+<div class="head"><h2>📊 مؤشر الثلاثة أرباع (عداد الربع الناقص)</h2></div>
+<div class="panel">
+<p class="meta">كل عضو يملأ ربعه بقراءته. وعندما يكمل الأعضاء الثلاثة الكتاب، يضيء الربع المحجوز لمحكمة الكتاب.</p>
+<div id="readingProgressStatus" class="status" role="status">جارٍ تحميل تقدم القراءة…</div>
+<div id="readingBookPicker" class="hidden" style="max-width:420px;margin:12px 0">
+<label class="meta" for="readingBookSelect">اختاروا كتابًا من الكتب قيد القراءة</label>
+<select id="readingBookSelect" aria-label="اختيار كتاب قيد القراءة"></select>
+</div>
+<div id="readingProgressView"></div>
+<div id="readingProgressCards" class="grid" style="margin-top:14px"></div>
+</div>
+</section>
+
+<section id="margin-notes">
+<div class="head"><h2>📝 حائط الاقتباسات والهوامش (Margin Notes)</h2></div>
+<div class="panel">
+<p class="meta">اقتباس بقي معك، خاطرة على الهامش، أو نقد لاذع بلا حرق للأحداث—اترك أثرًا يقرأه بقية النادي.</p>
+<div class="grid" style="align-items:end">
+  <label class="meta">الكتاب
+    <select id="marginBookFilter" aria-label="فلترة الهوامش حسب الكتاب"></select>
+  </label>
+  <label class="meta">نوع الهامش
+    <select id="marginTypeFilter">
+      <option value="">كل الأنواع</option>
+      <option value="quote">اقتباس 📜</option>
+      <option value="thought">خاطرة 💡</option>
+      <option value="critique">نقد لاذع 🌶️</option>
+    </select>
+  </label>
+  <div class="actions">
+    <button id="summarizeNotesBtn" type="button" class="secondary">✨ استخلاص عصارة الهوامش بالـ AI</button>
+  </div>
+</div>
+<div id="marginNotesStatus" class="status" role="status">اختاروا كتابًا لعرض هوامشه.</div>
+<article id="marginNotesSummary" class="margin-summary hidden" aria-live="polite"></article>
+<div id="marginNotesGrid" class="grid" style="margin-top:14px"></div>
+<div class="panel" style="margin-top:18px">
+  <h3>✍️ أضف هامشًا جديدًا</h3>
+  <form id="marginNoteForm">
+    <select id="marginNoteBook" required aria-label="اختيار كتاب للهامش"></select>
+    <select id="marginNoteType" required>
+      <option value="quote">اقتباس 📜</option>
+      <option value="thought">خاطرة 💡</option>
+      <option value="critique">نقد لاذع 🌶️</option>
+    </select>
+    <input id="marginNotePage" type="number" min="1" step="1" placeholder="رقم الصفحة (اختياري)">
+    <textarea id="marginNoteContent" maxlength="4000" placeholder="اكتب اقتباسك أو تعليقك (حتى 4000 حرف)" required></textarea>
+    <div class="actions"><button id="saveMarginNoteBtn" type="submit" disabled>إضافة الهامش</button></div>
+  </form>
+  <div id="marginNoteFormStatus" class="status" role="status">سجّل الدخول واربط حسابك بعضوية النادي لإضافة هامش.</div>
+</div>
+</div>
+</section>
+
+<section id="book-roulette">
+<div class="head"><h2>🎡 روليت الكتاب القادم وحق الفيتو 🛑</h2></div>
+<div class="panel">
+<p class="meta">اختاروا المرشحين، لفّوا العجلة، ثم اعتمدوا الكتاب أو استخدموا الفيتو بحكمة؛ فالفيتو مثل آخر قطعة كنافة، لا يُصرف كل يوم.</p>
+<div id="rouletteStatus" class="status" role="status">جارٍ تجهيز عجلة الحظ…</div>
+<div class="roulette-layout">
+  <div class="roulette-wheel-wrap">
+    <span class="roulette-pointer" aria-hidden="true">▼</span>
+    <canvas id="rouletteWheel" class="roulette-wheel" width="420" height="420" aria-label="عجلة اختيار الكتاب"></canvas>
+  </div>
+  <div>
+    <h3>📚 الكتب الداخلة في السحب</h3>
+    <p class="small-note">يمكن إدخال كتب قائمة القراءة وأي كتاب لم يبدأ بعد؛ الكتاب الجاري قراءته أو المكتمل لا يدخل السحب.</p>
+    <div id="rouletteCandidates" class="roulette-candidates"></div>
+    <button id="spinRouletteBtn" type="button">🎲 لف عجلة الحظ!</button>
+  </div>
+</div>
+<div id="rouletteResult"></div>
+<div class="court-stage">
+  <h3>حق الفيتو — مرة كل 90 يومًا</h3>
+  <div id="rouletteVetoStatuses" class="grid"></div>
+</div>
+<div class="court-stage">
+  <h3>🗂️ آخر سحبات الروليت</h3>
+  <div id="rouletteHistory" class="roulette-history"></div>
+</div>
+</div>
 </section>
 
 <section id="journey">
@@ -263,6 +406,8 @@ async function loadSharedCourt(){
       book_title:item.title_snapshot,
       created_at:item.created_at,
       status:item.status,
+      ai_final_verdict:item.ai_final_verdict,
+      ai_verdict_at:item.ai_verdict_at,
       roles:rolesByCase.get(item.id)||{},
       contributions:contributions.filter(entry=>entry.case_id===item.id).map(entry=>({
         member_id:entry.member_id,stage:entry.stage,text:entry.content,created_at:entry.created_at
@@ -359,12 +504,24 @@ function renderCourt(){
   const result=!votes.length?"لم يبدأ التصويت النهائي":winners.length>1?"تعادل في التصويت":winners[0].label;
   const currentVote=currentMember&&votes.some(vote=>vote.member_id===currentMember.id);
   const isOpen=session.status==="open";
+  const canIssueVerdict=Boolean(currentMember&&(contributions.length||votes.length));
 
   view.classList.remove("hidden");
   view.innerHTML=`
     <div class="head"><h2>📖 ${esc(book?.title||session.book_title)}</h2></div>
     <div class="meta">${esc(book?.author||"مؤلف غير محدد")} · ${esc(book?.category||"أخرى")}${book?.pages?` · ${esc(book.pages)} صفحة`:""}</div>
     <div class="court-stage"><b>توزيع أدوار الجلسة</b><div class="grid" style="margin-top:10px">${roleHtml}</div></div>
+    ${session.ai_final_verdict?`
+      <article class="court-ai-verdict" aria-label="حكم محكمة الثلاثة أرباع النهائي">
+        <h3>⚖️ حكم محكمة الثلاثة أرباع النهائي</h3>
+        <div>${esc(session.ai_final_verdict)}</div>
+        ${session.ai_verdict_at?`<div class="meta">صدر في ${new Date(session.ai_verdict_at).toLocaleString("ar-EG")}</div>`:""}
+      </article>
+    `:""}
+    <div class="court-stage">
+      <button id="courtAiVerdictBtn" type="button" ${canIssueVerdict?"":"disabled"}>⚖️ إصدار النطق بالحكم النهائي (القاضي الذكي)</button>
+      <div id="courtAiVerdictStatus" class="status" role="status">${!currentMember?"اربط حسابك بعضوية النادي لإصدار الحكم.":!canIssueVerdict?"تُصدر المحكمة الحكم بعد تسجيل مرافعة أو تصويت واحد على الأقل.":""}</div>
+    </div>
     <div class="court-layout court-stage">
       <div>
         <h3>🗣️ المرافعات والنقاش والأسئلة</h3>
@@ -420,6 +577,28 @@ function renderCourt(){
     }
     finally{
       if(button.isConnected)button.disabled=!getCurrentMember();
+    }
+  });
+
+  $("courtAiVerdictBtn").addEventListener("click",async()=>{
+    const button=$("courtAiVerdictBtn");
+    button.disabled=true;
+    status($("courtAiVerdictStatus"),"القاضي يراجع المرافعات والأصوات…");
+    try{
+      const {data,error}=await db.functions.invoke("club-agent",{
+        body:{mode:"court_verdict",case_id:session.id}
+      });
+      if(error)throw error;
+      if(!data||typeof data.ai_final_verdict!=="string")throw new Error(data?.error||"لم يصل نص الحكم.");
+      await loadSharedCourt();
+      status(
+        $("courtAiVerdictStatus"),
+        data.fallback?"صدر حكم احتياطي؛ أضيفوا مفتاح AI لإصدار حيثيات الذكاء الاصطناعي.":"صدر الحكم النهائي وحُفظ في سجل القضية.",
+        data.fallback?"":"ok"
+      );
+    }catch(error){
+      status($("courtAiVerdictStatus"),"تعذر إصدار الحكم: "+(error.message||error),"err");
+      if(button.isConnected)button.disabled=!canIssueVerdict;
     }
   });
 
@@ -531,6 +710,15 @@ function renderCourt(){
 </div>
 </section>
 
+<section id="member-profiles">
+<div class="head"><h2>🪪 هويات أرباع المثقفين (بروفايل الأعضاء والألقاب 🪪👑)</h2></div>
+<div class="panel">
+  <p class="meta">بطاقة ثقافية لكل عضو: الإنجازات تُحصى تلقائيًا، والألقاب تُمنح حسب الوقائع لا حسب المحاباة الأدبية.</p>
+  <div id="memberProfilesStatus" class="status" role="status">جارٍ إعداد هويات الأعضاء…</div>
+  <div id="memberProfilesGrid" class="grid"></div>
+</div>
+</section>
+
 <section id="rules">
 <div class="head"><h2>📜 نظام النادي</h2></div>
 <div class="panel rules">
@@ -563,6 +751,12 @@ const COURT_STORAGE_KEY = "threeQuartersCourt.v1";
 let allBooks = [];
 let allMembers = [];
 let allPoints = [];
+let marginNotes = [];
+let memberProfileRows = [];
+let memberProfileStats = new Map();
+let rouletteSpins = [];
+let rouletteRotation = 0;
+let rouletteAnimating = false;
 let activeUserId = null;
 let legacyCourtData = loadLegacyCourtData();
 let courtData = {activeSessionId:null,sessions:[]};
@@ -604,8 +798,21 @@ async function showApp(session){
     activeUserId=null;
     allBooks=[];
     allMembers=[];
+    allPoints=[];
+    marginNotes=[];
+    memberProfileRows=[];
+    memberProfileStats=new Map();
+    rouletteSpins=[];
+    $("rouletteCandidates").innerHTML="";
+    $("rouletteResult").innerHTML="";
+    $("rouletteHistory").innerHTML="";
+    $("rouletteVetoStatuses").innerHTML="";
+    $("memberProfilesGrid").innerHTML="";
+    status($("memberProfilesStatus"),"سجّل الدخول لعرض هويات الأعضاء.");
     courtData={activeSessionId:null,sessions:[]};
     $("booksGrid").innerHTML="";
+    $("readingProgressView").innerHTML="";
+    $("readingProgressCards").innerHTML="";
     renderCourt();
     return;
   }
@@ -634,8 +841,8 @@ async function showApp(session){
 
   $("adminPointsBox").classList.toggle("hidden",user.id!==CLUB_ADMIN_ID);
 
-  await loadBooks();
   await loadClubData();
+  await loadBooks();
   await loadSharedCourt();
   startCourtRealtime();
 }
@@ -655,6 +862,10 @@ async function loadBooks(){
     allBooks=data||[];
     renderBooks(allBooks);
     fillCourtBooks();
+    await loadReadingProgress();
+    await loadMarginNotes();
+    await loadBookRoulette();
+    await loadMemberProfiles();
 
     status(
       $("booksStatus"),
@@ -669,6 +880,329 @@ async function loadBooks(){
     console.error(e);
   }
 }
+
+function isRouletteEligible(book){
+  const status=String(book.status||"").trim().toLowerCase();
+  return ![
+    "قيد القراءة","تمت قراءته","مقروء","مكتمل","مكتملة",
+    "read","completed","complete","finished","in_progress"
+  ].includes(status);
+}
+
+function drawRouletteWheel(){
+  const canvas=$("rouletteWheel");
+  const ctx=canvas.getContext("2d");
+  const candidates=[...$("rouletteCandidates").querySelectorAll(".roulette-candidate-input:checked")]
+    .map(input=>allBooks.find(book=>String(book.id)===input.value))
+    .filter(Boolean);
+  const size=canvas.width;
+  const center=size/2;
+  const radius=center-8;
+  ctx.clearRect(0,0,size,size);
+  if(!candidates.length){
+    ctx.beginPath();
+    ctx.arc(center,center,radius,0,Math.PI*2);
+    ctx.fillStyle="#241b16";
+    ctx.fill();
+    ctx.strokeStyle="#514033";
+    ctx.lineWidth=4;
+    ctx.stroke();
+    ctx.fillStyle="#b9a58b";
+    ctx.font="600 18px Cairo, sans-serif";
+    ctx.textAlign="center";
+    ctx.fillText("اختاروا كتابًا",center,center);
+    return candidates;
+  }
+
+  const colors=["#9a6836","#6d4831","#b5864d","#59402f","#8a5c43","#745b36","#a57a4c","#49362b"];
+  const arc=Math.PI*2/candidates.length;
+  candidates.forEach((book,index)=>{
+    const start=-Math.PI/2+index*arc;
+    const end=start+arc;
+    ctx.beginPath();
+    ctx.moveTo(center,center);
+    ctx.arc(center,center,radius,start,end);
+    ctx.closePath();
+    ctx.fillStyle=colors[index%colors.length];
+    ctx.fill();
+    ctx.strokeStyle="#f4e6ca";
+    ctx.lineWidth=2;
+    ctx.stroke();
+
+    ctx.save();
+    ctx.translate(center,center);
+    ctx.rotate(start+arc/2);
+    ctx.textAlign="right";
+    ctx.textBaseline="middle";
+    ctx.fillStyle="#fff4dd";
+    ctx.font=`700 ${Math.max(11,Math.min(16,190/Math.max(12,book.title.length)))}px Cairo, sans-serif`;
+    const title=book.title.length>24?book.title.slice(0,23)+"…":book.title;
+    ctx.fillText(title,radius-20,0,Math.max(45,radius*.65));
+    ctx.restore();
+  });
+  ctx.beginPath();
+  ctx.arc(center,center,34,0,Math.PI*2);
+  ctx.fillStyle="#17120f";
+  ctx.fill();
+  ctx.strokeStyle="#d6ad70";
+  ctx.lineWidth=4;
+  ctx.stroke();
+  ctx.fillStyle="#d6ad70";
+  ctx.font="800 15px Cairo, sans-serif";
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+  ctx.fillText("3/4",center,center);
+  return candidates;
+}
+
+function renderRouletteCandidates(){
+  const eligible=allBooks.filter(isRouletteEligible);
+  const holder=$("rouletteCandidates");
+  if(!eligible.length){
+    holder.innerHTML='<div class="card meta">لا توجد كتب مرشحة بعد. أضيفوا كتابًا إلى المكتبة أو أعيدوا كتابًا مقروءًا إلى القائمة.</div>';
+    $("spinRouletteBtn").disabled=true;
+    drawRouletteWheel();
+    return;
+  }
+  const previous=new Set(
+    [...holder.querySelectorAll(".roulette-candidate-input:checked")].map(input=>input.value)
+  );
+  const initialSelection=previous.size===0;
+  holder.innerHTML=eligible.map(book=>`
+    <label class="roulette-candidate">
+      <input class="roulette-candidate-input" type="checkbox" value="${esc(book.id)}"
+        ${initialSelection||previous.has(String(book.id))?"checked":""}
+        ${rouletteAnimating?"disabled":""}>
+      <span>${esc(book.title)}</span>
+    </label>
+  `).join("");
+  drawRouletteWheel();
+  const activeSpin=rouletteSpins.find(spin=>spin.status==="selected");
+  $("spinRouletteBtn").disabled=rouletteAnimating||!getCurrentMember()||!!activeSpin||
+    !holder.querySelector(".roulette-candidate-input:checked");
+}
+
+async function loadBookRoulette(){
+  try{
+    const {data,error}=await db.from("book_roulette_spins")
+      .select("*")
+      .order("created_at",{ascending:false})
+      .limit(12);
+    if(error)throw error;
+    rouletteSpins=data||[];
+    renderRouletteCandidates();
+    renderRouletteDecision();
+    renderRouletteVetoStatuses();
+    renderRouletteHistory();
+    status(
+      $("rouletteStatus"),
+      !getCurrentMember()?"اربط حسابك بعضوية النادي للمشاركة في الروليت."
+      :rouletteSpins.some(spin=>spin.status==="selected")?"في انتظار اعتماد الاختيار أو استخدام الفيتو."
+      :"اختاروا المرشحين ثم لفّوا العجلة!",
+      getCurrentMember()?"ok":""
+    );
+    return true;
+  }catch(error){
+    $("rouletteCandidates").innerHTML='<div class="card meta">تعذر تحميل بيانات الروليت. تأكدوا من تطبيق migration.</div>';
+    $("spinRouletteBtn").disabled=true;
+    status($("rouletteStatus"),"تعذر تحميل الروليت: "+error.message,"err");
+    console.error("Book roulette load failed:",error);
+    return false;
+  }
+}
+
+function renderRouletteDecision(){
+  const holder=$("rouletteResult");
+  const spin=rouletteSpins.find(item=>item.status==="selected");
+  if(!spin){
+    holder.innerHTML="";
+    return;
+  }
+  const book=allBooks.find(item=>String(item.id)===String(spin.selected_book_id));
+  const spinner=allMembers.find(item=>String(item.id)===String(spin.spun_by_member_id));
+  const currentMember=getCurrentMember();
+  const memberStatus=currentMember&&rouletteVetoCooldowns.get(String(currentMember.id));
+  const vetoBlocked=!!memberStatus&&memberStatus.getTime()>Date.now();
+  holder.innerHTML=`
+    <article class="roulette-result">
+      <h3>🎉 الكتاب الذي اختارته العجلة</h3>
+      <div class="reading-book-title">${esc(book?.title||"كتاب غير متاح")}</div>
+      <div class="meta">${esc(book?.author||"مؤلف غير محدد")} · سحبها ${esc(spinner?.name||"عضو النادي")} · ${new Date(spin.created_at).toLocaleString("ar-EG")}</div>
+      <div class="actions" style="margin-top:14px">
+        <button type="button" class="roulette-approve" ${currentMember&&book?"":"disabled"}>✅ اعتماد الكتاب (تحويله إلى قيد القراءة)</button>
+      </div>
+      ${currentMember?`
+        <form class="roulette-veto-form">
+          <textarea name="veto_reason" maxlength="500" placeholder="سبب الفيتو الطريف (3–500 حرف)" required ${vetoBlocked?"disabled":""}></textarea>
+          <button type="submit" class="secondary" ${vetoBlocked?"disabled":""}>🛑 استخدام حق الفيتو (نقض الاختيار!)</button>
+          <div class="status">${vetoBlocked?`الفيتو مستهلك حتى ${memberStatus.toLocaleDateString("ar-EG")}؛ المحكمة تحترم فترات التهدئة.`:""}</div>
+        </form>
+      `:'<p class="small-note">سجّل الدخول المرتبط بعضوية النادي للاعتماد أو استخدام الفيتو.</p>'}
+    </article>
+  `;
+}
+
+let rouletteVetoCooldowns=new Map();
+
+async function renderRouletteVetoStatuses(){
+  const holder=$("rouletteVetoStatuses");
+  const members=getVisibleClubMembers();
+  rouletteVetoCooldowns=new Map();
+  const cutoff=new Date(Date.now()-90*24*60*60*1000).toISOString();
+  try{
+    const {data,error}=await db.from("book_roulette_spins")
+      .select("vetoed_by_member_id,vetoed_at")
+      .not("vetoed_by_member_id","is",null)
+      .gte("vetoed_at",cutoff)
+      .order("vetoed_at",{ascending:false});
+    if(error)throw error;
+    (data||[]).forEach(item=>{
+      const id=String(item.vetoed_by_member_id);
+      if(!rouletteVetoCooldowns.has(id)){
+        rouletteVetoCooldowns.set(id,new Date(new Date(item.vetoed_at).getTime()+90*24*60*60*1000));
+      }
+    });
+    holder.innerHTML=members.length?members.map(member=>{
+      const until=rouletteVetoCooldowns.get(String(member.id));
+      return `<div class="roulette-member-status">
+        <b>${esc(member.name||"عضو")}</b>
+        <div class="meta">${until
+          ?`🔴 الفيتو مستهلك - يتجدد في ${until.toLocaleDateString("ar-EG")}`
+          :"🟢 الفيتو متاح"}</div>
+      </div>`;
+    }).join(""):'<div class="meta">تعذر عرض الأعضاء.</div>';
+    renderRouletteDecision();
+  }catch(error){
+    holder.innerHTML='<div class="meta">تعذر تحميل حالة الفيتو.</div>';
+    console.error("Veto cooldown load failed:",error);
+  }
+}
+
+function renderRouletteHistory(){
+  const holder=$("rouletteHistory");
+  const statusLabels={selected:"بانتظار القرار",approved:"معتمد",vetoed:"منقوض بالفيتو"};
+  holder.innerHTML=rouletteSpins.length?rouletteSpins.map(spin=>{
+    const book=allBooks.find(item=>String(item.id)===String(spin.selected_book_id));
+    const spinner=allMembers.find(item=>String(item.id)===String(spin.spun_by_member_id));
+    const vetoer=allMembers.find(item=>String(item.id)===String(spin.vetoed_by_member_id));
+    return `<div class="history-row">
+      <span><b>${esc(book?.title||"كتاب محذوف")}</b>
+        <div class="meta">${new Date(spin.created_at).toLocaleDateString("ar-EG")} · سحبها ${esc(spinner?.name||"عضو")}</div>
+        ${spin.status==="vetoed"?`<div class="small-note">نقضه ${esc(vetoer?.name||"عضو")}: ${esc(spin.veto_reason||"دون سبب")}</div>`:""}
+      </span>
+      <span class="pill">${statusLabels[spin.status]||esc(spin.status)}</span>
+    </div>`;
+  }).join(""):'<p class="meta">لم تحدث سحبات بعد؛ العجلة تنتظر أول ضحية… أقصد كتابًا.</p>';
+}
+
+async function spinBookRoulette(){
+  const button=$("spinRouletteBtn");
+  const candidates=[...$("rouletteCandidates").querySelectorAll(".roulette-candidate-input:checked")]
+    .map(input=>allBooks.find(book=>String(book.id)===input.value))
+    .filter(Boolean);
+  if(!getCurrentMember()){
+    status($("rouletteStatus"),"اربط حسابك بعضوية النادي للمشاركة.","err");
+    return;
+  }
+  if(!candidates.length){
+    status($("rouletteStatus"),"اختاروا كتابًا واحدًا على الأقل قبل تدوير العجلة.","err");
+    return;
+  }
+
+  button.disabled=true;
+  rouletteAnimating=true;
+  renderRouletteCandidates();
+  status($("rouletteStatus"),"العجلة تدور… لا تحاولوا التأثير عليها بالنظر!");
+  try{
+    const {data,error}=await db.rpc("spin_book_roulette",{
+      p_candidate_book_ids:candidates.map(book=>book.id)
+    });
+    if(error)throw error;
+    const winner=candidates.find(book=>String(book.id)===String(data?.selected_book_id));
+    if(!winner||typeof data?.id!=="string")throw new Error("استجابة غير صالحة من قاعدة بيانات الروليت.");
+
+    const index=candidates.findIndex(book=>String(book.id)===String(winner.id));
+    const sector=(Math.PI*2)/candidates.length;
+    const winnerCenterOffset=-index*sector-sector/2;
+    const target=rouletteRotation+Math.PI*2*6+
+      ((winnerCenterOffset-rouletteRotation)%(Math.PI*2)+Math.PI*2)%(Math.PI*2);
+    const canvas=$("rouletteWheel");
+    const animation=canvas.animate(
+      [{transform:`rotate(${rouletteRotation}rad)`},{transform:`rotate(${target}rad)`}],
+      {duration:5200,easing:"cubic-bezier(.12,.72,.12,1)",fill:"forwards"}
+    );
+    await animation.finished;
+    rouletteRotation=target;
+    canvas.style.transform=`rotate(${rouletteRotation}rad)`;
+    animation.cancel();
+    await loadBookRoulette();
+    status($("rouletteStatus"),`وقفت العجلة على «${winner.title}»! القرار لكم.`,"ok");
+  }catch(error){
+    status($("rouletteStatus"),"تعذر تدوير العجلة: "+error.message,"err");
+    console.error("Book roulette spin failed:",error);
+  }finally{
+    rouletteAnimating=false;
+    renderRouletteCandidates();
+  }
+}
+
+async function decideRouletteSpin(event){
+  if(event.target.closest(".roulette-approve")){
+    const spin=rouletteSpins.find(item=>item.status==="selected");
+    if(!spin)return;
+    const button=event.target.closest(".roulette-approve");
+    button.disabled=true;
+    status($("rouletteStatus"),"جارٍ اعتماد الكتاب…");
+    try{
+      const {error}=await db.rpc("approve_book_roulette",{p_spin_id:spin.id});
+      if(error)throw error;
+      $("rouletteResult").innerHTML="";
+      await loadBooks();
+      await loadBookRoulette();
+      status($("rouletteStatus"),"تم اعتماد الكتاب وإضافته إلى الكتب قيد القراءة.","ok");
+    }catch(error){
+      status($("rouletteStatus"),"تعذر اعتماد الكتاب: "+error.message,"err");
+      button.disabled=false;
+    }
+    return;
+  }
+
+  if(event.type==="click")return;
+  const form=event.target.closest(".roulette-veto-form");
+  if(!form)return;
+  event.preventDefault();
+  const spin=rouletteSpins.find(item=>item.status==="selected");
+  const member=getCurrentMember();
+  if(!spin||!member)return;
+  const button=form.querySelector('button[type="submit"]');
+  const formData=new FormData(form);
+  const reason=String(formData.get("veto_reason")||"").trim();
+  button.disabled=true;
+  status(form.querySelector(".status"),"تُسجّل المحكمة سبب النقض…");
+  try{
+    const {error}=await db.rpc("veto_book_roulette",{
+      p_spin_id:spin.id,
+      p_veto_reason:reason
+    });
+    if(error)throw error;
+    $("rouletteResult").innerHTML="";
+    await loadBookRoulette();
+    status($("rouletteStatus"),"قُبل الفيتو وسُجل سببه؛ يمكنكم تدوير العجلة من جديد.","ok");
+  }catch(error){
+    status(form.querySelector(".status"),"تعذر استخدام الفيتو: "+error.message,"err");
+    button.disabled=false;
+  }
+}
+
+$("rouletteCandidates").addEventListener("change",()=>{
+  drawRouletteWheel();
+  const activeSpin=rouletteSpins.find(spin=>spin.status==="selected");
+  $("spinRouletteBtn").disabled=!getCurrentMember()||!!activeSpin||
+    !$("rouletteCandidates").querySelector(".roulette-candidate-input:checked");
+});
+$("spinRouletteBtn").addEventListener("click",spinBookRoulette);
+$("rouletteResult").addEventListener("click",decideRouletteSpin);
+$("rouletteResult").addEventListener("submit",decideRouletteSpin);
 
 function renderBooks(books){
   const grid=$("booksGrid");
@@ -703,6 +1237,293 @@ function filterBooks(){
 $("search").addEventListener("input",filterBooks);
 $("refreshBooksBtn").addEventListener("click",loadBooks);
 
+async function ensureBookCompletionReward(book,member){
+  const achievementKey=`finish_book_${book.id}_${member.id}`;
+  const {data:existing,error:lookupError}=await db.from("points")
+    .select("id")
+    .eq("achievement_key",achievementKey)
+    .limit(1);
+  if(lookupError)throw lookupError;
+  if(existing?.length)return false;
+
+  const {error}=await db.from("points").insert({
+    member_id:member.id,
+    achievement:"إتمام ربع الكتاب",
+    points:20,
+    achievement_key:achievementKey,
+    reference_id:book.id
+  });
+  if(error?.code==="23505")return false;
+  if(error)throw error;
+  return true;
+}
+
+async function loadReadingProgress(){
+  const picker=$("readingBookPicker");
+  const select=$("readingBookSelect");
+  const view=$("readingProgressView");
+  const cards=$("readingProgressCards");
+  status($("readingProgressStatus"),"جارٍ تحميل تقدم القراءة…");
+
+  try{
+    const readingBooks=allBooks.filter(book=>book.status==="قيد القراءة");
+    if(!readingBooks.length){
+      picker.classList.add("hidden");
+      view.innerHTML='<div class="card meta">لا يوجد كتاب قيد القراءة حاليًا. اختاروا كتابًا من المكتبة وابدأوا رحلتكم 📚</div>';
+      cards.innerHTML="";
+      status($("readingProgressStatus"),"","ok");
+      return {};
+    }
+
+    const previousBookId=select.value;
+    const selectedBook=readingBooks.find(book=>String(book.id)===previousBookId)||readingBooks[0];
+    picker.classList.toggle("hidden",readingBooks.length<2);
+    select.innerHTML=readingBooks.map(book=>
+      `<option value="${esc(book.id)}">${esc(book.title)}</option>`
+    ).join("");
+    select.value=String(selectedBook.id);
+
+    const members=getVisibleClubMembers();
+    if(members.length!==3){
+      view.innerHTML='<div class="card meta">عداد الأرباع يحتاج إلى ثلاثة أعضاء أساسيين مسجلين في النادي.</div>';
+      cards.innerHTML="";
+      status($("readingProgressStatus"),"تعذر عرض المؤشر: عدد الأعضاء الأساسيين ليس ثلاثة.","err");
+      return {error:"عدد الأعضاء الأساسيين ليس ثلاثة."};
+    }
+
+    const totalPages=Number(selectedBook.pages);
+    view.innerHTML=`<div class="reading-book-title">${esc(selectedBook.title)}</div>`;
+    if(!Number.isInteger(totalPages)||totalPages<1){
+      view.insertAdjacentHTML("beforeend",'<p class="meta">أضيفوا عدد صفحات هذا الكتاب لبدء متابعة التقدم.</p>');
+      cards.innerHTML="";
+      status($("readingProgressStatus"),"لا يمكن حساب التقدم حتى يُسجّل عدد صفحات الكتاب.","err");
+      return {error:"عدد صفحات الكتاب غير صالح."};
+    }
+
+    const {data:progressRows,error}=await db.from("book_reading_progress")
+      .select("member_id,pages_read,verified_by_ai,verification_note")
+      .eq("book_id",selectedBook.id);
+    if(error)throw error;
+
+    const progressByMember=new Map((progressRows||[]).map(row=>[
+      String(row.member_id),
+      Math.max(0,Number(row.pages_read)||0)
+    ]));
+    const memberProgress=members.map(member=>{
+      const pagesRead=progressByMember.get(String(member.id))||0;
+      const percent=Math.min((pagesRead/totalPages)*100,100);
+      const progressRow=(progressRows||[]).find(row=>String(row.member_id)===String(member.id));
+      return {
+        member,
+        pagesRead,
+        percent,
+        verifiedByAi:progressRow?.verified_by_ai===true,
+        verificationNote:progressRow?.verification_note||""
+      };
+    });
+    const allThreeComplete=memberProgress.every(item=>item.percent>=100);
+    const overallPercent=Math.round(memberProgress.reduce((sum,item)=>sum+item.percent,0)/4);
+
+    view.insertAdjacentHTML("beforeend",`
+      <div class="reading-meter" role="group" aria-label="تقدم قراءة الكتاب">
+        ${memberProgress.map(item=>`
+          <div class="reading-quarter" role="progressbar" aria-label="ربع ${esc(item.member.name||"عضو")}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(item.percent)}">
+            <span class="reading-quarter-fill" style="width:${item.percent.toFixed(2)}%"></span>
+            <span class="reading-quarter-label">${esc(item.member.name||"عضو")}<br>${Math.round(item.percent)}%</span>
+          </div>
+        `).join("")}
+        <div class="reading-quarter ${allThreeComplete?"unlocked":"locked"}" role="progressbar" aria-label="الربع المفقود" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${allThreeComplete?100:0}">
+          <span class="reading-quarter-fill" style="width:${allThreeComplete?100:0}%"></span>
+          <span class="reading-quarter-label">الربع المفقود (محجوز لمحكمة الكتاب ⚖️)</span>
+        </div>
+      </div>
+      <div class="meta">اكتمل ${overallPercent}% من المؤشر الكلي (حدّ القراءة الجماعي 75%). ${allThreeComplete?"اكتمل الأرباع الثلاثة وأُضيء الربع المحجوز!":""}</div>
+    `);
+
+    cards.innerHTML=memberProgress.map(item=>`
+      <article class="card reading-progress-card">
+        <h3>${esc(item.member.name||"عضو")}</h3>
+        <div class="meta">${item.pagesRead} / ${totalPages} صفحة · ${Math.round(item.percent)}% من الكتاب</div>
+        <div>
+          ${item.verifiedByAi
+            ?`<span class="reading-verified">✅ موثّق بالـ AI</span>${item.verificationNote?`<div class="small-note">${esc(item.verificationNote)}</div>`:""}`
+            :`<button class="reading-quiz-start secondary" type="button" data-book-id="${esc(selectedBook.id)}" data-member-id="${esc(item.member.id)}" ${item.member.user_id===activeUserId?"":"disabled"}>🕵️‍♂️ استجواب كشف التزويغ</button>${item.member.user_id===activeUserId?"":'<div class="small-note">يبدأ الاستجواب العضو المسجل بهذا الحساب فقط.</div>'}`}
+        </div>
+        <form class="reading-progress-form" data-book-id="${esc(selectedBook.id)}" data-member-id="${esc(item.member.id)}">
+          <input type="number" min="0" max="${totalPages}" step="1" value="${item.pagesRead}" aria-label="الصفحات المقروءة بواسطة ${esc(item.member.name||"عضو")}" ${item.member.user_id===activeUserId?"":"disabled"} required>
+          <button type="submit" ${item.member.user_id===activeUserId?"":"disabled"}>تحديث</button>
+        </form>
+        ${item.member.user_id===activeUserId?"":'<div class="small-note">يمكن لكل عضو تعديل تقدمه بنفسه فقط.</div>'}
+        <div class="reading-quiz-panel hidden" data-quiz-panel="${esc(item.member.id)}"></div>
+      </article>
+    `).join("");
+
+    let rewardError=null;
+    let rewardsAdded=false;
+    for(const item of memberProgress){
+      if(item.percent<100)continue;
+      try{
+        rewardsAdded=(await ensureBookCompletionReward(selectedBook,item.member))||rewardsAdded;
+      }catch(error){
+        rewardError=error;
+        console.error("Book completion reward error:",error);
+      }
+    }
+    if(rewardsAdded)await loadClubData();
+
+    status(
+      $("readingProgressStatus"),
+      rewardError
+        ?`تم تحميل المؤشر، لكن تعذر تسجيل مكافأة إتمام كتاب: ${rewardError.message}`
+        :"",
+      rewardError?"err":"ok"
+    );
+    return {rewardsAdded,rewardError};
+  }catch(error){
+    view.innerHTML='<div class="card meta">تعذر تحميل مؤشر القراءة.</div>';
+    cards.innerHTML="";
+    status($("readingProgressStatus"),"تعذر تحميل تقدم القراءة: "+error.message,"err");
+    console.error("Reading progress error:",error);
+    return {error};
+  }
+}
+
+$("readingBookSelect").addEventListener("change",loadReadingProgress);
+$("readingProgressCards").addEventListener("click",async event=>{
+  const button=event.target.closest(".reading-quiz-start");
+  if(!button)return;
+  const book=allBooks.find(item=>String(item.id)===button.dataset.bookId);
+  const member=getVisibleClubMembers().find(item=>String(item.id)===button.dataset.memberId);
+  const card=button.closest(".reading-progress-card");
+  const pagesRead=Number(card?.querySelector(".reading-progress-form input")?.value);
+  const panel=card?.querySelector(".reading-quiz-panel");
+  if(!book||!member||!panel||member.user_id!==activeUserId)return;
+
+  button.disabled=true;
+  status($("readingProgressStatus"),"القاضي يجهّز سؤالين من صفحات الكتاب…");
+  try{
+    const {data,error}=await db.functions.invoke("club-agent",{
+      body:{
+        mode:"generate_quiz",
+        book_id:book.id,
+        member_id:member.id,
+        book_title:book.title,
+        author:book.author||"",
+        pages_read:pagesRead,
+        total_pages:Number(book.pages),
+        member_name:member.name||"عضو"
+      }
+    });
+    if(error)throw error;
+    if(!Array.isArray(data?.questions)||data.questions.length!==2||typeof data.challenge_token!=="string"){
+      throw new Error(data?.error||"لم تصل أسئلة الاستجواب بصيغة صحيحة.");
+    }
+
+    panel.innerHTML=`
+      <p class="meta">جاوب من ذاكرتك وبكلامك؛ الإجابات العامة قد تثير شكوك المحكمة.</p>
+      ${data.fallback?'<p class="small-note">وضع احتياطي: أسئلة عامة حتى يتوفر مفتاح AI، لذلك لن يمنح التقييم الاحتياطي توثيقًا.</p>':""}
+      <form class="reading-quiz-form">
+        <input type="hidden" name="challenge_token" value="${esc(data.challenge_token)}">
+        ${data.questions.map((question,index)=>`
+          <label class="meta">${index+1}. ${esc(question)}
+            <textarea name="answer${index+1}" maxlength="4000" required></textarea>
+          </label>
+        `).join("")}
+        <button type="submit">إرسال الإجابات للقاضي</button>
+      </form>
+      <div class="status" role="status"></div>
+    `;
+    panel.classList.remove("hidden");
+    status($("readingProgressStatus"),"أجب عن السؤالين لإكمال الاستجواب.");
+  }catch(error){
+    status($("readingProgressStatus"),"تعذر بدء الاستجواب: "+(error.message||error),"err");
+    button.disabled=false;
+  }
+});
+$("readingProgressCards").addEventListener("submit",async event=>{
+  const form=event.target.closest(".reading-quiz-form");
+  if(!form)return;
+  event.preventDefault();
+  const button=form.querySelector('button[type="submit"]');
+  const quizStatus=form.parentElement.querySelector(".status");
+  button.disabled=true;
+  status(quizStatus,"القاضي يراجع الإجابات…");
+  try{
+    const formData=new FormData(form);
+    const {data,error}=await db.functions.invoke("club-agent",{
+      body:{
+        mode:"evaluate_quiz",
+        challenge_token:formData.get("challenge_token"),
+        answers:[String(formData.get("answer1")||""),String(formData.get("answer2")||"")]
+      }
+    });
+    if(error)throw error;
+    if(typeof data?.passed!=="boolean")throw new Error(data?.error||"لم يصل تقييم مفهوم.");
+    if(!data.passed){
+      status(quizStatus,data.feedback||"لم يقتنع القاضي بعد؛ راجع تفاصيل الكتاب وحاول مجددًا.","err");
+      button.disabled=false;
+      return;
+    }
+
+    await loadClubData();
+    await loadReadingProgress();
+    status(
+      $("readingProgressStatus"),
+      data.points_awarded
+        ?`✅ ${data.feedback} أُضيفت 15 نقطة إلى رصيدك.`
+        :`✅ ${data.feedback} توثيقك محفوظ، ومكافأة النقاط سبق تسجيلها.`,
+      "ok"
+    );
+  }catch(error){
+    status(quizStatus,"تعذر تقييم الإجابات: "+(error.message||error),"err");
+    button.disabled=false;
+  }
+});
+$("readingProgressCards").addEventListener("submit",async event=>{
+  const form=event.target.closest(".reading-progress-form");
+  if(!form)return;
+  event.preventDefault();
+
+  const button=form.querySelector("button");
+  const input=form.querySelector("input");
+  const book=allBooks.find(item=>String(item.id)===form.dataset.bookId);
+  const member=getVisibleClubMembers().find(item=>String(item.id)===form.dataset.memberId);
+  const pagesRead=Number(input.value);
+
+  button.disabled=true;
+  try{
+    if(!book||!member)throw new Error("تعذر العثور على الكتاب أو العضو.");
+    if(member.user_id!==activeUserId)throw new Error("يمكنك تعديل تقدم القراءة لحساب عضويتك فقط.");
+    if(!Number.isInteger(pagesRead)||pagesRead<0||pagesRead>Number(book.pages)){
+      throw new Error(`أدخل عددًا صحيحًا بين 0 و${book.pages} صفحة.`);
+    }
+
+    const {error}=await db.from("book_reading_progress").upsert({
+      book_id:book.id,
+      member_id:member.id,
+      pages_read:pagesRead,
+      verified_by_ai:false,
+      verification_note:null,
+      updated_at:new Date().toISOString()
+    },{onConflict:"book_id,member_id"});
+    if(error)throw error;
+
+    const result=await loadReadingProgress();
+    if(result.error){
+      status($("readingProgressStatus"),`تم حفظ التقدم، لكن تعذر تحديث المؤشر: ${result.error.message||result.error}`,"err");
+    }else if(result.rewardError){
+      status($("readingProgressStatus"),`تم حفظ التقدم، لكن تعذر تسجيل مكافأة الإتمام: ${result.rewardError.message}`,"err");
+    }else{
+      status($("readingProgressStatus"),result.rewardsAdded?"تم تحديث التقدم وإضافة 20 نقطة لإنجاز إتمام الكتاب.":"تم تحديث تقدم القراءة بنجاح.","ok");
+    }
+  }catch(error){
+    status($("readingProgressStatus"),"تعذر تحديث التقدم: "+error.message,"err");
+    console.error("Reading progress update error:",error);
+  }finally{
+    if(button.isConnected)button.disabled=false;
+  }
+});
+
 // =========================
 // MEMBERS + POINTS
 // =========================
@@ -728,6 +1549,7 @@ async function loadClubData(){
     renderClubData();
     fillAwardMembers();
     fillCourtMembers();
+    if(allBooks.length)await loadMemberProfiles();
 
   }catch(e){
     $("leaderboard").textContent="تعذر تحميل النقاط: "+e.message;
@@ -736,11 +1558,472 @@ async function loadClubData(){
   }
 }
 
+function updateMarginBookOptions(){
+  const filter=$("marginBookFilter");
+  const formBook=$("marginNoteBook");
+  if(!filter||!formBook)return;
+  const previousFilter=filter.value;
+  const previousFormBook=formBook.value;
+  const options=allBooks.map(book=>
+    `<option value="${esc(book.id)}">${esc(book.title)}</option>`
+  ).join("");
+  filter.innerHTML=options||'<option value="">لا توجد كتب</option>';
+  formBook.innerHTML=options||'<option value="">لا توجد كتب</option>';
+  const defaultBook=allBooks.find(book=>book.status==="قيد القراءة")||allBooks[0];
+  filter.value=allBooks.some(book=>String(book.id)===previousFilter)
+    ?previousFilter
+    :String(defaultBook?.id||"");
+  formBook.value=allBooks.some(book=>String(book.id)===previousFormBook)
+    ?previousFormBook
+    :String(defaultBook?.id||"");
+  $("saveMarginNoteBtn").disabled=!getCurrentMember()||!allBooks.length;
+  $("marginNoteFormStatus").textContent=getCurrentMember()
+    ?allBooks.length?"أضف اقتباسًا أو خاطرة واترك لأصدقائك مادةً للنقاش.":"أضفوا كتابًا إلى المكتبة أولًا."
+    :"سجّل الدخول واربط حسابك بعضوية النادي لإضافة هامش.";
+}
+
+async function loadMarginNotes(){
+  const grid=$("marginNotesGrid");
+  updateMarginBookOptions();
+  const selectedBookId=$("marginBookFilter").value;
+  if(!allBooks.length||!selectedBookId){
+    marginNotes=[];
+    grid.innerHTML='<div class="card meta">أضيفوا كتابًا إلى المكتبة لبدء حائط الهوامش.</div>';
+    status($("marginNotesStatus"),"");
+    return;
+  }
+
+  status($("marginNotesStatus"),"جارٍ تحميل هوامش الكتاب…");
+  try{
+    marginNotes=[];
+    for(let offset=0;;offset+=500){
+      const {data,error}=await db.from("book_margin_notes")
+        .select("id,book_id,member_id,note_type,page_number,content,created_at")
+        .eq("book_id",selectedBookId)
+        .order("created_at",{ascending:false})
+        .range(offset,offset+499);
+      if(error)throw error;
+      marginNotes.push(...(data||[]));
+      if(!data||data.length<500)break;
+    }
+
+    let likes=[];
+    for(let offset=0;offset<marginNotes.length;offset+=100){
+      const noteIds=marginNotes.slice(offset,offset+100).map(note=>note.id);
+      const {data,error}=await db.from("book_margin_note_likes")
+        .select("note_id,member_id")
+        .in("note_id",noteIds);
+      if(error)throw error;
+      likes.push(...(data||[]));
+    }
+
+    const membersById=new Map(allMembers.map(member=>[String(member.id),member]));
+    const likesByNote=new Map();
+    likes.forEach(like=>{
+      if(!likesByNote.has(String(like.note_id)))likesByNote.set(String(like.note_id),[]);
+      likesByNote.get(String(like.note_id)).push(String(like.member_id));
+    });
+    const noteTypes={
+      quote:{label:"اقتباس 📜",className:"quote"},
+      thought:{label:"خاطرة 💡",className:"thought"},
+      critique:{label:"نقد لاذع 🌶️",className:"critique"}
+    };
+    const selectedType=$("marginTypeFilter").value;
+    const visibleNotes=marginNotes.filter(note=>!selectedType||note.note_type===selectedType);
+    grid.innerHTML=visibleNotes.length
+      ?visibleNotes.map(note=>{
+        const type=noteTypes[note.note_type]||{label:"هامش",className:""};
+        const noteLikes=likesByNote.get(String(note.id))||[];
+        const liked=noteLikes.includes(String(getCurrentMember()?.id));
+        const member=membersById.get(String(note.member_id));
+        return `
+          <article class="card margin-note-card ${type.className}">
+            <div class="margin-note-meta">
+              <span class="pill">${type.label}</span>
+              <span class="meta">${esc(member?.name||"عضو النادي")}${note.page_number?` · ص ${esc(note.page_number)}`:""}</span>
+            </div>
+            <blockquote>${esc(note.content)}</blockquote>
+            <div class="margin-note-actions">
+              <span class="meta">${new Date(note.created_at).toLocaleDateString("ar-EG")}</span>
+              <button type="button" class="secondary margin-note-like ${liked?"liked":""}" data-note-id="${esc(note.id)}" ${getCurrentMember()?"":"disabled"} aria-pressed="${liked}">
+                🔥 يستحق الخلود (${noteLikes.length})
+              </button>
+            </div>
+          </article>`;
+      }).join("")
+      :'<div class="card meta">لا توجد هوامش بهذا النوع حتى الآن. كن أول من يكتب على الهامش ✨</div>';
+    status($("marginNotesStatus"),`عُثر على ${visibleNotes.length} هامش في هذا الكتاب.`,"ok");
+  }catch(error){
+    grid.innerHTML="";
+    status($("marginNotesStatus"),"تعذر تحميل الهوامش: "+error.message,"err");
+    console.error("Margin notes load failed:",error);
+  }
+}
+
+async function addMarginNote(event){
+  event.preventDefault();
+  const button=$("saveMarginNoteBtn");
+  const member=getCurrentMember();
+  const book=allBooks.find(item=>String(item.id)===$("marginNoteBook").value);
+  const noteType=$("marginNoteType").value;
+  const content=$("marginNoteContent").value.trim();
+  const pageInput=$("marginNotePage").value;
+  const pageNumber=pageInput?Number(pageInput):null;
+  button.disabled=true;
+  status($("marginNoteFormStatus"),"جارٍ حفظ الهامش…");
+
+  try{
+    if(!member)throw new Error("اربط حسابك بعضوية النادي أولًا.");
+    if(!book)throw new Error("اختار كتابًا من المكتبة.");
+    if(!["quote","thought","critique"].includes(noteType))throw new Error("نوع الهامش غير صالح.");
+    if(!content||content.length>4000)throw new Error("اكتب هامشًا من حرف واحد إلى 4000 حرف.");
+    if(pageNumber!==null&&(!Number.isInteger(pageNumber)||pageNumber<1||
+      (Number(book.pages)>0&&pageNumber>Number(book.pages)))){
+      throw new Error("رقم الصفحة يجب أن يكون موجبًا وضمن صفحات الكتاب.");
+    }
+
+    const {error}=await db.from("book_margin_notes").insert({
+      book_id:book.id,
+      member_id:member.id,
+      note_type:noteType,
+      page_number:pageNumber,
+      content
+    });
+    if(error)throw error;
+
+    let rewardAdded=false;
+    let rewardError=null;
+    if(noteType==="quote"){
+      const {data,error:pointsError}=await db.rpc("award_first_margin_note_points",{
+        p_book_id:book.id
+      });
+      if(pointsError)rewardError=pointsError;
+      else rewardAdded=data===true;
+    }
+
+    $("marginNoteContent").value="";
+    $("marginNotePage").value="";
+    await loadMarginNotes();
+    if(rewardAdded)await loadClubData();
+    status(
+      $("marginNoteFormStatus"),
+      rewardError
+        ?`تم نشر الهامش، لكن تعذّر تسجيل نقاط الاقتباس الأول: ${rewardError.message}`
+        :rewardAdded
+        ?"تم نشر الاقتباس وإضافة 5 نقاط لأول اقتباس لك في هذا الكتاب."
+        :"تم نشر الهامش بنجاح.",
+      rewardError?"err":"ok"
+    );
+  }catch(error){
+    status($("marginNoteFormStatus"),"تعذر إضافة الهامش: "+error.message,"err");
+    console.error("Margin note insert failed:",error);
+  }finally{
+    button.disabled=!getCurrentMember()||!allBooks.length;
+  }
+}
+
+async function toggleMarginNoteLike(event){
+  const button=event.target.closest(".margin-note-like");
+  if(!button)return;
+  const member=getCurrentMember();
+  if(!member){
+    status($("marginNotesStatus"),"سجّل الدخول واربط حسابك بعضوية النادي للتصويت.","err");
+    return;
+  }
+
+  button.disabled=true;
+  try{
+    const noteId=button.dataset.noteId;
+    const alreadyLiked=button.getAttribute("aria-pressed")==="true";
+    const result=alreadyLiked
+      ?await db.from("book_margin_note_likes").delete()
+        .eq("note_id",noteId).eq("member_id",member.id)
+      :await db.from("book_margin_note_likes").insert({
+        note_id:noteId,
+        member_id:member.id
+      });
+    if(result.error)throw result.error;
+    await loadMarginNotes();
+  }catch(error){
+    status($("marginNotesStatus"),"تعذر تسجيل التصويت: "+error.message,"err");
+    console.error("Margin note like failed:",error);
+    button.disabled=false;
+  }
+}
+
+async function summarizeMarginNotes(){
+  const bookId=$("marginBookFilter").value;
+  const book=allBooks.find(item=>String(item.id)===bookId);
+  if(!book){
+    status($("marginNotesStatus"),"اختاروا كتابًا قبل استخلاص العصارة.","err");
+    return;
+  }
+  const button=$("summarizeNotesBtn");
+  const summary=$("marginNotesSummary");
+  button.disabled=true;
+  summary.classList.remove("hidden");
+  summary.innerHTML="<h3>✨ عصارة هوامش الثلاثة أرباع</h3><div>تُرتّب الأفكار وتُشحذ الأقلام…</div>";
+  status($("marginNotesStatus"),"القارئ الذكي يجمع خيوط الهوامش…");
+  try{
+    const {data,error}=await db.functions.invoke("club-agent",{
+      body:{mode:"summarize_notes",book_id:book.id}
+    });
+    if(error)throw error;
+    if(typeof data?.summary!=="string")throw new Error(data?.error||"لم يصل ملخص مفهوم.");
+    const title=document.createElement("h3");
+    title.textContent="✨ عصارة هوامش الثلاثة أرباع";
+    const content=document.createElement("div");
+    content.textContent=data.summary;
+    const note=document.createElement("div");
+    note.className="meta";
+    note.textContent=data.fallback
+      ?`ملخص احتياطي مبني على ${Number(data.note_count)||0} هامش.`
+      :`خلاصة ${Number(data.note_count)||0} هامش من «${book.title}».`;
+    summary.replaceChildren(title,content,note);
+    status(
+      $("marginNotesStatus"),
+      data.fallback?"عُرضت عصارة احتياطية؛ إعداد مفتاح AI ينتج ربطًا أدبيًا أعمق.":"اكتملت عصارة الهوامش.",
+      data.fallback?"":"ok"
+    );
+  }catch(error){
+    summary.classList.add("hidden");
+    status($("marginNotesStatus"),"تعذر استخلاص العصارة: "+(error.message||error),"err");
+    console.error("Margin note summary failed:",error);
+  }finally{
+    button.disabled=false;
+  }
+}
+
+$("marginBookFilter").addEventListener("change",loadMarginNotes);
+$("marginTypeFilter").addEventListener("change",loadMarginNotes);
+$("marginNoteForm").addEventListener("submit",addMarginNote);
+$("marginNotesGrid").addEventListener("click",toggleMarginNoteLike);
+$("summarizeNotesBtn").addEventListener("click",summarizeMarginNotes);
+
+function getVisibleClubMembers(){
+  const hiddenMemberIds=new Set([
+    "b0ee9a1c-578c-459e-8739-cb13082256d0",
+    "ef25ea78-8c3d-476c-9cc8-937487520241"
+  ]);
+  return allMembers.filter(member=>!hiddenMemberIds.has(member.id));
+}
+
+async function fetchAllMemberStatRows(table,columns,memberIds){
+  const rows=[];
+  for(let offset=0;;offset+=500){
+    const {data,error}=await db.from(table)
+      .select(columns)
+      .in("member_id",memberIds)
+      .range(offset,offset+499);
+    if(error)throw error;
+    rows.push(...(data||[]));
+    if(!data||data.length<500)return rows;
+  }
+}
+
+async function loadMemberProfiles(){
+  const members=getVisibleClubMembers();
+  const memberIds=members.map(member=>member.id);
+  if(!memberIds.length){
+    memberProfileRows=[];
+    memberProfileStats=new Map();
+    renderMemberProfiles();
+    status($("memberProfilesStatus"),"لا توجد عضويات أساسية لعرضها.");
+    return;
+  }
+
+  status($("memberProfilesStatus"),"جارٍ جمع إنجازات الأعضاء لصياغة هوياتهم…");
+  try{
+    const [points,notes,progress,contributions,votes]=await Promise.all([
+      fetchAllMemberStatRows("points","member_id,points",memberIds),
+      fetchAllMemberStatRows("book_margin_notes","member_id,note_type",memberIds),
+      fetchAllMemberStatRows("book_reading_progress","member_id,book_id,pages_read,verified_by_ai",memberIds),
+      fetchAllMemberStatRows("book_court_contributions","member_id",memberIds),
+      fetchAllMemberStatRows("book_court_votes","member_id",memberIds)
+    ]);
+
+    const profilesResult=await db.from("member_profiles")
+      .select("member_id,bio,favorite_genre")
+      .in("member_id",memberIds);
+    if(profilesResult.error){
+      memberProfileRows=[];
+      status(
+        $("memberProfilesStatus"),
+        "الإحصائيات جاهزة، لكن تعذر تحميل النبذات والتفضيلات. تأكد من تطبيق 202611130004_member_profiles.sql.",
+        "err"
+      );
+      console.error("Member profiles load failed:",profilesResult.error);
+    }else{
+      memberProfileRows=profilesResult.data||[];
+    }
+
+    const stats=new Map(memberIds.map(id=>[String(id),{
+      points:0,notes:0,quotes:0,verified:0,contributions:0,votes:0,progressRatio:0
+    }]));
+    points.forEach(point=>{
+      const item=stats.get(String(point.member_id));
+      if(item)item.points+=Number(point.points)||0;
+    });
+    notes.forEach(note=>{
+      const item=stats.get(String(note.member_id));
+      if(!item)return;
+      item.notes++;
+      if(note.note_type==="quote")item.quotes++;
+    });
+    progress.forEach(row=>{
+      const item=stats.get(String(row.member_id));
+      if(!item)return;
+      if(row.verified_by_ai===true)item.verified++;
+      const book=allBooks.find(entry=>String(entry.id)===String(row.book_id));
+      const pages=Number(book?.pages);
+      if(book?.status==="قيد القراءة"&&Number.isFinite(pages)&&pages>0){
+        const pagesRead=Math.max(Number(row.pages_read)||0,0);
+        item.progressRatio+=Math.min(pagesRead/pages,1);
+      }
+    });
+    contributions.forEach(row=>{
+      const item=stats.get(String(row.member_id));
+      if(item)item.contributions++;
+    });
+    votes.forEach(row=>{
+      const item=stats.get(String(row.member_id));
+      if(item)item.votes++;
+    });
+    memberProfileStats=stats;
+    renderMemberProfiles();
+    if(!profilesResult.error){
+      status(
+        $("memberProfilesStatus"),
+        allBooks.some(book=>book.status==="قيد القراءة")
+          ?"اكتملت البطاقات؛ تقدم القراءة محسوب على الكتب الجارية."
+          :"اكتملت البطاقات؛ لقب السلحفاة يظهر عند وجود كتاب قيد القراءة.",
+        "ok"
+      );
+    }
+  }catch(error){
+    renderMemberProfiles();
+    status($("memberProfilesStatus"),"تعذر تحميل إحصائيات الهويات: "+error.message,"err");
+    console.error("Member profile statistics load failed:",error);
+  }
+}
+
+function renderMemberProfiles(){
+  const grid=$("memberProfilesGrid");
+  if(!grid)return;
+  const members=getVisibleClubMembers();
+  if(!members.length){
+    grid.innerHTML='<div class="card meta">لا توجد عضويات لعرضها حاليًا.</div>';
+    return;
+  }
+
+  const currentMember=getCurrentMember();
+  const activeBooks=allBooks.filter(book=>book.status==="قيد القراءة"&&Number(book.pages)>0);
+  const profiles=new Map(memberProfileRows.map(profile=>[String(profile.member_id),profile]));
+  const statsFor=member=>memberProfileStats.get(String(member.id))||{
+    points:0,notes:0,quotes:0,verified:0,contributions:0,votes:0,progressRatio:0
+  };
+  const badges=new Map(members.map(member=>[String(member.id),[]]));
+  const addLeaders=(score,label,{highest=true,requireActivity=true}={})=>{
+    const values=members.map(member=>({member,value:score(statsFor(member))}));
+    if(!values.length)return;
+    const target=highest
+      ?Math.max(...values.map(item=>item.value))
+      :Math.min(...values.map(item=>item.value));
+    if(requireActivity&&target<=0)return;
+    values.filter(item=>Math.abs(item.value-target)<1e-8)
+      .forEach(item=>badges.get(String(item.member.id)).push(label));
+  };
+
+  addLeaders(item=>item.contributions+item.votes,"⚖️ حاكم المحكمة / قاضي القضاة");
+  if(activeBooks.length){
+    addLeaders(
+      item=>item.progressRatio/activeBooks.length,
+      "🐢 السلحفاة المثقفة",
+      {highest:false,requireActivity:false}
+    );
+  }
+  addLeaders(item=>item.notes,"📝 مدمن الهوامش");
+  addLeaders(item=>item.verified,"🎯 صائد التوثيق");
+
+  grid.innerHTML=members.map(member=>{
+    const stats=statsFor(member);
+    const profile=profiles.get(String(member.id))||{};
+    const progressPercent=activeBooks.length
+      ?Math.round((stats.progressRatio/activeBooks.length)*100)
+      :null;
+    const memberBadges=badges.get(String(member.id));
+    if(!memberBadges.length)memberBadges.push("🦉 الحكيم الخامل");
+    const canEdit=currentMember&&String(currentMember.id)===String(member.id);
+    return `
+      <article class="card profile-card">
+        <div class="member">
+          <div class="avatar">${esc((member.name||"؟").charAt(0))}</div>
+          <div>
+            <h3>${esc(member.name||"عضو")}</h3>
+            <div class="meta">${esc(member.role||"عضو النادي")}</div>
+          </div>
+        </div>
+        <div class="profile-badges">${memberBadges.map(badge=>`<span class="profile-badge">${esc(badge)}</span>`).join("")}</div>
+        <div class="profile-stats">
+          <div class="profile-stat"><span class="meta">النقاط الإجمالية</span><b>${stats.points}</b></div>
+          <div class="profile-stat"><span class="meta">الهوامش (الاقتباسات)</span><b>${stats.notes} (${stats.quotes})</b></div>
+          <div class="profile-stat"><span class="meta">استجوابات موثقة</span><b>${stats.verified}</b></div>
+          <div class="profile-stat"><span class="meta">مساهمات المحكمة</span><b>${stats.contributions} مرافعة · ${stats.votes} تصويت</b></div>
+          <div class="profile-stat"><span class="meta">تقدم الكتب الجارية</span><b>${progressPercent===null?"—":`${progressPercent}%`}</b></div>
+        </div>
+        ${canEdit?`
+          <form class="member-profile-form" data-member-id="${esc(member.id)}">
+            <label class="meta">نبذتك الشخصية
+              <textarea name="bio" maxlength="500" placeholder="اكتب نبذة ثقافية قصيرة (حتى 500 حرف)">${esc(profile.bio||"")}</textarea>
+            </label>
+            <label class="meta">تفضيلاتك القرائية
+              <input name="favorite_genre" maxlength="100" value="${esc(profile.favorite_genre||"")}" placeholder="مثال: روايات تاريخية، فلسفة، خيال علمي">
+            </label>
+            <button type="submit">💾 حفظ هويتي الثقافية</button>
+          </form>
+        `:`
+          <div class="small-note">${profile.bio?esc(profile.bio):"لم يضف نبذة شخصية بعد."}</div>
+          <div class="meta"><b>التفضيل القرائي:</b> ${profile.favorite_genre?esc(profile.favorite_genre):"لم يحدده بعد"}</div>
+        `}
+      </article>
+    `;
+  }).join("");
+}
+
+$("memberProfilesGrid").addEventListener("submit",async event=>{
+  const form=event.target.closest(".member-profile-form");
+  if(!form)return;
+  event.preventDefault();
+  const member=getCurrentMember();
+  if(!member||String(member.id)!==form.dataset.memberId){
+    status($("memberProfilesStatus"),"يمكن لكل عضو تعديل هويته الشخصية فقط.","err");
+    return;
+  }
+
+  const button=form.querySelector('button[type="submit"]');
+  button.disabled=true;
+  status($("memberProfilesStatus"),"جارٍ حفظ هويتك الثقافية…");
+  try{
+    const formData=new FormData(form);
+    const {error}=await db.from("member_profiles").upsert({
+      member_id:member.id,
+      bio:String(formData.get("bio")||"").trim(),
+      favorite_genre:String(formData.get("favorite_genre")||"").trim(),
+      updated_at:new Date().toISOString()
+    },{onConflict:"member_id"});
+    if(error)throw error;
+    await loadMemberProfiles();
+    status($("memberProfilesStatus"),"تم حفظ النبذة والتفضيلات القرائية بنجاح.","ok");
+  }catch(error){
+    status($("memberProfilesStatus"),"تعذر حفظ الهوية: "+error.message,"err");
+    console.error("Member profile save failed:",error);
+    if(button.isConnected)button.disabled=false;
+  }
+});
+
 function renderClubData(){
   const primaryMemberId="e0f5d259-2252-4703-b8bd-2e87ebff2422";
-  const duplicateMemberId="b0ee9a1c-578c-459e-8739-cb13082256d0";
   const foundingPrimaryMemberId="8fd0afe9-c99b-4d57-8c0d-d91690e14e9b";
-  const foundingDuplicateMemberId="ef25ea78-8c3d-476c-9cc8-937487520241";
 
   const balances=allMembers.map(m=>({
     id:m.id,
@@ -769,8 +2052,7 @@ function renderClubData(){
     `).join("")
     :'<p class="meta">لا يوجد أعضاء مسجلون.</p>';
 
-  const hiddenMemberIds=new Set([duplicateMemberId,foundingDuplicateMemberId]);
-  const publicMembers=allMembers.filter(m=>!hiddenMemberIds.has(m.id));
+  const publicMembers=getVisibleClubMembers();
   $("membersGrid").innerHTML=publicMembers.length
     ?publicMembers.map(m=>`
       <div class="card member">
@@ -804,6 +2086,8 @@ function renderClubData(){
       `;
     }).join("")
     :'<p class="meta">لسه مفيش إنجازات مسجلة.</p>';
+
+  renderMemberProfiles();
 }
 
 function fillAwardMembers(){

@@ -120,9 +120,12 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .member-profile-form{display:grid;grid-template-columns:1fr;gap:8px;border-top:1px solid var(--line);padding-top:12px}
 .member-profile-form textarea{min-height:75px}
 .card,.box,header,footer,section{background-color:var(--bg-card);color:var(--text-main);border:1px solid var(--border-color);box-shadow:0 4px 6px -1px rgba(0,0,0,.1);border-radius:12px}
-#tab-navbar{display:flex;overflow-x:auto;position:sticky;top:0;z-index:1000;background-color:var(--bg-primary);padding:10px}
-#tab-navbar .tab-btn{flex:0 0 auto;background:none;border:1px solid var(--border-color);color:var(--text-main);padding:10px 15px;cursor:pointer;white-space:nowrap}
+#tab-navbar{position:fixed;top:0;left:-280px;width:280px;height:100%;display:flex;flex-direction:column;gap:8px;overflow-x:hidden;overflow-y:auto;z-index:1001;background-color:var(--bg-card);padding:20px 10px 10px;box-shadow:2px 0 10px rgba(0,0,0,.5);transition:left .3s ease}
+#tab-navbar.active{left:0}
+#tab-navbar .tab-btn{flex:0 0 auto;width:100%;text-align:start;background:none;border:1px solid var(--border-color);color:var(--text-main);padding:10px 15px;cursor:pointer;white-space:nowrap}
 #tab-navbar .tab-btn.active{background-color:var(--accent-color);color:#fff}
+#sidebar-backdrop{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.6)}
+#menu-toggle{position:sticky;top:10px;z-index:999;margin-bottom:12px}
 .club-section{display:none}
 .club-section.active{display:block}
 .club-section.active.hero{display:grid}
@@ -150,7 +153,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <p class="tagline">كل واحد فينا ربع مثقف… والباقي نقاشات!</p>
 </header>
 
-<nav id="tab-navbar" class="hidden" role="tablist" aria-label="أقسام النادي">
+<nav id="tab-navbar" class="hidden" role="tablist" aria-label="أقسام النادي" aria-hidden="true">
 <button class="tab-btn active" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-target="about">عن النادي</button>
 <button class="tab-btn" type="button" role="tab" id="tab-books" aria-controls="books" aria-selected="false" data-target="books">المكتبة</button>
 <button class="tab-btn" type="button" role="tab" id="tab-reading-meter" aria-controls="reading-meter" aria-selected="false" data-target="reading-meter">مؤشر الثلاثة أرباع</button>
@@ -166,6 +169,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <button class="tab-btn" type="button" role="tab" id="tab-member-profiles" aria-controls="member-profiles" aria-selected="false" data-target="member-profiles">هويات الأعضاء</button>
 <button class="tab-btn" type="button" role="tab" id="tab-rules" aria-controls="rules" aria-selected="false" data-target="rules">النظام</button>
 </nav>
+<div id="sidebar-backdrop" class="hidden" aria-hidden="true"></div>
 
 <main>
 
@@ -197,6 +201,7 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 </section>
 
 <div id="app" class="hidden">
+<button id="menu-toggle" class="secondary" type="button" aria-controls="tab-navbar" aria-expanded="false">☰ أقسام النادي</button>
 <div class="panel topbar">
 <div class="member"><div class="avatar" id="userAvatar">3/4</div><span id="welcome" class="meta">أهلًا بك في النادي</span></div>
 <button id="logoutBtn" class="secondary" type="button">تسجيل الخروج</button>
@@ -780,6 +785,26 @@ const CLUB_ADMIN_ID = "6d11154d-af6b-4872-9252-df019a0226f8";
 const $ = id => document.getElementById(id);
 
 const tabNavbar=$("tab-navbar");
+const sidebarBackdrop=$("sidebar-backdrop");
+const menuToggle=$("menu-toggle");
+function closeSidebar(){
+  tabNavbar.classList.remove("active");
+  tabNavbar.setAttribute("aria-hidden","true");
+  sidebarBackdrop.classList.add("hidden");
+  sidebarBackdrop.setAttribute("aria-hidden","true");
+  menuToggle.setAttribute("aria-expanded","false");
+}
+menuToggle.addEventListener("click",()=>{
+  const isOpen=tabNavbar.classList.toggle("active");
+  tabNavbar.setAttribute("aria-hidden",String(!isOpen));
+  sidebarBackdrop.classList.toggle("hidden",!isOpen);
+  sidebarBackdrop.setAttribute("aria-hidden",String(!isOpen));
+  menuToggle.setAttribute("aria-expanded",String(isOpen));
+});
+sidebarBackdrop.addEventListener("click",closeSidebar);
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"&&tabNavbar.classList.contains("active"))closeSidebar();
+});
 tabNavbar.addEventListener("click",event=>{
   const tab=event.target.closest(".tab-btn");
   if(!tab||!tabNavbar.contains(tab))return;
@@ -795,6 +820,7 @@ tabNavbar.addEventListener("click",event=>{
   document.querySelectorAll("#app .club-section").forEach(section=>{
     section.classList.toggle("active",section===selectedSection);
   });
+  closeSidebar();
 });
 
 const THEME_STORAGE_KEY = "theme";
@@ -854,6 +880,7 @@ async function showApp(session){
   $("loginSection").classList.toggle("hidden",!!session);
   $("app").classList.toggle("hidden",!session);
   $("tab-navbar").classList.toggle("hidden",!session);
+  closeSidebar();
 
   if(!session){
     stopCourtRealtime();

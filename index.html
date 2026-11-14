@@ -2689,7 +2689,7 @@ async function askClubAssistant(question,history=[]){
   });
   if(error)throw error;
   if(typeof data?.answer!=='string')throw new Error(data?.error||'استجابة غير مفهومة من المساعد.');
-  return data.answer;
+  return {answer:data.answer,fallback:data.fallback===true};
 }
 $('agentForm').addEventListener('submit',async event=>{
   event.preventDefault();
@@ -2703,10 +2703,14 @@ $('agentForm').addEventListener('submit',async event=>{
   $('agentSend').disabled=true;
   status($('agentStatus'),'المساعد بيفكر…');
   try{
-    const answer=await askClubAssistant(question,agentHistory.slice(-8,-1));
-    appendAgentMessage('assistant',answer);
-    agentHistory.push({role:'assistant',content:answer});
-    status($('agentStatus'),'تم الرد.');
+    const result=await askClubAssistant(question,agentHistory.slice(-8,-1));
+    appendAgentMessage('assistant',result.answer);
+    agentHistory.push({role:'assistant',content:result.answer});
+    status(
+      $('agentStatus'),
+      result.fallback?'تم الرد بإجابة احتياطية؛ مفتاح الذكاء الاصطناعي غير مضبوط.':'تم الرد.',
+      result.fallback?'err':'ok'
+    );
   }catch(error){
     console.error('3/4 agent error:',error);
     status($('agentStatus'),'المساعد مش جاهز أو حصل خطأ: '+(error.message||'راجع إعدادات Supabase.'),'err');

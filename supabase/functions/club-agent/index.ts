@@ -90,7 +90,7 @@ function decodeModelJson(text: string): JsonRecord {
 }
 
 async function askModel(prompt: string, jsonMode = false): Promise<string | null> {
-  const geminiKey = Deno.env.get("GEMINI_API_KEY");
+  const geminiKey = Deno.env.get("GEMINI_API_KEY")?.trim();
   if (geminiKey) {
     try {
       const response = await fetch(
@@ -109,7 +109,12 @@ async function askModel(prompt: string, jsonMode = false): Promise<string | null
       );
       if (!response.ok) {
         console.error("Gemini request failed:", response.status);
-        throw new RequestError("تعذر الاتصال بخدمة الذكاء الاصطناعي. تحقق من مفتاح GEMINI_API_KEY في أسرار Supabase أو حاول لاحقًا.", 502);
+        const message = response.status === 401 || response.status === 403
+          ? "رفضت Gemini الطلب. تحقق من صلاحية GEMINI_API_KEY وإتاحة Gemini API للمشروع."
+          : response.status === 429
+          ? "تم تجاوز حصة Gemini أو حد الطلبات؛ حاول لاحقًا أو تحقق من الحصة."
+          : `تعذر إكمال طلب Gemini (HTTP ${response.status})؛ حاول مرة أخرى لاحقًا.`;
+        throw new RequestError(message, 502);
       } else {
         const result = await response.json();
         const text = result?.candidates?.[0]?.content?.parts

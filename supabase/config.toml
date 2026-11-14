@@ -1,0 +1,2 @@
+[functions.club-agent]
+verify_jwt = true

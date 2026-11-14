@@ -1,19 +1,19 @@
 # 3/4 AI Agent — المرحلة الأولى
 
-تستخدم واجهة الموقع دالة Supabase باسم `club-agent` للاتصال بـ Gemini 2.5 Flash. لا تضع مفاتيح الخدمة في المتصفح.
+تستخدم واجهة الموقع دالة Supabase باسم `club-agent` للاتصال بـ OpenAI Chat Completions باستخدام نموذج `gpt-4o-mini`. لا تضع مفاتيح الخدمة في المتصفح.
 
 ## الملفات
 - `index.html`: واجهة الموقع التي تستدعي `club-agent`.
-- `supabase/functions/club-agent/index.ts`: دالة الخادم التي تتحقق من جلسة المستخدم وتستخدم `GEMINI_API_KEY` من أسرار Supabase.
+- `supabase/functions/club-agent/index.ts`: دالة الخادم التي تتحقق من جلسة المستخدم وتستخدم `OPENAI_API_KEY` من أسرار Supabase.
 
 ## إعداد Supabase
 1. افتح مشروع Supabase ثم Edge Functions.
 2. أنشئ Function باسم `club-agent` والصق محتوى `supabase/functions/club-agent/index.ts`، أو انشرها باستخدام Supabase CLI.
 3. اضبط الأسرار التالية في إعدادات Edge Function / Secrets:
-   - `GEMINI_API_KEY` = مفتاح Google AI الذي تقرؤه الدالة عبر `Deno.env.get("GEMINI_API_KEY")`.
+   - `OPENAI_API_KEY` = مفتاح OpenAI الذي تقرؤه الدالة عبر `Deno.env.get("OPENAI_API_KEY")`.
    - `SUPABASE_SERVICE_ROLE_KEY` = service role key للمشروع (سر خادمي فقط).
    - `SUPABASE_URL` و`SUPABASE_ANON_KEY` متاحان عادة كمتغيرات بيئة في Supabase Functions؛ أضفهما يدويًا فقط إذا لم يكونا متاحين.
-4. لا تضع `GEMINI_API_KEY` أو `SUPABASE_SERVICE_ROLE_KEY` في HTML أو GitHub Pages أو أي كود يصل للمتصفح.
+4. لا تضع `OPENAI_API_KEY` أو `SUPABASE_SERVICE_ROLE_KEY` في HTML أو GitHub Pages أو أي كود يصل للمتصفح.
 5. تستدعي الواجهة الدالة باسم `club-agent` وترسل جلسة المستخدم؛ تتحقق الدالة من الجلسة قبل تنفيذ الطلب.
 6. انشر نسخة الموقع من `index.html` بالطريقة المعتادة.
 
@@ -27,4 +27,4 @@
 ```bash
 supabase functions deploy club-agent --project-ref YOUR_PROJECT_REF
 ```
-تحقق من وجود اسم `GEMINI_API_KEY` في إعدادات Secrets بلوحة Supabase، ولا تكشف قيمته في السجلات أو المتصفح.
+تحقق من وجود اسم `OPENAI_API_KEY` في إعدادات Secrets بلوحة Supabase، ولا تكشف قيمته في السجلات أو المتصفح.

@@ -93,34 +93,38 @@ async function askModel(prompt: string, jsonMode = false): Promise<string | null
   const geminiKey = Deno.env.get("GEMINI_API_KEY")?.trim();
   if (geminiKey) {
     try {
-      const response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": geminiKey,
-          },
-          body: JSON.stringify({
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
-            generationConfig: {
-              temperature: 0.7,
-              ...(jsonMode ? { responseMimeType: "application/json" } : {}),
+      const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-flash-latest"];
+      for (const [index, model] of models.entries()) {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-goog-api-key": geminiKey,
             },
-          }),
-        },
-      );
+            body: JSON.stringify({
+              contents: [{ role: "user", parts: [{ text: prompt }] }],
+              generationConfig: {
+                temperature: 0.7,
+                ...(jsonMode ? { responseMimeType: "application/json" } : {}),
+              },
+            }),
+          },
+        );
 
-      if (!response.ok) {
-        const errText = await response.text();
-        console.error("Gemini request failed:", response.status, errText);
-        const message = response.status === 400 || response.status === 401 || response.status === 403
-          ? "رفضت Gemini الطلب. تحقق من صلاحية GEMINI_API_KEY وإتاحة Gemini API للمشروع."
-          : response.status === 429
-          ? "تم تجاوز حصة Gemini أو حد الطلبات؛ حاول لاحقًا أو تحقق من الحصة."
-          : `تعذر إكمال طلب Gemini (HTTP ${response.status})؛ حاول مرة أخرى لاحقًا.`;
-        throw new RequestError(message, 502);
-      } else {
+        if (!response.ok) {
+          const errText = await response.text();
+          console.error(`Gemini request failed for model ${model} (HTTP ${response.status}): ${errText}`);
+          if (response.status === 404 && index < models.length - 1) continue;
+          const message = response.status === 400 || response.status === 401 || response.status === 403
+            ? "رفضت Gemini الطلب. تحقق من صلاحية GEMINI_API_KEY وإتاحة Gemini API للمشروع."
+            : response.status === 429
+            ? "تم تجاوز حصة Gemini أو حد الطلبات؛ حاول لاحقًا أو تحقق من الحصة."
+            : `تعذر إكمال طلب Gemini (HTTP ${response.status})؛ حاول مرة أخرى لاحقًا.`;
+          throw new RequestError(message, 502);
+        }
+
         const result = await response.json();
         const text = result?.candidates?.[0]?.content?.parts
           ?.map((part: { text?: string }) => part.text || "")

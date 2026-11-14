@@ -643,7 +643,7 @@ function renderCourt(){
       await loadSharedCourt();
       status(
         $("courtAiVerdictStatus"),
-        data.fallback?"صدر حكم احتياطي؛ أضيفوا مفتاح AI لإصدار حيثيات الذكاء الاصطناعي.":"صدر الحكم النهائي وحُفظ في سجل القضية.",
+        data.fallback?"صدر حكم احتياطي؛ قد يكون مفتاح AI غير مضبوط أو تعذّر الحصول على استجابة صالحة.":"صدر الحكم النهائي وحُفظ في سجل القضية.",
         data.fallback?"":"ok"
       );
     }catch(error){
@@ -1559,7 +1559,7 @@ $("readingProgressCards").addEventListener("click",async event=>{
 
     panel.innerHTML=`
       <p class="meta">جاوب من ذاكرتك وبكلامك؛ الإجابات العامة قد تثير شكوك المحكمة.</p>
-      ${data.fallback?'<p class="small-note">وضع احتياطي: أسئلة عامة حتى يتوفر مفتاح AI، لذلك لن يمنح التقييم الاحتياطي توثيقًا.</p>':""}
+      ${data.fallback?'<p class="small-note">وضع احتياطي: أسئلة عامة لأن مفتاح AI غير مضبوط أو تعذّر الحصول على استجابة صالحة، لذلك لن يمنح التقييم الاحتياطي توثيقًا.</p>':""}
       <form class="reading-quiz-form">
         <input type="hidden" name="challenge_token" value="${esc(data.challenge_token)}">
         ${data.questions.map((question,index)=>`
@@ -1914,13 +1914,17 @@ async function summarizeMarginNotes(){
     content.textContent=data.summary;
     const note=document.createElement("div");
     note.className="meta";
-    note.textContent=data.fallback
-      ?`ملخص احتياطي مبني على ${Number(data.note_count)||0} هامش.`
-      :`خلاصة ${Number(data.note_count)||0} هامش من «${book.title}».`;
+    const noteCount=Number(data.note_count)||0;
+    note.textContent=noteCount===0
+      ?"لا توجد هوامش على هذا الكتاب بعد."
+      :data.fallback
+        ?`ملخص احتياطي مبني على ${noteCount} هامش.`
+        :`خلاصة ${noteCount} هامش من «${book.title}».`;
     summary.replaceChildren(title,content,note);
     status(
       $("marginNotesStatus"),
-      data.fallback?"عُرضت عصارة احتياطية؛ إعداد مفتاح AI ينتج ربطًا أدبيًا أعمق.":"اكتملت عصارة الهوامش.",
+      noteCount===0?"لا توجد هوامش لاستخلاص عصارة منها."
+        :data.fallback?"عُرضت عصارة احتياطية لتعذر توليد ملخص AI صالح.":"اكتملت عصارة الهوامش.",
       data.fallback?"":"ok"
     );
   }catch(error){

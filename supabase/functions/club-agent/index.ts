@@ -108,8 +108,8 @@ async function askModel(prompt: string, jsonMode = false): Promise<string | null
         },
       );
       if (!response.ok) {
-        console.error("Gemini request failed:", response.status, await response.text());
-        return null;
+        console.error("Gemini request failed:", response.status);
+        throw new RequestError("تعذر الاتصال بخدمة الذكاء الاصطناعي. تحقق من مفتاح GEMINI_API_KEY في أسرار Supabase أو حاول لاحقًا.", 502);
       } else {
         const result = await response.json();
         const text = result?.candidates?.[0]?.content?.parts
@@ -118,11 +118,12 @@ async function askModel(prompt: string, jsonMode = false): Promise<string | null
           .trim();
         if (text) return text;
         console.error("Gemini returned no text.");
-        return null;
+        throw new RequestError("لم تُرجع خدمة الذكاء الاصطناعي إجابة صالحة؛ حاول مرة أخرى.", 502);
       }
     } catch (error) {
+      if (error instanceof RequestError) throw error;
       console.error("Gemini request failed:", error);
-      return null;
+      throw new RequestError("تعذر الاتصال بخدمة الذكاء الاصطناعي؛ حاول مرة أخرى لاحقًا.", 502);
     }
   }
 

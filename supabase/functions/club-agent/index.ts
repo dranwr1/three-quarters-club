@@ -91,11 +91,10 @@ function decodeModelJson(text: string): JsonRecord {
 
 async function askModel(prompt: string, jsonMode = false): Promise<string | null> {
   const geminiKey = Deno.env.get("GEMINI_API_KEY");
-  const openAiKey = Deno.env.get("OPENAI_API_KEY");
   if (geminiKey) {
     try {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${encodeURIComponent(geminiKey)}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(geminiKey)}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -110,7 +109,7 @@ async function askModel(prompt: string, jsonMode = false): Promise<string | null
       );
       if (!response.ok) {
         console.error("Gemini request failed:", response.status, await response.text());
-        if (!openAiKey) return null;
+        return null;
       } else {
         const result = await response.json();
         const text = result?.candidates?.[0]?.content?.parts
@@ -119,39 +118,14 @@ async function askModel(prompt: string, jsonMode = false): Promise<string | null
           .trim();
         if (text) return text;
         console.error("Gemini returned no text.");
-        if (!openAiKey) return null;
+        return null;
       }
     } catch (error) {
       console.error("Gemini request failed:", error);
-      if (!openAiKey) return null;
+      return null;
     }
   }
 
-  if (openAiKey) {
-    try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${openAiKey}`,
-        },
-        body: JSON.stringify({
-          model: "gpt-4o-mini",
-          temperature: 0.7,
-          response_format: jsonMode ? { type: "json_object" } : undefined,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      });
-      if (!response.ok) {
-        console.error("OpenAI request failed:", response.status, await response.text());
-        return null;
-      }
-      const result = await response.json();
-      return result?.choices?.[0]?.message?.content?.trim() || null;
-    } catch (error) {
-      console.error("OpenAI request failed:", error);
-    }
-  }
   return null;
 }
 
@@ -160,7 +134,7 @@ function fallbackChat(question: string): string {
   if (q.includes("كتاب") || q.includes("قراءة")) {
     return "خلّينا نبدأ بسؤال أذكى من «عجبك الكتاب؟»: إيه الفكرة اللي فضلت معاك بعد ما قفلت آخر صفحة؟ (المساعد الذكي لسه من غير مفتاح AI، فدي إجابة احتياطية مش فتوى ثقافية.)";
   }
-  return "أهلًا بيك في نادي ثلاثة أرباع مثقف! أقدر أساعدك في ترتيب أفكار القراءة والنقاش، بس مفتاح الذكاء الاصطناعي مش متضبط حاليًا. جرّب تاني بعد إعداد GEMINI_API_KEY أو OPENAI_API_KEY.";
+  return "أهلًا بيك في نادي ثلاثة أرباع مثقف! أقدر أساعدك في ترتيب أفكار القراءة والنقاش، بس مفتاح الذكاء الاصطناعي مش متضبط حاليًا. جرّب تاني بعد إعداد GEMINI_API_KEY.";
 }
 
 function fallbackQuiz(bookTitle: string, pagesRead: number, totalPages: number): string[] {

@@ -94,12 +94,35 @@ async function askModel(prompt: string, jsonMode = false): Promise<string | null
   if (geminiKey) {
     try {
       const candidates = [
+        "gemini-2.5-flash-lite",
+        "gemini-2.0-flash-lite",
+        "gemini-flash-lite-latest",
         "gemini-flash-latest",
         "gemini-pro-latest",
         "gemini-2.5-flash",
         "gemini-2.0-flash",
       ];
-      const requestModel = (model: string) => fetch(
+      const fetchWithTimeout = async (
+        url: string,
+        init: RequestInit,
+        label: string,
+      ): Promise<{ response: Response; body: string } | undefined> => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 12_000);
+        try {
+          const response = await fetch(url, { ...init, signal: controller.signal });
+          return { response, body: await response.text() };
+        } catch (error) {
+          if (controller.signal.aborted) {
+            console.error(`Gemini request timed out after 12000ms: ${label}`);
+            return undefined;
+          }
+          throw error;
+        } finally {
+          clearTimeout(timeoutId);
+        }
+      };
+      const requestModelWithTimeout = (model: string) => fetchWithTimeout(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
         {
           method: "POST",
@@ -115,41 +138,44 @@ async function askModel(prompt: string, jsonMode = false): Promise<string | null
             },
           }),
         },
+        `model ${model}`,
       );
 
       let response: Response | undefined;
       let modelName: string | undefined;
+      const attemptedModels = new Set<string>();
       for (const model of candidates) {
-        response = await requestModel(model);
-        if (response.ok) {
+        attemptedModels.add(model);
+        response = await requestModelWithTimeout(model);
+        if (response?.response.ok) {
           modelName = model;
           break;
         }
 
-        const errText = await response.text();
-        console.error(`Gemini request failed for model ${model} (HTTP ${response.status}): ${errText}`);
-        if (response.status !== 404) {
-          const message = response.status === 400 || response.status === 401 || response.status === 403
-            ? "رفضت Gemini الطلب. تحقق من صلاحية GEMINI_API_KEY وإتاحة Gemini API للمشروع."
-            : response.status === 429
-            ? "تم تجاوز حصة Gemini أو حد الطلبات؛ حاول لاحقًا أو تحقق من الحصة."
-            : `تعذر إكمال طلب Gemini (HTTP ${response.status})؛ حاول مرة أخرى لاحقًا.`;
-          throw new RequestError(message, 502);
-        }
+        if (!response) continue;
+        console.error(
+          `Gemini request failed for model ${model} (HTTP ${response.response.status}): ${response.body}`,
+        );
         response = undefined;
       }
 
       if (!response) {
-        const modelsResponse = await fetch(
+        const modelsResponse = await fetchWithTimeout(
           `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(geminiKey)}`,
+          {},
+          "model discovery",
         );
-        if (!modelsResponse.ok) {
-          const errText = await modelsResponse.text();
-          console.error(`Gemini model discovery failed (HTTP ${modelsResponse.status}): ${errText}`);
+        if (!modelsResponse) {
+          throw new RequestError("انتهت مهلة البحث عن نموذج متاح لخدمة Gemini.", 502);
+        }
+        if (!modelsResponse.response.ok) {
+          console.error(
+            `Gemini model discovery failed (HTTP ${modelsResponse.response.status}): ${modelsResponse.body}`,
+          );
           throw new RequestError("تعذر العثور على نموذج متاح لخدمة Gemini.", 502);
         }
 
-        const modelList: unknown = await modelsResponse.json();
+        const modelList: unknown = JSON.parse(modelsResponse.body);
         const listedModels = modelList && typeof modelList === "object" &&
             "models" in modelList && Array.isArray(modelList.models)
           ? modelList.models
@@ -162,29 +188,38 @@ async function askModel(prompt: string, jsonMode = false): Promise<string | null
             return [];
           }
           const name = item.name.replace(/^models\//, "");
-          return candidates.includes(name) || !name ? [] : [{ name, flash: /flash/i.test(name) }];
+          return !name || !/^gemini-/i.test(name) || attemptedModels.has(name)
+            ? []
+            : [{ name, flash: /flash/i.test(name) }];
         }).sort((a, b) => Number(b.flash) - Number(a.flash));
-        modelName = availableModels[0]?.name;
-        if (!modelName) {
+        if (!availableModels.length) {
           console.error("Gemini model discovery returned no unused models supporting generateContent.");
           throw new RequestError("لم يُعثر على نموذج Gemini متاح لتوليد المحتوى.", 502);
         }
 
-        response = await requestModel(modelName);
-        if (!response.ok) {
-          const errText = await response.text();
-          console.error(`Gemini request failed for discovered model ${modelName} (HTTP ${response.status}): ${errText}`);
-          const message = response.status === 400 || response.status === 401 || response.status === 403
-            ? "رفضت Gemini الطلب. تحقق من صلاحية GEMINI_API_KEY وإتاحة Gemini API للمشروع."
-            : response.status === 429
-            ? "تم تجاوز حصة Gemini أو حد الطلبات؛ حاول لاحقًا أو تحقق من الحصة."
-            : `تعذر إكمال طلب Gemini (HTTP ${response.status})؛ حاول مرة أخرى لاحقًا.`;
-          throw new RequestError(message, 502);
+        for (const model of availableModels.slice(0, 3)) {
+          attemptedModels.add(model.name);
+          response = await requestModelWithTimeout(model.name);
+          if (response?.response.ok) {
+            modelName = model.name;
+            break;
+          }
+
+          if (!response) continue;
+          console.error(
+            `Gemini request failed for discovered model ${model.name} ` +
+              `(HTTP ${response.response.status}): ${response.body}`,
+          );
+          response = undefined;
         }
       }
 
+      if (!response || !modelName) {
+        throw new RequestError("تعذر إكمال طلب Gemini باستخدام النماذج المتاحة؛ حاول لاحقًا.", 502);
+      }
+
       console.log("Using model:", modelName);
-      const result = await response.json();
+      const result = JSON.parse(response.body);
       const text = result?.candidates?.[0]?.content?.parts
         ?.map((part: { text?: string }) => part.text || "")
         .join("")

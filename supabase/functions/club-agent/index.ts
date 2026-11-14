@@ -90,42 +90,49 @@ function decodeModelJson(text: string): JsonRecord {
 }
 
 async function askModel(prompt: string, jsonMode = false): Promise<string | null> {
-  const openAIKey = Deno.env.get("OPENAI_API_KEY")?.trim();
-  if (openAIKey) {
+  const geminiKey = Deno.env.get("GEMINI_API_KEY")?.trim();
+  if (geminiKey) {
     try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${openAIKey}`,
+      const response = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": geminiKey,
+          },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+            generationConfig: {
+              temperature: 0.7,
+              ...(jsonMode ? { responseMimeType: "application/json" } : {}),
+            },
+          }),
         },
-        body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [{ role: "user", content: prompt }],
-          temperature: 0.7,
-          ...(jsonMode ? { response_format: { type: "json_object" } } : {}),
-        }),
-      });
+      );
 
       if (!response.ok) {
-        const errBody = await response.text();
-        console.error("OpenAI request failed:", response.status, errBody);
-        const message = response.status === 401 || response.status === 403
-          ? "رفضت OpenAI الطلب. تحقق من صلاحية OPENAI_API_KEY."
+        const errText = await response.text();
+        console.error("Gemini request failed:", response.status, errText);
+        const message = response.status === 400 || response.status === 401 || response.status === 403
+          ? "رفضت Gemini الطلب. تحقق من صلاحية GEMINI_API_KEY وإتاحة Gemini API للمشروع."
           : response.status === 429
-          ? "تم تجاوز رصيد OpenAI أو حد الطلبات؛ تحقق من الفوترة والرصيد في حساب OpenAI."
-          : `تعذر إكمال طلب OpenAI (HTTP ${response.status})؛ حاول مرة أخرى لاحقًا.`;
+          ? "تم تجاوز حصة Gemini أو حد الطلبات؛ حاول لاحقًا أو تحقق من الحصة."
+          : `تعذر إكمال طلب Gemini (HTTP ${response.status})؛ حاول مرة أخرى لاحقًا.`;
         throw new RequestError(message, 502);
       } else {
         const result = await response.json();
-        const text = result?.choices?.[0]?.message?.content?.trim();
+        const text = result?.candidates?.[0]?.content?.parts
+          ?.map((part: { text?: string }) => part.text || "")
+          .join("")
+          .trim();
         if (text) return text;
-        console.error("OpenAI returned no text.");
+        console.error("Gemini returned no text.");
         throw new RequestError("لم تُرجع خدمة الذكاء الاصطناعي إجابة صالحة؛ حاول مرة أخرى.", 502);
       }
     } catch (error) {
       if (error instanceof RequestError) throw error;
-      console.error("OpenAI request failed:", error);
+      console.error("Gemini request failed:", error);
       throw new RequestError("تعذر الاتصال بخدمة الذكاء الاصطناعي؛ حاول مرة أخرى لاحقًا.", 502);
     }
   }
@@ -138,7 +145,7 @@ function fallbackChat(question: string): string {
   if (q.includes("كتاب") || q.includes("قراءة")) {
     return "خلّينا نبدأ بسؤال أذكى من «عجبك الكتاب؟»: إيه الفكرة اللي فضلت معاك بعد ما قفلت آخر صفحة؟ (المساعد الذكي لسه من غير مفتاح AI، فدي إجابة احتياطية مش فتوى ثقافية.)";
   }
-  return "أهلًا بيك في نادي ثلاثة أرباع مثقف! أقدر أساعدك في ترتيب أفكار القراءة والنقاش، بس مفتاح الذكاء الاصطناعي مش متضبط حاليًا. جرّب تاني بعد إعداد OPENAI_API_KEY.";
+  return "أهلًا بيك في نادي ثلاثة أرباع مثقف! أقدر أساعدك في ترتيب أفكار القراءة والنقاش، بس مفتاح الذكاء الاصطناعي مش متضبط حاليًا. جرّب تاني بعد إعداد GEMINI_API_KEY.";
 }
 
 function fallbackQuiz(bookTitle: string, pagesRead: number, totalPages: number): string[] {

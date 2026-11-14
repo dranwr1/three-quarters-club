@@ -137,16 +137,17 @@ button:disabled{opacity:.55;cursor:not-allowed}
 [data-theme="light"] #tab-navbar{background:rgba(240,244,248,.92);border-right-color:rgba(10,17,24,.12)}
 #tab-navbar.active{left:0}
 #tab-navbar .tab-btn{flex:0 0 auto;width:100%;text-align:start;background:none;border:1px solid var(--border-color);color:var(--text-main);padding:10px 15px;cursor:pointer;white-space:nowrap}
+#tab-navbar .tab-btn::before{content:"›";margin-inline-end:10px;color:var(--accent);font-weight:bold}
 #tab-navbar .tab-btn.active{background-color:var(--accent-color);color:#fff}
 #sidebar-backdrop{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.6)}
-#menu-toggle{position:relative;width:100%;z-index:999;margin-bottom:10px}
+#menu-toggle{position:sticky;top:15px;right:15px;display:flex;align-items:center;justify-content:center;width:48px;height:48px;padding:10px;z-index:1000;margin-bottom:10px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:50%;cursor:pointer}
+#menu-toggle svg{width:24px;height:24px;color:var(--accent)}
 .club-section{display:none}
 .club-section.active{display:block}
 .club-section.active.hero{display:grid}
 h1,h2,h3,h4,h5,h6{color:var(--text-main);font-weight:700}
 p,span,li{color:var(--text-main);line-height:1.6}
 @media(max-width:700px){.roulette-layout{grid-template-columns:1fr}}
-@media(min-width:768px){#menu-toggle{position:fixed;top:20px;left:20px;width:auto;margin:0}}
 hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 @media(max-width:650px){
  header{padding:2rem 1rem}
@@ -223,7 +224,11 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 </section>
 
 <div id="app" class="hidden">
-<button id="menu-toggle" class="secondary" type="button" aria-controls="tab-navbar" aria-expanded="false">☰ أقسام النادي</button>
+<button id="menu-toggle" class="secondary menu-toggle-btn" type="button" aria-label="القائمة" aria-controls="tab-navbar" aria-expanded="false">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+<path d="M4 12h16M4 6h16M4 18h16"></path>
+</svg>
+</button>
 <div class="panel topbar">
 <div class="member"><div class="avatar" id="userAvatar">3/4</div><span id="welcome" class="meta">أهلًا بك في النادي</span></div>
 <button id="logoutBtn" class="secondary" type="button">تسجيل الخروج</button>

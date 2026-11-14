@@ -2679,6 +2679,14 @@ function appendAgentMessage(role, content){
   $('agentMessages').appendChild(wrap);
   $('agentMessages').scrollTop=$('agentMessages').scrollHeight;
 }
+async function askClubAssistant(question,history=[]){
+  const {data,error}=await db.functions.invoke('club-agent',{
+    body:{question,history}
+  });
+  if(error)throw error;
+  if(typeof data?.answer!=='string')throw new Error(data?.error||'استجابة غير مفهومة من المساعد.');
+  return data.answer;
+}
 $('agentForm').addEventListener('submit',async event=>{
   event.preventDefault();
   const question=$('agentQuestion').value.trim();
@@ -2691,13 +2699,9 @@ $('agentForm').addEventListener('submit',async event=>{
   $('agentSend').disabled=true;
   status($('agentStatus'),'المساعد بيفكر…');
   try{
-    const {data,error}=await db.functions.invoke('club-agent',{
-      body:{question,history:agentHistory.slice(-8,-1)}
-    });
-    if(error)throw error;
-    if(!data||typeof data.answer!=='string')throw new Error('استجابة غير مفهومة من المساعد.');
-    appendAgentMessage('assistant',data.answer);
-    agentHistory.push({role:'assistant',content:data.answer});
+    const answer=await askClubAssistant(question,agentHistory.slice(-8,-1));
+    appendAgentMessage('assistant',answer);
+    agentHistory.push({role:'assistant',content:answer});
     status($('agentStatus'),'تم الرد.');
   }catch(error){
     console.error('3/4 agent error:',error);

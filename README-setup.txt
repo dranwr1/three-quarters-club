@@ -3,7 +3,7 @@
 
 Files:
 - index.html (site with email/password login; no public sign-up)
-- club-design.png (visual image used in site; upload beside index.html)
+- IMG_2885.jpeg (visual image used in site; upload beside index.html)
 - setup-auth.sql (referenced by older setup notes; not present in this repository)
 - supabase/migrations/202611030001_book_court.sql (shared Book Court schema and policies)
 
@@ -37,7 +37,7 @@ be verified and are intentionally skipped.
    Disable public sign-ups in Authentication settings (if enabled).
 3. Authentication > URL Configuration:
    add https://dranwr1.github.io/three-quarters-club/ to Site URL / Redirect URLs.
-4. Upload index.html AND club-design.png to the repository root (same folder), commit.
+4. Upload index.html AND IMG_2885.jpeg to the repository root (same folder), commit.
 5. Test on one device, then sign in using the same account on another device.
 
 Security notes:

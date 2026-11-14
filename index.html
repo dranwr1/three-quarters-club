@@ -7,12 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{color-scheme:light;--bg-primary:#F0F4F8;--bg-card:#E5EBF2;--bg-secondary:var(--bg-card);--text-main:#0A1118;--text-muted:#64748B;--muted-green:var(--text-muted);--accent-color:#0284C7;--button-text:var(--text-main);--border-color:#CBD5E1;--line:var(--border-color);--muted:var(--text-muted);--bg:var(--bg-primary);--panel:var(--bg-secondary);--gold:var(--accent-color);--cream:var(--text-main);--accent:var(--accent-color)}
-[data-theme="dark"]{color-scheme:dark;--bg-primary:#0A1118;--bg-card:#131C27;--bg-secondary:var(--bg-card);--text-main:#F0F4F8;--text-muted:#94A3B8;--muted-green:var(--text-muted);--accent-color:#38BDF8;--button-text:var(--text-main);--border-color:#1E293B;--line:var(--border-color);--muted:var(--text-muted);--bg:var(--bg-primary);--panel:var(--bg-secondary);--gold:var(--accent-color);--cream:var(--text-main);--accent:var(--accent-color)}
+:root{color-scheme:dark;--bg-primary:#0a0f1d;--bg-card:#151c2f;--bg-card-hover:#1e293b;--text-primary:#f8fafc;--text-secondary:#94a3b8;--accent-glow:rgba(56,189,248,.15);--radius:14px;--text-main:var(--text-primary);--text-muted:var(--text-secondary);--muted-green:var(--text-muted);--accent-color:#38bdf8;--button-text:var(--bg-primary);--border-color:#2a364f;--line:var(--border-color);--muted:var(--text-muted);--bg:var(--bg-primary);--panel:var(--bg-card);--gold:var(--accent-color);--cream:var(--text-primary);--accent:var(--accent-color);--bg-secondary:var(--bg-card)}
+[data-theme="light"]{color-scheme:light;--bg-primary:#f0f4f8;--bg-card:#e5ebf2;--bg-card-hover:#dbe4ee;--text-primary:#0a1118;--text-secondary:#64748b;--accent-color:#0284c7;--accent-glow:rgba(2,132,199,.12);--button-text:#0a1118;--border-color:#cbd5e1}
+[data-theme="dark"]{color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg-primary);color:var(--text-main);font-family:system-ui,-apple-system,sans-serif;transition:background-color .3s ease,color .3s ease}
-header{text-align:center;padding:30px 16px;border-bottom:1px solid var(--line);background:var(--bg-secondary);color:var(--text-main);position:relative}
+body{margin:0;background:var(--bg-primary);color:var(--text-main);font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;line-height:1.7;direction:rtl;transition:background-color .3s ease,color .3s ease}
+header{text-align:center;padding:3rem 1rem;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--bg-card) 0%,var(--bg-primary) 100%);color:var(--text-main);position:relative;margin-bottom:2rem}
+.container{max-width:1200px;margin:0 auto;padding-inline:1rem}
 .theme-toggle{position:absolute;top:14px;inset-inline-start:14px;padding:7px 12px;font-size:13px}
 .logo{width:76px;height:76px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;margin:auto auto 12px;color:var(--gold);font-size:27px;font-weight:800}
 h1{font:700 clamp(34px,7vw,55px) Amiri,serif;color:var(--gold);margin:0}
@@ -20,7 +22,7 @@ h1{font:700 clamp(34px,7vw,55px) Amiri,serif;color:var(--gold);margin:0}
 nav{position:sticky;top:0;background:var(--bg-primary);backdrop-filter:blur(10px);z-index:5;border-bottom:1px solid var(--line);display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px}
 nav a{color:var(--text-main);text-decoration:none;padding:7px 13px;border-radius:20px}
 nav a:hover{color:var(--gold);background:var(--accent)}
-main{max-width:1050px;margin:auto;padding:20px 16px 50px}
+main{max-width:1200px;margin:auto;padding:2rem 1rem 50px}
 section{margin:25px 0;scroll-margin-top:85px}
 .head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .head h2{color:var(--gold);margin:0}
@@ -31,13 +33,21 @@ section{margin:25px 0;scroll-margin-top:85px}
 .quote{text-align:center;align-self:center;font:700 24px Amiri;color:var(--gold)}
 .design-preview{width:100%;max-height:350px;object-fit:cover;object-position:top;border-radius:13px;border:1px solid var(--line);display:block;margin-top:14px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
-.card h3{margin:0 0 8px;font-size:19px}
+.grid-sections{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-bottom:2rem}
+.search-container{margin-bottom:1.5rem}
+.search-container input{width:100%;padding:.85rem 1rem;background-color:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;color:var(--text-primary);font-size:1rem}
+.landing-intro{margin-bottom:2rem}
+.landing-intro h2{color:var(--accent-color);margin-bottom:.5rem}
+.section-shortcut{display:block;color:inherit;text-decoration:none;cursor:pointer}
+.section-shortcut:focus-visible{outline:3px solid var(--accent-color);outline-offset:3px}
+.card h3{margin:0 0 8px;font-size:19px;color:var(--accent-color)}
 .meta{color:var(--muted);font-size:13px}
 .pill{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:3px 10px;color:var(--gold);font-size:12px;margin-top:10px}
 form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
 input,select,textarea{font:inherit;color:var(--text-main);background:var(--bg-secondary);border:1px solid var(--muted-green);border-radius:10px;padding:11px;width:100%}
 textarea{grid-column:1/-1;min-height:75px}
-button{font:600 15px Cairo;cursor:pointer;border:1px solid var(--accent-color);background:var(--accent-color);color:var(--button-text);border-radius:10px;padding:10px 16px}
+button{font:600 15px Cairo;cursor:pointer;border:1px solid var(--accent-color);background:var(--accent-color);color:var(--button-text);border-radius:10px;padding:10px 16px;transition:opacity .2s,transform .2s}
+button:hover:not(:disabled){opacity:.9;transform:scale(1.02)}
 button:disabled{opacity:.55;cursor:not-allowed}
 .secondary{background:transparent;color:var(--gold)}
 .actions{display:flex;gap:9px;grid-column:1/-1;flex-wrap:wrap}
@@ -119,7 +129,10 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .profile-stat b{display:block;color:var(--gold);font-size:17px}
 .member-profile-form{display:grid;grid-template-columns:1fr;gap:8px;border-top:1px solid var(--line);padding-top:12px}
 .member-profile-form textarea{min-height:75px}
-.card,.box,header,footer,section{background-color:var(--bg-card);color:var(--text-main);border:1px solid var(--border-color);box-shadow:0 4px 6px -1px rgba(0,0,0,.1);border-radius:12px}
+.card,.box{background-color:var(--bg-card);color:var(--text-main);border:1px solid var(--border-color);border-radius:var(--radius);transition:background-color .3s ease,border-color .3s ease,transform .3s ease,box-shadow .3s ease}
+.card{box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.card:hover{background-color:var(--bg-card-hover);border-color:var(--accent-color);transform:translateY(-4px);box-shadow:0 8px 30px var(--accent-glow)}
+.footer{background-color:var(--bg-card);border-top:1px solid var(--border-color)}
 #tab-navbar{position:fixed;top:0;left:-280px;width:280px;height:100%;display:flex;flex-direction:column;gap:8px;overflow-x:hidden;overflow-y:auto;z-index:1001;background-color:var(--bg-card);padding:20px 10px 10px;box-shadow:2px 0 10px rgba(0,0,0,.5);transition:left .3s ease}
 #tab-navbar.active{left:0}
 #tab-navbar .tab-btn{flex:0 0 auto;width:100%;text-align:start;background:none;border:1px solid var(--border-color);color:var(--text-main);padding:10px 15px;cursor:pointer;white-space:nowrap}
@@ -134,6 +147,7 @@ p,span,li{color:var(--text-main);line-height:1.6}
 @media(max-width:700px){.roulette-layout{grid-template-columns:1fr}}
 hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 @media(max-width:650px){
+ header{padding:2rem 1rem}
  .hero{grid-template-columns:1fr}
  .court-layout{grid-template-columns:1fr}
  .quote{padding:12px}
@@ -148,9 +162,11 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 
 <header>
 <button id="theme-toggle" class="theme-toggle" type="button" aria-label="تفعيل الوضع النهاري" aria-pressed="true">☀️ الوضع النهاري</button>
+<div class="container">
 <div class="logo">3/4</div>
 <h1>ثلاثة أرباع مثقف</h1>
 <p class="tagline">كل واحد فينا ربع مثقف… والباقي نقاشات!</p>
+</div>
 </header>
 
 <nav id="tab-navbar" class="hidden" role="tablist" aria-label="أقسام النادي" aria-hidden="true">
@@ -171,9 +187,13 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 </nav>
 <div id="sidebar-backdrop" class="hidden" aria-hidden="true"></div>
 
-<main>
+<main class="container">
 
 <section id="loginSection">
+<section class="card landing-intro" aria-labelledby="landing-heading">
+<h2 id="landing-heading">أهلًا بكم في 3/4</h2>
+<p>نادي قراءة صغير يجمع ثلاثة عقول ورفوفًا كبيرة من الأسئلة. نقرأ لنفهم، ونتناقش لنختلف بأدب، ونضحك كي لا تتحول الثقافة إلى محاضرة.</p>
+</section>
 <div class="panel" style="max-width:520px;margin:25px auto">
 <div class="head"><h2>🔐 دخول أعضاء النادي</h2></div>
 <p class="meta">سجل دخولك لمتابعة مكتبة النادي والمشاركة في أنشطته.</p>
@@ -213,13 +233,19 @@ hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 <p>نادي قراءة صغير بثلاثة عقول ورفوف كبيرة من الأسئلة. بنقرأ عشان نفهم، ونناقش عشان نختلف بأدب، ونضحك عشان الثقافة ما تتحولش لمحاضرة.</p>
 <p>هدفنا قراءة منتظمة، نقاش محترم، وتراكم معرفة حقيقية—حتى لو كل واحد فينا ربع مثقف بس.</p>
 <img class="design-preview" src="club-design.png" alt="التصميم التصوري لموقع ثلاثة أرباع مثقف">
+<div class="grid-sections" aria-label="اختصارات أقسام النادي">
+<a class="card section-shortcut" href="#books" data-target="books"><h3>📚 المكتبة</h3><p class="meta">ابحثوا عن كتاب أو مؤلف وتصفحوا قائمة الكتب والمراجع المقروءة.</p></a>
+<a class="card section-shortcut" href="#margin-notes" data-target="margin-notes"><h3>🖋️ حائط الهوامش</h3><p class="meta">مساحة لتدوين الأفكار والملاحظات الجانبية والخواطر الثقافية.</p></a>
+<a class="card section-shortcut" href="#journey" data-target="journey"><h3>📖 رحلة القراءة</h3><p class="meta">تابعوا تقدم النادي والكتب التي أنجزها الأعضاء عبر محطات القراءة.</p></a>
+<a class="card section-shortcut" href="#roles" data-target="roles"><h3>🎙️ أدوار النادي</h3><p class="meta">تعرفوا على مهام الأعضاء وتوزيع الأدوار بين الثلاثي المثقف.</p></a>
+</div>
 </div>
 <div class="panel quote">«الكتاب باب…<br>والنقاش هو الرحلة»<br><span class="meta">فلسفة الأرباع الثلاثة</span></div>
 </section>
 
 <section id="books" class="club-section" role="tabpanel" aria-labelledby="tab-books" tabindex="0">
 <div class="head"><h2>📚 مكتبة النادي</h2></div>
-<div class="panel"><input id="search" placeholder="ابحث عن كتاب أو مؤلف…"><div id="booksStatus" class="status">بنحمّل الكتب…</div></div>
+<div class="panel"><div class="search-container"><input id="search" type="search" aria-label="البحث عن كتاب أو مؤلف" placeholder="ابحث عن كتاب أو مؤلف…"></div><div id="booksStatus" class="status">بنحمّل الكتب…</div></div>
 <div id="booksGrid" class="grid" style="margin-top:14px"></div>
 </section>
 
@@ -765,6 +791,10 @@ const SUPABASE_KEY = "sb_publishable_kcluJqcu5I-5vnVrpoFqGg_2xWokB1O";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const COURT_STORAGE_KEY = "threeQuartersCourt.v1";
+const FOUNDING_MEMBER_IDS = new Set([
+  "e0f5d259-2252-4703-b8bd-2e87ebff2422",
+  "8fd0afe9-c99b-4d57-8c0d-d91690e14e9b"
+]);
 let allBooks = [];
 let allMembers = [];
 let allPoints = [];
@@ -821,6 +851,18 @@ tabNavbar.addEventListener("click",event=>{
     section.classList.toggle("active",section===selectedSection);
   });
   closeSidebar();
+});
+document.addEventListener("click",event=>{
+  const shortcut=event.target.closest(".section-shortcut");
+  if(!shortcut)return;
+
+  const tab=tabNavbar.querySelector(`.tab-btn[data-target="${shortcut.dataset.target}"]`);
+  const section=$(shortcut.dataset.target);
+  if(!tab||!section?.classList.contains("club-section"))return;
+
+  event.preventDefault();
+  tab.click();
+  section.scrollIntoView({behavior:"smooth",block:"start"});
 });
 
 const THEME_STORAGE_KEY = "theme";
@@ -1894,7 +1936,9 @@ function getVisibleClubMembers(){
     "b0ee9a1c-578c-459e-8739-cb13082256d0",
     "ef25ea78-8c3d-476c-9cc8-937487520241"
   ]);
-  return allMembers.filter(member=>!hiddenMemberIds.has(member.id));
+  return allMembers.filter(member=>
+    FOUNDING_MEMBER_IDS.has(member.id)||!hiddenMemberIds.has(member.id)
+  );
 }
 
 async function fetchAllMemberStatRows(table,columns,memberIds){
@@ -2111,9 +2155,6 @@ $("memberProfilesGrid").addEventListener("submit",async event=>{
 });
 
 function renderClubData(){
-  const primaryMemberId="e0f5d259-2252-4703-b8bd-2e87ebff2422";
-  const foundingPrimaryMemberId="8fd0afe9-c99b-4d57-8c0d-d91690e14e9b";
-
   const balances=allMembers.map(m=>({
     id:m.id,
     name:m.name,
@@ -2148,7 +2189,7 @@ function renderClubData(){
         <div class="avatar">${esc((m.name||"؟").charAt(0))}</div>
         <div>
           <h3>${esc(m.name||"عضو")}</h3>
-          <div class="meta">${esc(m.id===primaryMemberId||m.id===foundingPrimaryMemberId?"عضو مؤسس":m.role||"عضو")}</div>
+          <div class="meta">${esc(FOUNDING_MEMBER_IDS.has(m.id)?"عضو مؤسس":m.role||"عضو")}</div>
           <div class="meta">
             ${balances.find(x=>x.id===m.id)?.total||0} نقطة
           </div>
